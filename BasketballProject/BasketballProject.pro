@@ -32,6 +32,8 @@ HEADERS  += mainwindow.h \
     matrix/matrix_base.h \
     real_matrix/error_rmatrix.h \
     real_matrix/error_rmatrix_base.h \
-    real_matrix/real_matrix.h
+    real_matrix/real_matrix.h \
+    transform_matrix/transform_matrix.h \
+    transform_matrix/transform_matrix_base.h
 
 FORMS    += mainwindow.ui

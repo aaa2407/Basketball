@@ -65,7 +65,9 @@ DIST          =  ..\BasketballProject\mainwindow.h \
 		..\BasketballProject\matrix\matrix_base.h \
 		..\BasketballProject\real_matrix\error_rmatrix.h \
 		..\BasketballProject\real_matrix\error_rmatrix_base.h \
-		..\BasketballProject\real_matrix\real_matrix.h ..\BasketballProject\main.cpp \
+		..\BasketballProject\real_matrix\real_matrix.h \
+		..\BasketballProject\transform_matrix\transform_matrix.h \
+		..\BasketballProject\transform_matrix\transform_matrix_base.h ..\BasketballProject\main.cpp \
 		..\BasketballProject\mainwindow.cpp \
 		..\BasketballProject\real_matrix\real_matrix.cpp
 QMAKE_TARGET  = BasketballProject
@@ -499,6 +501,11 @@ release/mainwindow.o: ../BasketballProject/mainwindow.cpp ../BasketballProject/m
 		../../../5.7/mingw53_32/include/QtWidgets/QToolBar \
 		../../../5.7/mingw53_32/include/QtWidgets/qtoolbar.h \
 		../../../5.7/mingw53_32/include/QtWidgets/QWidget \
+		../BasketballProject/transform_matrix/transform_matrix_base.h \
+		../BasketballProject/real_matrix/real_matrix.h \
+		../BasketballProject/real_matrix/error_rmatrix.h \
+		../BasketballProject/real_matrix/error_rmatrix_base.h \
+		D:/Basketball/Algorithm\ Roberts/Roberts/error/error_base.h \
 		../BasketballProject/matrix/matrix.h \
 		../BasketballProject/matrix/_matrix.h \
 		../BasketballProject/matrix/matrix_base.h \

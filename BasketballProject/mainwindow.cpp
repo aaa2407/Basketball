@@ -1,7 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
-#include "real_matrix\real_matrix.h"
+#include "transform_matrix\transform_matrix_base.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -10,9 +10,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     try
     {
-        rmatrix m(3, 2, 1.2);
-        m *= 2;
-        std::cout << m << std::endl;
+        transform_base tr;
+        std::cout << tr << std::endl;
     }
     catch(errorBase& error)
     {
