@@ -58,7 +58,7 @@ array<type>::array(array<type>&& copy)
 }
 
 template <typename type>
-void array<type>::set(uint size, const type& value)
+void array<type>::set(size_t size, const type& value)
 {
     delete [] this->data;
     this->data = new type[size];
@@ -133,7 +133,7 @@ array<type>::~array()
 }
 
 template <typename type>
-uint array<type>::size() const
+size_t array<type>::size() const
 {
     return this->_size;
 }

@@ -45,7 +45,7 @@ template <typename type>
 std::ostream& operator<<(std::ostream& cout, array<type>& copy)
 {
     cout << "array " << "{" << copy.size() << ": ";
-    for (uint i = 0; i < copy.size(); i++)
+    for (size_t i = 0; i < copy.size(); i++)
     {
         cout << copy[i] << " ";
     }

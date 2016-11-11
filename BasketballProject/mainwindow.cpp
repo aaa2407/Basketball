@@ -1,7 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
-#include "matrix\matrix.h"
+#include "real_matrix\real_matrix.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -10,7 +10,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     try
     {
-        matrix<float> m(3, 2, 1.1);
+        rmatrix m(3, 2, 1.2);
+        m *= 2;
         std::cout << m << std::endl;
     }
     catch(errorBase& error)

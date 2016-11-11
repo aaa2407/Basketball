@@ -15,7 +15,8 @@ TEMPLATE = app
 SOURCES += main.cpp\
         mainwindow.cpp \
     array/array.cpp \
-    matrix/matrix.cpp
+    matrix/matrix.cpp \
+    real_matrix/real_matrix.cpp
 
 HEADERS  += mainwindow.h \
     array/_array.h \
@@ -28,6 +29,9 @@ HEADERS  += mainwindow.h \
     matrix/error_matrix.h \
     matrix/error_matrix_base.h \
     matrix/matrix.h \
-    matrix/matrix_base.h
+    matrix/matrix_base.h \
+    real_matrix/error_rmatrix.h \
+    real_matrix/error_rmatrix_base.h \
+    real_matrix/real_matrix.h
 
 FORMS    += mainwindow.ui

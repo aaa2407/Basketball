@@ -15,7 +15,7 @@ matrix<type>::matrix(size_t rows, size_t columns)
     _rowCount = rows;
     _columnCount = columns;
     data.setSize(rows);
-    for (uint i = 0; i < rows; i++)
+    for (size_t i = 0; i < rows; i++)
     {
         array<type> *newarr = new array<type>();
         newarr->setSize(columns);
@@ -34,7 +34,7 @@ matrix<type>::matrix(size_t rows, size_t columns, const type& value)
     _rowCount = rows;
     _columnCount = columns;
     data.setSize(rows);
-    for (uint i = 0; i < rows; i++)
+    for (size_t i = 0; i < rows; i++)
     {
         array<type> *newarr = new array<type>(columns, value);
         if (!newarr)
@@ -52,7 +52,7 @@ matrix<type>::matrix(const matrix<type>& copy)
     _rowCount = copy._rowCount;
     _columnCount = copy._columnCount;
     data.setSize(_rowCount);
-    for (uint i = 0; i < _rowCount; i++)
+    for (size_t i = 0; i < _rowCount; i++)
     {
         array<type> *newarr = new array<type>(copy[i]);
         if (!newarr)
@@ -95,13 +95,13 @@ matrix<type>::~matrix()
 }
 
 template <typename type>
-uint matrix<type>::rowCount() const
+size_t matrix<type>::rowCount() const
 {
     return _rowCount;
 }
 
 template <typename type>
-uint matrix<type>::columnCount() const
+size_t matrix<type>::columnCount() const
 {
     return _columnCount;
 }

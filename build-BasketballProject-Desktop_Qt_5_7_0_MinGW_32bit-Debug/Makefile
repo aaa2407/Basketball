@@ -182,6 +182,7 @@ Makefile: ../BasketballProject/BasketballProject.pro ../../../5.7/mingw53_32/mks
 		../../../5.7/mingw53_32/mkspecs/features/win32/qt_config.prf \
 		../../../5.7/mingw53_32/mkspecs/win32-g++/qmake.conf \
 		../../../5.7/mingw53_32/mkspecs/features/spec_post.prf \
+		.qmake.stash \
 		../../../5.7/mingw53_32/mkspecs/features/exclusive_builds.prf \
 		../../../5.7/mingw53_32/mkspecs/features/default_pre.prf \
 		../../../5.7/mingw53_32/mkspecs/features/win32/default_pre.prf \
@@ -332,6 +333,7 @@ Makefile: ../BasketballProject/BasketballProject.pro ../../../5.7/mingw53_32/mks
 ../../../5.7/mingw53_32/mkspecs/features/win32/qt_config.prf:
 ../../../5.7/mingw53_32/mkspecs/win32-g++/qmake.conf:
 ../../../5.7/mingw53_32/mkspecs/features/spec_post.prf:
+.qmake.stash:
 ../../../5.7/mingw53_32/mkspecs/features/exclusive_builds.prf:
 ../../../5.7/mingw53_32/mkspecs/features/default_pre.prf:
 ../../../5.7/mingw53_32/mkspecs/features/win32/default_pre.prf:
