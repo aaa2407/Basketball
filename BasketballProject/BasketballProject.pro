@@ -16,7 +16,10 @@ SOURCES += main.cpp\
         mainwindow.cpp \
     array/array.cpp \
     matrix/matrix.cpp \
-    real_matrix/real_matrix.cpp
+    real_matrix/real_matrix.cpp \
+    point/point.cpp \
+    plane/plane.cpp \
+    geom_operations/operations.cpp
 
 HEADERS  += mainwindow.h \
     array/_array.h \
@@ -34,6 +37,12 @@ HEADERS  += mainwindow.h \
     real_matrix/error_rmatrix_base.h \
     real_matrix/real_matrix.h \
     transform_matrix/transform_matrix.h \
-    transform_matrix/transform_matrix_base.h
+    transform_matrix/transform_matrix_base.h \
+    point/point.h \
+    plane/base_plane.h \
+    plane/error_plane.h \
+    plane/error_plane_base.h \
+    plane/plane.h \
+    geom_operations/operations.h
 
 FORMS    += mainwindow.ui

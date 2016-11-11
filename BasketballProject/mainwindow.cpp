@@ -1,7 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
-#include "transform_matrix\transform_matrix_base.h"
+#include "geom_operations/operations.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -10,8 +10,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     try
     {
-        transform_base tr;
-        std::cout << tr << std::endl;
+        plane a(-1, -1, -1, 2);
+        std::cout << a.value(0,0,0) << std::endl;
     }
     catch(errorBase& error)
     {
