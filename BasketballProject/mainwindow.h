@@ -2,6 +2,9 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QMessageBox>
+
+#include "error\error_base.h"
 
 namespace Ui {
 class MainWindow;

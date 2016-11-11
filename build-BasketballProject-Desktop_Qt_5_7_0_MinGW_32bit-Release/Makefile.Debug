@@ -55,7 +55,12 @@ DIST          =  ..\BasketballProject\mainwindow.h \
 		..\BasketballProject\array\array_base.h \
 		..\BasketballProject\array\error_array.h \
 		..\BasketballProject\array\error_array_base.h \
-		..\BasketballProject\error\error_base.h ..\BasketballProject\main.cpp \
+		..\BasketballProject\error\error_base.h \
+		..\BasketballProject\matrix\_matrix.h \
+		..\BasketballProject\matrix\error_matrix.h \
+		..\BasketballProject\matrix\error_matrix_base.h \
+		..\BasketballProject\matrix\matrix.h \
+		..\BasketballProject\matrix\matrix_base.h ..\BasketballProject\main.cpp \
 		..\BasketballProject\mainwindow.cpp
 QMAKE_TARGET  = BasketballProject
 DESTDIR        = debug\ #avoid trailing-slash linebreak
@@ -438,13 +443,44 @@ debug/mainwindow.o: ../BasketballProject/mainwindow.cpp ../BasketballProject/mai
 		../../../5.7/mingw53_32/include/QtWidgets/qtabwidget.h \
 		../../../5.7/mingw53_32/include/QtGui/qicon.h \
 		ui_mainwindow.h \
-		../BasketballProject/array/array.h \
-		../BasketballProject/array/_array.h \
-		../BasketballProject/array/array_base.h \
-		../BasketballProject/array/error_array.h \
-		../BasketballProject/array/error_array_base.h \
-		../BasketballProject/error/error_base.h \
-		../BasketballProject/array/array.cpp
+		../../../5.7/mingw53_32/include/QtCore/QVariant \
+		../../../5.7/mingw53_32/include/QtWidgets/QAction \
+		../../../5.7/mingw53_32/include/QtWidgets/qaction.h \
+		../../../5.7/mingw53_32/include/QtWidgets/qactiongroup.h \
+		../../../5.7/mingw53_32/include/QtWidgets/QApplication \
+		../../../5.7/mingw53_32/include/QtWidgets/qapplication.h \
+		../../../5.7/mingw53_32/include/QtCore/qcoreapplication.h \
+		../../../5.7/mingw53_32/include/QtCore/qeventloop.h \
+		../../../5.7/mingw53_32/include/QtWidgets/qdesktopwidget.h \
+		../../../5.7/mingw53_32/include/QtGui/qguiapplication.h \
+		../../../5.7/mingw53_32/include/QtGui/qinputmethod.h \
+		../../../5.7/mingw53_32/include/QtWidgets/QButtonGroup \
+		../../../5.7/mingw53_32/include/QtWidgets/qbuttongroup.h \
+		../../../5.7/mingw53_32/include/QtWidgets/QHeaderView \
+		../../../5.7/mingw53_32/include/QtWidgets/qheaderview.h \
+		../../../5.7/mingw53_32/include/QtWidgets/qabstractitemview.h \
+		../../../5.7/mingw53_32/include/QtWidgets/qabstractscrollarea.h \
+		../../../5.7/mingw53_32/include/QtWidgets/qframe.h \
+		../../../5.7/mingw53_32/include/QtCore/qabstractitemmodel.h \
+		../../../5.7/mingw53_32/include/QtCore/qitemselectionmodel.h \
+		../../../5.7/mingw53_32/include/QtWidgets/qabstractitemdelegate.h \
+		../../../5.7/mingw53_32/include/QtWidgets/qstyleoption.h \
+		../../../5.7/mingw53_32/include/QtWidgets/qabstractspinbox.h \
+		../../../5.7/mingw53_32/include/QtGui/qvalidator.h \
+		../../../5.7/mingw53_32/include/QtCore/qregularexpression.h \
+		../../../5.7/mingw53_32/include/QtWidgets/qslider.h \
+		../../../5.7/mingw53_32/include/QtWidgets/qabstractslider.h \
+		../../../5.7/mingw53_32/include/QtWidgets/qstyle.h \
+		../../../5.7/mingw53_32/include/QtWidgets/qtabbar.h \
+		../../../5.7/mingw53_32/include/QtWidgets/qrubberband.h \
+		../../../5.7/mingw53_32/include/QtWidgets/QMenuBar \
+		../../../5.7/mingw53_32/include/QtWidgets/qmenubar.h \
+		../../../5.7/mingw53_32/include/QtWidgets/qmenu.h \
+		../../../5.7/mingw53_32/include/QtWidgets/QStatusBar \
+		../../../5.7/mingw53_32/include/QtWidgets/qstatusbar.h \
+		../../../5.7/mingw53_32/include/QtWidgets/QToolBar \
+		../../../5.7/mingw53_32/include/QtWidgets/qtoolbar.h \
+		../../../5.7/mingw53_32/include/QtWidgets/QWidget
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug\mainwindow.o ..\BasketballProject\mainwindow.cpp
 
 debug/moc_mainwindow.o: debug/moc_mainwindow.cpp 
