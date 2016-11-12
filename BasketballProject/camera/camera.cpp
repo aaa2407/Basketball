@@ -132,3 +132,10 @@ const point &camera::position() const
 {
     return _position;
 }
+
+point camera::vector() const
+{
+    point p = _centre - _position;
+    p.normalization();
+    return p;
+}

@@ -23,8 +23,8 @@ SOURCES += main.cpp\
     drawing/z-buffer/z-buffer.cpp \
     mutable_array/marray.cpp \
     polygon/polygon.cpp \
-    drawing/drawing3D/drawing3d.cpp \
-    camera/camera.cpp
+    camera/camera.cpp \
+    drawing/drawing3D_base/drawing3d_base.cpp
 
 HEADERS  += mainwindow.h \
     array/_array.h \
@@ -59,8 +59,8 @@ HEADERS  += mainwindow.h \
     polygon/polygon.h \
     polygon/error_polygon.h \
     polygon/error_polygon_base.h \
-    drawing/drawing3D/drawing3d.h \
     camera/base_camera.h \
-    camera/camera.h
+    camera/camera.h \
+    drawing/drawing3D/drawing3d_base.h
 
 FORMS    += mainwindow.ui

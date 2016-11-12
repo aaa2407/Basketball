@@ -17,14 +17,17 @@ point operator*(double k, const point& p)
 
 double operations::scalar_multi(const point& p1, const point& p2)
 {
-    return p1.x()*p2.x() + p1.y()*p2.y() + p1.z()*p2.z();
+    double scalar = p1.x()*p2.x() + p1.y()*p2.y() + p1.z()*p2.z();
+    if (fabs(scalar) < 1e-5)
+        scalar = 0;
+    return scalar;
 }
 
 
 
 double operator*(const point& p1, const point& p2)
 {
-    return p1.x()*p2.x() + p1.y()*p2.y() + p1.z()*p2.z();
+    return operations::scalar_multi(p1, p2);
 }
 
 

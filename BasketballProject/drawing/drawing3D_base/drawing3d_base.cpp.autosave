@@ -1,0 +1,6 @@
+#include "drawing3d_base.h"
+
+drawing3Dbase::drawing3Dbase()
+{
+    
+}

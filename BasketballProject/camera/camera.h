@@ -32,6 +32,7 @@ public:
 
     const point& centre() const;
     const point& position() const;
+    point vector() const;
 
 private:
     point _centre;
