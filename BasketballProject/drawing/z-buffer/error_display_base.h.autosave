@@ -1,0 +1,12 @@
+#ifndef ERROR_DISPLAY_BASE_H
+#define ERROR_DISPLAY_BASE_H
+
+#include "error\error_base.h"
+
+class errorDisplayBase : public errorBase
+{
+public:
+    virtual const char* what() = 0;
+};
+
+#endif // ERROR_DISPLAY_BASE_H

@@ -19,7 +19,8 @@ SOURCES += main.cpp\
     real_matrix/real_matrix.cpp \
     point/point.cpp \
     plane/plane.cpp \
-    geom_operations/operations.cpp
+    geom_operations/operations.cpp \
+    drawing/z-buffer/z-buffer.cpp
 
 HEADERS  += mainwindow.h \
     array/_array.h \
@@ -43,6 +44,9 @@ HEADERS  += mainwindow.h \
     plane/error_plane.h \
     plane/error_plane_base.h \
     plane/plane.h \
-    geom_operations/operations.h
+    geom_operations/operations.h \
+    drawing/z-buffer/z-buffer.h \
+    drawing/z-buffer/error_z-buffer_base.h \
+    drawing/z-buffer/error_z-buffer.h
 
 FORMS    += mainwindow.ui

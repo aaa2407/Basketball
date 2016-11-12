@@ -1,7 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
-#include "geom_operations/operations.h"
+#include "drawing\z-buffer\z-buffer.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -10,8 +10,13 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     try
     {
-        plane a(-1, -1, -1, 2);
-        std::cout << a.value(0,0,0) << std::endl;
+        scene = new QGraphicsScene(0, 0, ui->gv->width()-3, ui->gv->height()-3);
+        ui->gv->setScene(scene);
+        Z_buffer zbuf(scene->width(), scene->height());
+        zbuf.setPixel(scene->width()-1, scene->height()-1, QColor(Qt::blue), 200);
+        zbuf.setPixel(-2, 2, QColor(Qt::red), 300);
+        QPixmap map = zbuf.createPixmap();
+        scene->addPixmap(map);
     }
     catch(errorBase& error)
     {
@@ -24,5 +29,6 @@ MainWindow::MainWindow(QWidget *parent) :
 
 MainWindow::~MainWindow()
 {
+    delete scene;
     delete ui;
 }

@@ -3,7 +3,7 @@
 
 #include <QMainWindow>
 #include <QMessageBox>
-
+#include <QGraphicsScene>
 #include "error\error_base.h"
 
 namespace Ui {
@@ -17,6 +17,8 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
+
+    QGraphicsScene *scene;
 
 private:
     Ui::MainWindow *ui;
