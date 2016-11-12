@@ -30,7 +30,7 @@ plane::plane(const point& _normal, const point& _point)
 
 plane::plane(const point& p1, const point& p2, const point& p3)
 {
-    point n = normal(p1, p2, p3);
+    point n = operations::normal(p1, p2, p3);
     _a = n.x();
     _b = n.y();
     _c = n.z();

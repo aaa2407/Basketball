@@ -21,7 +21,8 @@ SOURCES += main.cpp\
     plane/plane.cpp \
     geom_operations/operations.cpp \
     drawing/z-buffer/z-buffer.cpp \
-    mutable_array/marray.cpp
+    mutable_array/marray.cpp \
+    polygon/polygon.cpp
 
 HEADERS  += mainwindow.h \
     array/_array.h \
@@ -52,6 +53,9 @@ HEADERS  += mainwindow.h \
     mutable_array/marray.h \
     mutable_array/_marray.h \
     mutable_array/error_marray.h \
-    mutable_array/error_marray_base.h
+    mutable_array/error_marray_base.h \
+    polygon/polygon.h \
+    polygon/error_polygon.h \
+    polygon/error_polygon_base.h
 
 FORMS    += mainwindow.ui

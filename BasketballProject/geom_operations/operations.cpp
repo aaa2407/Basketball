@@ -1,7 +1,6 @@
 #include "operations.h"
 
-
-point number_multi(const point& p, double k)
+point operations::number_multi(const point& p, double k)
 {
     return point(p.x()*k, p.y()*k, p.z()*k);
 }
@@ -16,7 +15,7 @@ point operator*(double k, const point& p)
     return point(p.x()*k, p.y()*k, p.z()*k);
 }
 
-double scalar_multi(const point& p1, const point& p2)
+double operations::scalar_multi(const point& p1, const point& p2)
 {
     return p1.x()*p2.x() + p1.y()*p2.y() + p1.z()*p2.z();
 }
@@ -29,7 +28,7 @@ double operator*(const point& p1, const point& p2)
 }
 
 
-double cos_fi(const point& p1, const point& p2)
+double operations::cos_fi(const point& p1, const point& p2)
 {
     point a = p1, b = p2;
     a.normalization();
@@ -37,7 +36,7 @@ double cos_fi(const point& p1, const point& p2)
     return a * b;
 }
 
-point vector_multi(const point& p1, const point& p2)
+point operations::vector_multi(const point& p1, const point& p2)
 {
     point p;
     p.set_x(p1.y()*p2.z() - p1.z()*p2.y());
@@ -48,10 +47,10 @@ point vector_multi(const point& p1, const point& p2)
 
 point operator^(const point& p1, const point&p2)
 {
-    return vector_multi(p1, p2);
+    return operations::vector_multi(p1, p2);
 }
 
-point normal(const point& p1, const point& p2, const point& p3)
+point operations::normal(const point& p1, const point& p2, const point& p3)
 {
      double x = (p2.y() - p1.y())*(p3.z() - p1.z()) - (p2.z() - p1.z())*(p3.y() - p1.y());
      double y = (p2.z() - p1.z())*(p3.x() - p1.x()) - (p2.x() - p1.x())*(p3.z() - p1.z());
@@ -61,7 +60,7 @@ point normal(const point& p1, const point& p2, const point& p3)
     return p;
 }
 
-point nspeed( double fi, double tau, double speed)
+point operations::nspeed( double fi, double tau, double speed)
 {
     point p;
     p.set_x(speed*cos(tau)*cos(fi));
@@ -70,7 +69,7 @@ point nspeed( double fi, double tau, double speed)
     return p;
 }
 
-point reflation_napr(const point& falling, const point& normal)
+point operations::reflation_napr(const point& falling, const point& normal)
 {
     point n = normal;
     n.normalization();
@@ -89,7 +88,7 @@ point reflation_napr(const point& falling, const point& normal)
 }
 
 
-bool isPolygon(const array<point>& arr, double error)
+bool operations::isPolygon(const marray<point>& arr, double error)
 {
     if (arr.size() < 3)
     {
@@ -111,12 +110,8 @@ bool isPolygon(const array<point>& arr, double error)
     }
 }
 
-bool isConvexPolygon(const array<point>& arr,  double error)
+bool operations::isConvexPolygon(const marray<point>& arr, double error)
 {
-    if (arr.size() < 3)
-    {
-        return false;
-    }
     if (arr.size() == 3)
     {
         return true;
@@ -145,8 +140,7 @@ bool isConvexPolygon(const array<point>& arr,  double error)
     return ok;
 }
 
-
-bool isInConvexPolygon(const point& p, const array<point>& arr,  double error)
+bool operations::isInConvexPolygon(const point& p, const marray<point>& arr, double error)
 {
     if (!isConvexPolygon(arr, error))
     {
