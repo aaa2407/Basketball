@@ -1,0 +1,13 @@
+INPUT(
+./release\main.o
+./release\mainwindow.o
+./release\real_matrix.o
+./release\point.o
+./release\plane.o
+./release\operations.o
+./release\z-buffer.o
+./release\polygon.o
+./release\drawing3d.o
+./release\camera.o
+./release\moc_mainwindow.o
+);

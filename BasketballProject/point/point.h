@@ -11,6 +11,7 @@ public:
     point();    
     point(double x, double y, double z = 0);
     point(const point &copy);
+    point(const array<double>& arr);
 
     void set(double x, double y, double z = 0);
     void set(const point& copy);
@@ -56,6 +57,10 @@ public:
     array<double> toArray() const;
  //   point toChangeSystem(double inlcine) const;
  //   point to2D(double dis = 500) const;
+
+    point XoY() const;
+    point XoZ() const;
+    point YoZ() const;
 
 protected:
     double _x;

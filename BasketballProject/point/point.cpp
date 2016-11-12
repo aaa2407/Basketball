@@ -21,6 +21,34 @@ point::point(const point& copy)
     this->_z = copy._z;
 }
 
+point::point(const array<double>& arr)
+{
+    if (arr.size() == 0)
+    {
+        _x = 0;
+        _y = 0;
+        _z = 0;
+    }
+    else if (arr.size() == 1)
+    {
+        _x = arr[0];
+        _y = 0;
+        _z = 0;
+    }
+    else if (arr.size() == 2)
+    {
+        _x = arr[0];
+        _y = arr[1];
+        _z = 0;
+    }
+    else
+    {
+        _x = arr[0];
+        _y = arr[1];
+        _z = arr[2];
+    }
+}
+
 void point::set(double x, double y, double z)
 {
     this->_x = x;
@@ -192,6 +220,22 @@ bool point::operator==(const point& right) const
 bool point::operator!=(const point& right) const
 {
     return equal_not(right);
+}
+
+
+point point::XoY() const
+{
+    return point(_x, _y, 0);
+}
+
+point point::XoZ() const
+{
+    return point(_x, 0, _z);
+}
+
+point point::YoZ() const
+{
+    return point(0, _y, _z);
 }
 
 /*

@@ -50,7 +50,9 @@ SOURCES       = ..\BasketballProject\main.cpp \
 		..\BasketballProject\plane\plane.cpp \
 		..\BasketballProject\geom_operations\operations.cpp \
 		..\BasketballProject\drawing\z-buffer\z-buffer.cpp \
-		..\BasketballProject\polygon\polygon.cpp release\moc_mainwindow.cpp
+		..\BasketballProject\polygon\polygon.cpp \
+		..\BasketballProject\drawing\drawing3D\drawing3d.cpp \
+		..\BasketballProject\camera\camera.cpp release\moc_mainwindow.cpp
 OBJECTS       = release/main.o \
 		release/mainwindow.o \
 		release/real_matrix.o \
@@ -59,6 +61,8 @@ OBJECTS       = release/main.o \
 		release/operations.o \
 		release/z-buffer.o \
 		release/polygon.o \
+		release/drawing3d.o \
+		release/camera.o \
 		release/moc_mainwindow.o
 
 DIST          =  ..\BasketballProject\mainwindow.h \
@@ -93,14 +97,19 @@ DIST          =  ..\BasketballProject\mainwindow.h \
 		..\BasketballProject\mutable_array\error_marray_base.h \
 		..\BasketballProject\polygon\polygon.h \
 		..\BasketballProject\polygon\error_polygon.h \
-		..\BasketballProject\polygon\error_polygon_base.h ..\BasketballProject\main.cpp \
+		..\BasketballProject\polygon\error_polygon_base.h \
+		..\BasketballProject\drawing\drawing3D\drawing3d.h \
+		..\BasketballProject\camera\base_camera.h \
+		..\BasketballProject\camera\camera.h ..\BasketballProject\main.cpp \
 		..\BasketballProject\mainwindow.cpp \
 		..\BasketballProject\real_matrix\real_matrix.cpp \
 		..\BasketballProject\point\point.cpp \
 		..\BasketballProject\plane\plane.cpp \
 		..\BasketballProject\geom_operations\operations.cpp \
 		..\BasketballProject\drawing\z-buffer\z-buffer.cpp \
-		..\BasketballProject\polygon\polygon.cpp
+		..\BasketballProject\polygon\polygon.cpp \
+		..\BasketballProject\drawing\drawing3D\drawing3d.cpp \
+		..\BasketballProject\camera\camera.cpp
 QMAKE_TARGET  = BasketballProject
 DESTDIR        = release\ #avoid trailing-slash linebreak
 TARGET         = BasketballProject.exe
@@ -112,7 +121,7 @@ first: all
 all: Makefile.Release  $(DESTDIR_TARGET)
 
 $(DESTDIR_TARGET): ui_mainwindow.h $(OBJECTS) 
-	$(LINKER) $(LFLAGS) -o $(DESTDIR_TARGET) $(OBJECTS)  $(LIBS)
+	$(LINKER) $(LFLAGS) -o $(DESTDIR_TARGET) object_script.BasketballProject.Release  $(LIBS)
 
 qmake: FORCE
 	@$(QMAKE) -spec win32-g++ -o Makefile.Release ..\BasketballProject\BasketballProject.pro
@@ -123,7 +132,7 @@ dist:
 	$(ZIP) BasketballProject.zip $(SOURCES) $(DIST) ..\BasketballProject\BasketballProject.pro ..\..\..\5.7\mingw53_32\mkspecs\features\spec_pre.prf ..\..\..\5.7\mingw53_32\mkspecs\qdevice.pri ..\..\..\5.7\mingw53_32\mkspecs\features\device_config.prf ..\..\..\5.7\mingw53_32\mkspecs\common\angle.conf ..\..\..\5.7\mingw53_32\mkspecs\qconfig.pri ..\..\..\5.7\mingw53_32\mkspecs\modules\qt_lib_3dcore.pri ..\..\..\5.7\mingw53_32\mkspecs\modules\qt_lib_3dcore_private.pri ..\..\..\5.7\mingw53_32\mkspecs\modules\qt_lib_3dextras.pri ..\..\..\5.7\mingw53_32\mkspecs\modules\qt_lib_3dextras_private.pri ..\..\..\5.7\mingw53_32\mkspecs\modules\qt_lib_3dinput.pri ..\..\..\5.7\mingw53_32\mkspecs\modules\qt_lib_3dinput_private.pri ..\..\..\5.7\mingw53_32\mkspecs\modules\qt_lib_3dlogic.pri ..\..\..\5.7\mingw53_32\mkspecs\modules\qt_lib_3dlogic_private.pri ..\..\..\5.7\mingw53_32\mkspecs\modules\qt_lib_3dquick.pri ..\..\..\5.7\mingw53_32\mkspecs\modules\qt_lib_3dquick_private.pri ..\..\..\5.7\mingw53_32\mkspecs\modules\qt_lib_3dquickextras.pri ..\..\..\5.7\mingw53_32\mkspecs\modules\qt_lib_3dquickextras_private.pri ..\..\..\5.7\mingw53_32\mkspecs\modules\qt_lib_3dquickinput.pri ..\..\..\5.7\mingw53_32\mkspecs\modules\qt_lib_3dquickinput_private.pri ..\..\..\5.7\mingw53_32\mkspecs\modules\qt_lib_3dquickrender.pri ..\..\..\5.7\mingw53_32\mkspecs\modules\qt_lib_3dquickrender_private.pri ..\..\..\5.7\mingw53_32\mkspecs\modules\qt_lib_3drender.pri ..\..\..\5.7\mingw53_32\mkspecs\modules\qt_lib_3drender_private.pri ..\..\..\5.7\mingw53_32\mkspecs\modules\qt_lib_axbase.pri ..\..\..\5.7\mingw53_32\mkspecs\modules\qt_lib_axbase_private.pri ..\..\..\5.7\mingw53_32\mkspecs\modules\qt_lib_axcontainer.pri ..\..\..\5.7\mingw53_32\mkspecs\modules\qt_lib_axcontainer_private.pri ..\..\..\5.7\mingw53_32\mkspecs\modules\qt_lib_axserver.pri ..\..\..\5.7\mingw53_32\mkspecs\modules\qt_lib_axserver_private.pri ..\..\..\5.7\mingw53_32\mkspecs\modules\qt_lib_bluetooth.pri ..\..\..\5.7\mingw53_32\mkspecs\modules\qt_lib_bluetooth_private.pri ..\..\..\5.7\mingw53_32\mkspecs\modules\qt_lib_bootstrap_private.pri ..\..\..\5.7\mingw53_32\mkspecs\modules\qt_lib_clucene_private.pri ..\..\..\5.7\mingw53_32\mkspecs\modules\qt_lib_concurrent.pri ..\..\..\5.7\mingw53_32\mkspecs\modules\qt_lib_concurrent_private.pri ..\..\..\5.7\mingw53_32\mkspecs\modules\qt_lib_core.pri ..\..\..\5.7\mingw53_32\mkspecs\modules\qt_lib_core_private.pri ..\..\..\5.7\mingw53_32\mkspecs\modules\qt_lib_dbus.pri ..\..\..\5.7\mingw53_32\mkspecs\modules\qt_lib_dbus_private.pri ..\..\..\5.7\mingw53_32\mkspecs\modules\qt_lib_designer.pri ..\..\..\5.7\mingw53_32\mkspecs\modules\qt_lib_designer_private.pri ..\..\..\5.7\mingw53_32\mkspecs\modules\qt_lib_designercomponents_private.pri ..\..\..\5.7\mingw53_32\mkspecs\modules\qt_lib_gamepad.pri ..\..\..\5.7\mingw53_32\mkspecs\modules\qt_lib_gamepad_private.pri ..\..\..\5.7\mingw53_32\mkspecs\modules\qt_lib_gui.pri ..\..\..\5.7\mingw53_32\mkspecs\modules\qt_lib_gui_private.pri ..\..\..\5.7\mingw53_32\mkspecs\modules\qt_lib_help.pri ..\..\..\5.7\mingw53_32\mkspecs\modules\qt_lib_help_private.pri ..\..\..\5.7\mingw53_32\mkspecs\modules\qt_lib_location.pri ..\..\..\5.7\mingw53_32\mkspecs\modules\qt_lib_location_private.pri ..\..\..\5.7\mingw53_32\mkspecs\modules\qt_lib_multimedia.pri ..\..\..\5.7\mingw53_32\mkspecs\modules\qt_lib_multimedia_private.pri ..\..\..\5.7\mingw53_32\mkspecs\modules\qt_lib_multimediawidgets.pri ..\..\..\5.7\mingw53_32\mkspecs\modules\qt_lib_multimediawidgets_private.pri ..\..\..\5.7\mingw53_32\mkspecs\modules\qt_lib_network.pri ..\..\..\5.7\mingw53_32\mkspecs\modules\qt_lib_network_private.pri ..\..\..\5.7\mingw53_32\mkspecs\modules\qt_lib_nfc.pri ..\..\..\5.7\mingw53_32\mkspecs\modules\qt_lib_nfc_private.pri ..\..\..\5.7\mingw53_32\mkspecs\modules\qt_lib_opengl.pri ..\..\..\5.7\mingw53_32\mkspecs\modules\qt_lib_opengl_private.pri ..\..\..\5.7\mingw53_32\mkspecs\modules\qt_lib_openglextensions.pri ..\..\..\5.7\mingw53_32\mkspecs\modules\qt_lib_openglextensions_private.pri ..\..\..\5.7\mingw53_32\mkspecs\modules\qt_lib_packetprotocol_private.pri ..\..\..\5.7\mingw53_32\mkspecs\modules\qt_lib_platformsupport_private.pri ..\..\..\5.7\mingw53_32\mkspecs\modules\qt_lib_positioning.pri ..\..\..\5.7\mingw53_32\mkspecs\modules\qt_lib_positioning_private.pri ..\..\..\5.7\mingw53_32\mkspecs\modules\qt_lib_printsupport.pri ..\..\..\5.7\mingw53_32\mkspecs\modules\qt_lib_printsupport_private.pri ..\..\..\5.7\mingw53_32\mkspecs\modules\qt_lib_purchasing.pri ..\..\..\5.7\mingw53_32\mkspecs\modules\qt_lib_purchasing_private.pri ..\..\..\5.7\mingw53_32\mkspecs\modules\qt_lib_qml.pri ..\..\..\5.7\mingw53_32\mkspecs\modules\qt_lib_qml_private.pri ..\..\..\5.7\mingw53_32\mkspecs\modules\qt_lib_qmldebug_private.pri ..\..\..\5.7\mingw53_32\mkspecs\modules\qt_lib_qmldevtools_private.pri ..\..\..\5.7\mingw53_32\mkspecs\modules\qt_lib_qmltest.pri ..\..\..\5.7\mingw53_32\mkspecs\modules\qt_lib_qmltest_private.pri ..\..\..\5.7\mingw53_32\mkspecs\modules\qt_lib_qtmultimediaquicktools_private.pri ..\..\..\5.7\mingw53_32\mkspecs\modules\qt_lib_quick.pri ..\..\..\5.7\mingw53_32\mkspecs\modules\qt_lib_quick_private.pri ..\..\..\5.7\mingw53_32\mkspecs\modules\qt_lib_quickcontrols2.pri ..\..\..\5.7\mingw53_32\mkspecs\modules\qt_lib_quickcontrols2_private.pri ..\..\..\5.7\mingw53_32\mkspecs\modules\qt_lib_quickparticles_private.pri ..\..\..\5.7\mingw53_32\mkspecs\modules\qt_lib_quicktemplates2_private.pri ..\..\..\5.7\mingw53_32\mkspecs\modules\qt_lib_quickwidgets.pri ..\..\..\5.7\mingw53_32\mkspecs\modules\qt_lib_quickwidgets_private.pri ..\..\..\5.7\mingw53_32\mkspecs\modules\qt_lib_script.pri ..\..\..\5.7\mingw53_32\mkspecs\modules\qt_lib_script_private.pri ..\..\..\5.7\mingw53_32\mkspecs\modules\qt_lib_scripttools.pri ..\..\..\5.7\mingw53_32\mkspecs\modules\qt_lib_scripttools_private.pri ..\..\..\5.7\mingw53_32\mkspecs\modules\qt_lib_scxml.pri ..\..\..\5.7\mingw53_32\mkspecs\modules\qt_lib_scxml_private.pri ..\..\..\5.7\mingw53_32\mkspecs\modules\qt_lib_sensors.pri ..\..\..\5.7\mingw53_32\mkspecs\modules\qt_lib_sensors_private.pri ..\..\..\5.7\mingw53_32\mkspecs\modules\qt_lib_serialbus.pri ..\..\..\5.7\mingw53_32\mkspecs\modules\qt_lib_serialbus_private.pri ..\..\..\5.7\mingw53_32\mkspecs\modules\qt_lib_serialport.pri ..\..\..\5.7\mingw53_32\mkspecs\modules\qt_lib_serialport_private.pri ..\..\..\5.7\mingw53_32\mkspecs\modules\qt_lib_sql.pri ..\..\..\5.7\mingw53_32\mkspecs\modules\qt_lib_sql_private.pri ..\..\..\5.7\mingw53_32\mkspecs\modules\qt_lib_svg.pri ..\..\..\5.7\mingw53_32\mkspecs\modules\qt_lib_svg_private.pri ..\..\..\5.7\mingw53_32\mkspecs\modules\qt_lib_testlib.pri ..\..\..\5.7\mingw53_32\mkspecs\modules\qt_lib_testlib_private.pri ..\..\..\5.7\mingw53_32\mkspecs\modules\qt_lib_uiplugin.pri ..\..\..\5.7\mingw53_32\mkspecs\modules\qt_lib_uitools.pri ..\..\..\5.7\mingw53_32\mkspecs\modules\qt_lib_uitools_private.pri ..\..\..\5.7\mingw53_32\mkspecs\modules\qt_lib_webchannel.pri ..\..\..\5.7\mingw53_32\mkspecs\modules\qt_lib_webchannel_private.pri ..\..\..\5.7\mingw53_32\mkspecs\modules\qt_lib_websockets.pri ..\..\..\5.7\mingw53_32\mkspecs\modules\qt_lib_websockets_private.pri ..\..\..\5.7\mingw53_32\mkspecs\modules\qt_lib_widgets.pri ..\..\..\5.7\mingw53_32\mkspecs\modules\qt_lib_widgets_private.pri ..\..\..\5.7\mingw53_32\mkspecs\modules\qt_lib_winextras.pri ..\..\..\5.7\mingw53_32\mkspecs\modules\qt_lib_winextras_private.pri ..\..\..\5.7\mingw53_32\mkspecs\modules\qt_lib_xml.pri ..\..\..\5.7\mingw53_32\mkspecs\modules\qt_lib_xml_private.pri ..\..\..\5.7\mingw53_32\mkspecs\modules\qt_lib_xmlpatterns.pri ..\..\..\5.7\mingw53_32\mkspecs\modules\qt_lib_xmlpatterns_private.pri ..\..\..\5.7\mingw53_32\mkspecs\features\qt_functions.prf ..\..\..\5.7\mingw53_32\mkspecs\features\qt_config.prf ..\..\..\5.7\mingw53_32\mkspecs\features\win32\qt_config.prf ..\..\..\5.7\mingw53_32\mkspecs\win32-g++\qmake.conf ..\..\..\5.7\mingw53_32\mkspecs\features\spec_post.prf .qmake.stash ..\..\..\5.7\mingw53_32\mkspecs\features\exclusive_builds.prf ..\..\..\5.7\mingw53_32\mkspecs\features\default_pre.prf ..\..\..\5.7\mingw53_32\mkspecs\features\win32\default_pre.prf ..\..\..\5.7\mingw53_32\mkspecs\features\resolve_config.prf ..\..\..\5.7\mingw53_32\mkspecs\features\exclusive_builds_post.prf ..\..\..\5.7\mingw53_32\mkspecs\features\default_post.prf ..\..\..\5.7\mingw53_32\mkspecs\features\build_pass.prf ..\..\..\5.7\mingw53_32\mkspecs\features\win32\rtti.prf ..\..\..\5.7\mingw53_32\mkspecs\features\precompile_header.prf ..\..\..\5.7\mingw53_32\mkspecs\features\warn_on.prf ..\..\..\5.7\mingw53_32\mkspecs\features\qt.prf ..\..\..\5.7\mingw53_32\mkspecs\features\resources.prf ..\..\..\5.7\mingw53_32\mkspecs\features\moc.prf ..\..\..\5.7\mingw53_32\mkspecs\features\win32\opengl.prf ..\..\..\5.7\mingw53_32\mkspecs\features\uic.prf ..\..\..\5.7\mingw53_32\mkspecs\features\file_copies.prf ..\..\..\5.7\mingw53_32\mkspecs\features\win32\windows.prf ..\..\..\5.7\mingw53_32\mkspecs\features\testcase_targets.prf ..\..\..\5.7\mingw53_32\mkspecs\features\exceptions.prf ..\..\..\5.7\mingw53_32\mkspecs\features\yacc.prf ..\..\..\5.7\mingw53_32\mkspecs\features\lex.prf ..\BasketballProject\BasketballProject.pro ..\..\..\5.7\mingw53_32\lib\qtmain.prl ..\..\..\5.7\mingw53_32\lib\Qt5Widgets.prl ..\..\..\5.7\mingw53_32\lib\Qt5Gui.prl ..\..\..\5.7\mingw53_32\lib\Qt5Core.prl  NO_PCH_SOURCES RESOURCES HEADERS SOURCES OBJECTIVE_SOURCES FORMS YACCSOURCES YACCSOURCES LEXSOURCES 
 
 clean: compiler_clean 
-	-$(DEL_FILE) release\main.o release\mainwindow.o release\real_matrix.o release\point.o release\plane.o release\operations.o release\z-buffer.o release\polygon.o release\moc_mainwindow.o
+	-$(DEL_FILE) release\main.o release\mainwindow.o release\real_matrix.o release\point.o release\plane.o release\operations.o release\z-buffer.o release\polygon.o release\drawing3d.o release\camera.o release\moc_mainwindow.o
 
 distclean: clean 
 	-$(DEL_FILE) .qmake.stash
@@ -545,37 +554,7 @@ release/mainwindow.o: ../BasketballProject/mainwindow.cpp ../BasketballProject/m
 		../../../5.7/mingw53_32/include/QtWidgets/qstatusbar.h \
 		../../../5.7/mingw53_32/include/QtWidgets/QToolBar \
 		../../../5.7/mingw53_32/include/QtWidgets/qtoolbar.h \
-		../../../5.7/mingw53_32/include/QtWidgets/QWidget \
-		../BasketballProject/polygon/polygon.h \
-		../BasketballProject/mutable_array/marray.h \
-		../BasketballProject/mutable_array/_marray.h \
-		../BasketballProject/array/array.h \
-		../BasketballProject/array/_array.h \
-		../BasketballProject/array/array_base.h \
-		../BasketballProject/array/error_array.h \
-		../BasketballProject/array/error_array_base.h \
-		../BasketballProject/array/array.cpp \
-		../BasketballProject/mutable_array/error_marray.h \
-		../BasketballProject/mutable_array/error_marray_base.h \
-		../BasketballProject/mutable_array/marray.cpp \
-		../BasketballProject/point/point.h \
-		../BasketballProject/transform_matrix/transform_matrix_base.h \
-		../BasketballProject/real_matrix/real_matrix.h \
-		../BasketballProject/real_matrix/error_rmatrix.h \
-		../BasketballProject/real_matrix/error_rmatrix_base.h \
-		D:/Basketball/Algorithm\ Roberts/Roberts/error/error_base.h \
-		../BasketballProject/matrix/matrix.h \
-		../BasketballProject/matrix/_matrix.h \
-		../BasketballProject/matrix/matrix_base.h \
-		../BasketballProject/matrix/error_matrix.h \
-		../BasketballProject/matrix/error_matrix_base.h \
-		../BasketballProject/matrix/matrix.cpp \
-		../BasketballProject/geom_operations/operations.h \
-		../BasketballProject/plane/plane.h \
-		../BasketballProject/plane/base_plane.h \
-		D:/Basketball/Algorithm\ Roberts/Roberts/types.h \
-		../BasketballProject/polygon/error_polygon.h \
-		../BasketballProject/polygon/error_polygon_base.h
+		../../../5.7/mingw53_32/include/QtWidgets/QWidget
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o release\mainwindow.o ..\BasketballProject\mainwindow.cpp
 
 release/real_matrix.o: ../BasketballProject/real_matrix/real_matrix.cpp ../BasketballProject/real_matrix/real_matrix.h \
@@ -811,6 +790,132 @@ release/polygon.o: ../BasketballProject/polygon/polygon.cpp ../BasketballProject
 		../BasketballProject/polygon/error_polygon.h \
 		../BasketballProject/polygon/error_polygon_base.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o release\polygon.o ..\BasketballProject\polygon\polygon.cpp
+
+release/drawing3d.o: ../BasketballProject/drawing/drawing3D/drawing3d.cpp ../BasketballProject/drawing/drawing3D/drawing3d.h \
+		../BasketballProject/drawing/z-buffer/z-buffer.h \
+		../../../5.7/mingw53_32/include/QtGui/QColor \
+		../../../5.7/mingw53_32/include/QtGui/qcolor.h \
+		../../../5.7/mingw53_32/include/QtGui/qrgb.h \
+		../../../5.7/mingw53_32/include/QtCore/qglobal.h \
+		../../../5.7/mingw53_32/include/QtCore/qconfig.h \
+		../../../5.7/mingw53_32/include/QtCore/qfeatures.h \
+		../../../5.7/mingw53_32/include/QtCore/qsystemdetection.h \
+		../../../5.7/mingw53_32/include/QtCore/qprocessordetection.h \
+		../../../5.7/mingw53_32/include/QtCore/qcompilerdetection.h \
+		../../../5.7/mingw53_32/include/QtCore/qtypeinfo.h \
+		../../../5.7/mingw53_32/include/QtCore/qtypetraits.h \
+		../../../5.7/mingw53_32/include/QtCore/qisenum.h \
+		../../../5.7/mingw53_32/include/QtCore/qsysinfo.h \
+		../../../5.7/mingw53_32/include/QtCore/qlogging.h \
+		../../../5.7/mingw53_32/include/QtCore/qflags.h \
+		../../../5.7/mingw53_32/include/QtCore/qatomic.h \
+		../../../5.7/mingw53_32/include/QtCore/qbasicatomic.h \
+		../../../5.7/mingw53_32/include/QtCore/qatomic_bootstrap.h \
+		../../../5.7/mingw53_32/include/QtCore/qgenericatomic.h \
+		../../../5.7/mingw53_32/include/QtCore/qatomic_cxx11.h \
+		../../../5.7/mingw53_32/include/QtCore/qatomic_msvc.h \
+		../../../5.7/mingw53_32/include/QtCore/qglobalstatic.h \
+		../../../5.7/mingw53_32/include/QtCore/qmutex.h \
+		../../../5.7/mingw53_32/include/QtCore/qnumeric.h \
+		../../../5.7/mingw53_32/include/QtCore/qversiontagging.h \
+		../../../5.7/mingw53_32/include/QtCore/qnamespace.h \
+		../../../5.7/mingw53_32/include/QtCore/qstringlist.h \
+		../../../5.7/mingw53_32/include/QtCore/qlist.h \
+		../../../5.7/mingw53_32/include/QtCore/qalgorithms.h \
+		../../../5.7/mingw53_32/include/QtCore/qiterator.h \
+		../../../5.7/mingw53_32/include/QtCore/qrefcount.h \
+		../../../5.7/mingw53_32/include/QtCore/qarraydata.h \
+		../../../5.7/mingw53_32/include/QtCore/qhashfunctions.h \
+		../../../5.7/mingw53_32/include/QtCore/qchar.h \
+		../../../5.7/mingw53_32/include/QtCore/qpair.h \
+		../../../5.7/mingw53_32/include/QtCore/qbytearraylist.h \
+		../../../5.7/mingw53_32/include/QtCore/qbytearray.h \
+		../../../5.7/mingw53_32/include/QtCore/qstring.h \
+		../../../5.7/mingw53_32/include/QtCore/qstringbuilder.h \
+		../../../5.7/mingw53_32/include/QtCore/qregexp.h \
+		../../../5.7/mingw53_32/include/QtCore/qstringmatcher.h \
+		../../../5.7/mingw53_32/include/QtGui/qrgba64.h \
+		../../../5.7/mingw53_32/include/QtGui/QPixmap \
+		../../../5.7/mingw53_32/include/QtGui/qpixmap.h \
+		../../../5.7/mingw53_32/include/QtGui/qpaintdevice.h \
+		../../../5.7/mingw53_32/include/QtGui/qwindowdefs.h \
+		../../../5.7/mingw53_32/include/QtCore/qobjectdefs.h \
+		../../../5.7/mingw53_32/include/QtCore/qobjectdefs_impl.h \
+		../../../5.7/mingw53_32/include/QtGui/qwindowdefs_win.h \
+		../../../5.7/mingw53_32/include/QtCore/qrect.h \
+		../../../5.7/mingw53_32/include/QtCore/qmargins.h \
+		../../../5.7/mingw53_32/include/QtCore/qsize.h \
+		../../../5.7/mingw53_32/include/QtCore/qpoint.h \
+		../../../5.7/mingw53_32/include/QtCore/qsharedpointer.h \
+		../../../5.7/mingw53_32/include/QtCore/qshareddata.h \
+		../../../5.7/mingw53_32/include/QtCore/qhash.h \
+		../../../5.7/mingw53_32/include/QtCore/qsharedpointer_impl.h \
+		../../../5.7/mingw53_32/include/QtCore/qobject.h \
+		../../../5.7/mingw53_32/include/QtCore/qcoreevent.h \
+		../../../5.7/mingw53_32/include/QtCore/qscopedpointer.h \
+		../../../5.7/mingw53_32/include/QtCore/qmetatype.h \
+		../../../5.7/mingw53_32/include/QtCore/qvarlengtharray.h \
+		../../../5.7/mingw53_32/include/QtCore/qcontainerfwd.h \
+		../../../5.7/mingw53_32/include/QtCore/qobject_impl.h \
+		../../../5.7/mingw53_32/include/QtGui/qimage.h \
+		../../../5.7/mingw53_32/include/QtGui/qpixelformat.h \
+		../../../5.7/mingw53_32/include/QtGui/qtransform.h \
+		../../../5.7/mingw53_32/include/QtGui/qmatrix.h \
+		../../../5.7/mingw53_32/include/QtGui/qpolygon.h \
+		../../../5.7/mingw53_32/include/QtCore/qvector.h \
+		../../../5.7/mingw53_32/include/QtGui/qregion.h \
+		../../../5.7/mingw53_32/include/QtCore/qdatastream.h \
+		../../../5.7/mingw53_32/include/QtCore/qiodevice.h \
+		../../../5.7/mingw53_32/include/QtCore/qline.h \
+		../../../5.7/mingw53_32/include/QtGui/qpainterpath.h \
+		../../../5.7/mingw53_32/include/QtGui/QPainter \
+		../../../5.7/mingw53_32/include/QtGui/qpainter.h \
+		../../../5.7/mingw53_32/include/QtGui/qtextoption.h \
+		../../../5.7/mingw53_32/include/QtGui/qpen.h \
+		../../../5.7/mingw53_32/include/QtGui/qbrush.h \
+		../../../5.7/mingw53_32/include/QtGui/qfontinfo.h \
+		../../../5.7/mingw53_32/include/QtGui/qfont.h \
+		../../../5.7/mingw53_32/include/QtGui/qfontmetrics.h \
+		../BasketballProject/matrix/matrix.h \
+		../BasketballProject/matrix/_matrix.h \
+		../BasketballProject/matrix/matrix_base.h \
+		../BasketballProject/matrix/error_matrix.h \
+		../BasketballProject/matrix/error_matrix_base.h \
+		../BasketballProject/error/error_base.h \
+		../BasketballProject/array/array.h \
+		../BasketballProject/array/_array.h \
+		../BasketballProject/array/array_base.h \
+		../BasketballProject/array/error_array.h \
+		../BasketballProject/array/error_array_base.h \
+		../BasketballProject/array/array.cpp \
+		../BasketballProject/matrix/matrix.cpp \
+		../BasketballProject/drawing/z-buffer/error_z-buffer.h \
+		../BasketballProject/drawing/z-buffer/error_z-buffer_base.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o release\drawing3d.o ..\BasketballProject\drawing\drawing3D\drawing3d.cpp
+
+release/camera.o: ../BasketballProject/camera/camera.cpp ../BasketballProject/camera/camera.h \
+		../BasketballProject/camera/base_camera.h \
+		../BasketballProject/point/point.h \
+		../BasketballProject/transform_matrix/transform_matrix_base.h \
+		../BasketballProject/real_matrix/real_matrix.h \
+		../BasketballProject/real_matrix/error_rmatrix.h \
+		../BasketballProject/real_matrix/error_rmatrix_base.h \
+		D:/Basketball/Algorithm\ Roberts/Roberts/error/error_base.h \
+		../BasketballProject/matrix/matrix.h \
+		../BasketballProject/matrix/_matrix.h \
+		../BasketballProject/matrix/matrix_base.h \
+		../BasketballProject/matrix/error_matrix.h \
+		../BasketballProject/matrix/error_matrix_base.h \
+		../BasketballProject/error/error_base.h \
+		../BasketballProject/array/array.h \
+		../BasketballProject/array/_array.h \
+		../BasketballProject/array/array_base.h \
+		../BasketballProject/array/error_array.h \
+		../BasketballProject/array/error_array_base.h \
+		../BasketballProject/array/array.cpp \
+		../BasketballProject/matrix/matrix.cpp \
+		../BasketballProject/transform_matrix/transform_matrix.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o release\camera.o ..\BasketballProject\camera\camera.cpp
 
 release/moc_mainwindow.o: release/moc_mainwindow.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o release\moc_mainwindow.o release\moc_mainwindow.cpp

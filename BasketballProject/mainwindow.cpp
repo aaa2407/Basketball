@@ -1,7 +1,9 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
-#include "polygon/polygon.h"
+#include "camera\camera.h"
+#include "point\point.h"
+using namespace std;
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -10,17 +12,13 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     try
     {
-        polygon arr;
-        arr.add(point(0, 0, 0));
-        arr.add(point(5, 0, 5));
-        arr.add(point(5, 5, 10));
-        arr.add(point(0, 10, 10));
-        arr.add(point(0, 5, 5));
-        std::cout << (operations::isInConvexPolygon(point(2.5, 2.5, 5), arr) ? "true" : "false") << std::endl;
-        std::cout << arr.normal() << std::endl;
-        arr.changeNormal();
-        std::cout << arr.normal() << std::endl;
-
+        point p(100, 0, 0);
+        camera cam;
+        cam.increase(100);
+        cam.rotate(M_PI_4);
+        cam.upIncline(M_PI_4);
+        p = point(p.toArray()*cam.get());
+        cout << p << endl;
     }
     catch(errorBase& error)
     {

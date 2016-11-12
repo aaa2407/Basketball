@@ -22,7 +22,9 @@ SOURCES += main.cpp\
     geom_operations/operations.cpp \
     drawing/z-buffer/z-buffer.cpp \
     mutable_array/marray.cpp \
-    polygon/polygon.cpp
+    polygon/polygon.cpp \
+    drawing/drawing3D/drawing3d.cpp \
+    camera/camera.cpp
 
 HEADERS  += mainwindow.h \
     array/_array.h \
@@ -56,6 +58,9 @@ HEADERS  += mainwindow.h \
     mutable_array/error_marray_base.h \
     polygon/polygon.h \
     polygon/error_polygon.h \
-    polygon/error_polygon_base.h
+    polygon/error_polygon_base.h \
+    drawing/drawing3D/drawing3d.h \
+    camera/base_camera.h \
+    camera/camera.h
 
 FORMS    += mainwindow.ui
