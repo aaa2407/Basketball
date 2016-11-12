@@ -20,7 +20,8 @@ SOURCES += main.cpp\
     point/point.cpp \
     plane/plane.cpp \
     geom_operations/operations.cpp \
-    drawing/z-buffer/z-buffer.cpp
+    drawing/z-buffer/z-buffer.cpp \
+    mutable_array/marray.cpp
 
 HEADERS  += mainwindow.h \
     array/_array.h \
@@ -47,6 +48,10 @@ HEADERS  += mainwindow.h \
     geom_operations/operations.h \
     drawing/z-buffer/z-buffer.h \
     drawing/z-buffer/error_z-buffer_base.h \
-    drawing/z-buffer/error_z-buffer.h
+    drawing/z-buffer/error_z-buffer.h \
+    mutable_array/marray.h \
+    mutable_array/_marray.h \
+    mutable_array/error_marray.h \
+    mutable_array/error_marray_base.h
 
 FORMS    += mainwindow.ui

@@ -41,6 +41,8 @@ protected:
     type* data;
 };
 
+#include "array.cpp"
+
 template <typename type>
 std::ostream& operator<<(std::ostream& cout, array<type>& copy)
 {
@@ -52,8 +54,5 @@ std::ostream& operator<<(std::ostream& cout, array<type>& copy)
     cout << "}";
     return cout;
 }
-
-#include "array.cpp"
-
 
 #endif // _ARRAY_H

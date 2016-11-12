@@ -84,7 +84,9 @@ DIST          =  ..\BasketballProject\mainwindow.h \
 		..\BasketballProject\geom_operations\operations.h \
 		..\BasketballProject\drawing\z-buffer\z-buffer.h \
 		..\BasketballProject\drawing\z-buffer\error_z-buffer_base.h \
-		..\BasketballProject\drawing\z-buffer\error_z-buffer.h ..\BasketballProject\main.cpp \
+		..\BasketballProject\drawing\z-buffer\error_z-buffer.h \
+		..\BasketballProject\mutable_array\marray.h \
+		..\BasketballProject\mutable_array\_marray.h ..\BasketballProject\main.cpp \
 		..\BasketballProject\mainwindow.cpp \
 		..\BasketballProject\real_matrix\real_matrix.cpp \
 		..\BasketballProject\point\point.cpp \
@@ -238,6 +240,9 @@ debug/moc_mainwindow.cpp: ../../../5.7/mingw53_32/include/QtWidgets/QMainWindow 
 		../../../5.7/mingw53_32/include/QtWidgets/QMessageBox \
 		../../../5.7/mingw53_32/include/QtWidgets/qmessagebox.h \
 		../../../5.7/mingw53_32/include/QtWidgets/qdialog.h \
+		../../../5.7/mingw53_32/include/QtWidgets/QGraphicsScene \
+		../../../5.7/mingw53_32/include/QtWidgets/qgraphicsscene.h \
+		../../../5.7/mingw53_32/include/QtGui/qpen.h \
 		../BasketballProject/error/error_base.h \
 		../BasketballProject/mainwindow.h \
 		../../../5.7/mingw53_32/bin/moc.exe
@@ -368,6 +373,9 @@ debug/main.o: ../BasketballProject/main.cpp ../BasketballProject/mainwindow.h \
 		../../../5.7/mingw53_32/include/QtWidgets/QMessageBox \
 		../../../5.7/mingw53_32/include/QtWidgets/qmessagebox.h \
 		../../../5.7/mingw53_32/include/QtWidgets/qdialog.h \
+		../../../5.7/mingw53_32/include/QtWidgets/QGraphicsScene \
+		../../../5.7/mingw53_32/include/QtWidgets/qgraphicsscene.h \
+		../../../5.7/mingw53_32/include/QtGui/qpen.h \
 		../BasketballProject/error/error_base.h \
 		../../../5.7/mingw53_32/include/QtWidgets/QApplication \
 		../../../5.7/mingw53_32/include/QtWidgets/qapplication.h \
@@ -482,6 +490,9 @@ debug/mainwindow.o: ../BasketballProject/mainwindow.cpp ../BasketballProject/mai
 		../../../5.7/mingw53_32/include/QtWidgets/QMessageBox \
 		../../../5.7/mingw53_32/include/QtWidgets/qmessagebox.h \
 		../../../5.7/mingw53_32/include/QtWidgets/qdialog.h \
+		../../../5.7/mingw53_32/include/QtWidgets/QGraphicsScene \
+		../../../5.7/mingw53_32/include/QtWidgets/qgraphicsscene.h \
+		../../../5.7/mingw53_32/include/QtGui/qpen.h \
 		../BasketballProject/error/error_base.h \
 		ui_mainwindow.h \
 		../../../5.7/mingw53_32/include/QtCore/QVariant \
@@ -497,11 +508,16 @@ debug/mainwindow.o: ../BasketballProject/mainwindow.cpp ../BasketballProject/mai
 		../../../5.7/mingw53_32/include/QtGui/qinputmethod.h \
 		../../../5.7/mingw53_32/include/QtWidgets/QButtonGroup \
 		../../../5.7/mingw53_32/include/QtWidgets/qbuttongroup.h \
+		../../../5.7/mingw53_32/include/QtWidgets/QGraphicsView \
+		../../../5.7/mingw53_32/include/QtWidgets/qgraphicsview.h \
+		../../../5.7/mingw53_32/include/QtGui/qpainter.h \
+		../../../5.7/mingw53_32/include/QtGui/qtextoption.h \
+		../../../5.7/mingw53_32/include/QtWidgets/qscrollarea.h \
+		../../../5.7/mingw53_32/include/QtWidgets/qabstractscrollarea.h \
+		../../../5.7/mingw53_32/include/QtWidgets/qframe.h \
 		../../../5.7/mingw53_32/include/QtWidgets/QHeaderView \
 		../../../5.7/mingw53_32/include/QtWidgets/qheaderview.h \
 		../../../5.7/mingw53_32/include/QtWidgets/qabstractitemview.h \
-		../../../5.7/mingw53_32/include/QtWidgets/qabstractscrollarea.h \
-		../../../5.7/mingw53_32/include/QtWidgets/qframe.h \
 		../../../5.7/mingw53_32/include/QtCore/qabstractitemmodel.h \
 		../../../5.7/mingw53_32/include/QtCore/qitemselectionmodel.h \
 		../../../5.7/mingw53_32/include/QtWidgets/qabstractitemdelegate.h \

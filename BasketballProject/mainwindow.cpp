@@ -1,7 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
-#include "drawing\z-buffer\z-buffer.h"
+#include "mutable_array/marray.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -10,13 +10,12 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     try
     {
-        scene = new QGraphicsScene(0, 0, ui->gv->width()-3, ui->gv->height()-3);
-        ui->gv->setScene(scene);
-        Z_buffer zbuf(scene->width(), scene->height());
-        zbuf.setPixel(scene->width()-1, scene->height()-1, QColor(Qt::blue), 200);
-        zbuf.setPixel(-2, 2, QColor(Qt::red), 300);
-        QPixmap map = zbuf.createPixmap();
-        scene->addPixmap(map);
+        marray<int> a;
+        a.add(1);
+        a.add(2);
+        a.add(3);
+        int r = a.del(1);
+        std::cout << r << std::endl;
     }
     catch(errorBase& error)
     {
