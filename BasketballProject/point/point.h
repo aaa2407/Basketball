@@ -55,8 +55,7 @@ public:
     bool operator!=(const point& right) const;
 
     array<double> toArray() const;
- //   point toChangeSystem(double inlcine) const;
- //   point to2D(double dis = 500) const;
+    point to2D() const;
 
     point XoY() const;
     point XoZ() const;

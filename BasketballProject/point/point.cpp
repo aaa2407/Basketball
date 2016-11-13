@@ -246,15 +246,16 @@ point point::toChangeSystem(double incline) const
     p.set_z(this->z() - sin(incline)*this->x()  - sin(incline)*this->y());
     return p;
 }
+*/
 
-point point::to2D(double dis) const
+point point::to2D() const
 {
     point newp;
-    newp.set_x(-this->y()*dis/(this->x() - dis));
-    newp.set_y(-this->z()*dis/(this->x() - dis));
+    newp.set_x(-this->y()*500/(-this->x() - 500));
+    newp.set_y(-this->z()*500/(-this->x() - 500));
     return newp;
 }
-*/
+
 
 
 float length(const point& start, const point& end)

@@ -7,7 +7,7 @@ INPUT(
 ./release\operations.o
 ./release\z-buffer.o
 ./release\polygon.o
-./release\drawing3d.o
 ./release\camera.o
+./release\drawing3d_base.o
 ./release\moc_mainwindow.o
 );

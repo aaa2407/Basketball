@@ -104,7 +104,15 @@ double camera::rotate() const
     point p = (_position - _centre).XoY();
     if (!p)
         return 0;
-    return asin(p.y()/p.length());
+    bool k = true;
+    if (p.y() < 0)
+        k = false;
+    double _x = p.x();
+    double _y = p.y();
+    double alfa = acos(_x/sqrt(_x*_x + _y*_y));
+    if (!k)
+        alfa = M_PI*2 - alfa;
+    return alfa;
 }
 
 double camera::distance() const
@@ -138,4 +146,23 @@ point camera::vector() const
     point p = _centre - _position;
     p.normalization();
     return p;
+}
+
+point camera::new_point(const point& copy)
+{
+    return point(copy.toArray()*this->get());
+}
+
+point camera::new_vector(const point& copy)
+{
+    array<double> arr = copy.toArray();
+    arr = arr * TransformMatrix::rotateY(this->incline());
+    arr = arr * TransformMatrix::rotateZ(this->rotate());
+    return point(arr);
+}
+
+
+int camera::distance(const point& copy)
+{
+    return (int)((_position - copy).length());
 }

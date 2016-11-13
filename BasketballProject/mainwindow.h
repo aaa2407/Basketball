@@ -4,7 +4,11 @@
 #include <QMainWindow>
 #include <QMessageBox>
 #include <QGraphicsScene>
+#include <QKeyEvent>
+
 #include "error\error_base.h"
+#include "drawing\drawing_frame\drawingframe.h"
+using namespace std;
 
 namespace Ui {
 class MainWindow;
@@ -19,6 +23,9 @@ public:
     ~MainWindow();
 
     QGraphicsScene *scene;
+    drawingFrame *draw;
+
+    void keyPressEvent(QKeyEvent *event);
 
 private:
     Ui::MainWindow *ui;

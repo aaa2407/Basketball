@@ -24,7 +24,8 @@ SOURCES += main.cpp\
     mutable_array/marray.cpp \
     polygon/polygon.cpp \
     camera/camera.cpp \
-    drawing/drawing3D_base/drawing3d_base.cpp
+    drawing/drawing3D_base/drawing3d_base.cpp \
+    drawing/drawing_frame/drawingframe.cpp
 
 HEADERS  += mainwindow.h \
     array/_array.h \
@@ -61,6 +62,8 @@ HEADERS  += mainwindow.h \
     polygon/error_polygon_base.h \
     camera/base_camera.h \
     camera/camera.h \
-    drawing/drawing3D/drawing3d_base.h
+    drawing/drawing3D/drawing3d_base.h \
+    drawing/drawing3D_base/drawing3d_base.h \
+    drawing/drawing_frame/drawingframe.h
 
 FORMS    += mainwindow.ui

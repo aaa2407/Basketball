@@ -12,8 +12,8 @@ public:
     polygon();
 
     void changeNormal();
-
     point normal() const;
+    plane get_plane();
 
 public:
     bool napr;

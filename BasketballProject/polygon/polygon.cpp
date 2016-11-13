@@ -23,3 +23,15 @@ point polygon::normal() const
         p = -p;
     return p;
 }
+
+plane polygon::get_plane()
+{
+    if (!operations::isPolygon(*this))
+    {
+        errPolygon::errorNormal();
+    }
+    plane p((*this)[0], (*this)[1], (*this)[2]);
+    if (!napr)
+        p.negation();
+    return p;
+}
