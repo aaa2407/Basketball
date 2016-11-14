@@ -25,7 +25,11 @@ SOURCES += main.cpp\
     polygon/polygon.cpp \
     camera/camera.cpp \
     drawing/drawing3D_base/drawing3d_base.cpp \
-    drawing/drawing_frame/drawingframe.cpp
+    drawing/drawing_frame/drawingframe.cpp \
+    fisics/apoint.cpp \
+    fisics/aspace.cpp \
+    fisics/traject.cpp \
+    fisics/apolygon.cpp
 
 HEADERS  += mainwindow.h \
     array/_array.h \
@@ -64,6 +68,12 @@ HEADERS  += mainwindow.h \
     camera/camera.h \
     drawing/drawing3D/drawing3d_base.h \
     drawing/drawing3D_base/drawing3d_base.h \
-    drawing/drawing_frame/drawingframe.h
+    drawing/drawing_frame/drawingframe.h \
+    fisics/apoint.h \
+    fisics/aspace.h \
+    fisics/error_traject.h \
+    fisics/error_traject_base.h \
+    fisics/traject.h \
+    fisics/apolygon.h
 
 FORMS    += mainwindow.ui

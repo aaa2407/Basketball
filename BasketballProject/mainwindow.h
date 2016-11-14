@@ -10,6 +10,8 @@
 #include "drawing\drawing_frame\drawingframe.h"
 using namespace std;
 
+#include "fisics\aspace.h"
+
 namespace Ui {
 class MainWindow;
 }
@@ -26,6 +28,8 @@ public:
     drawingFrame *draw;
 
     void keyPressEvent(QKeyEvent *event);
+
+    aspace space;
 
 private:
     Ui::MainWindow *ui;

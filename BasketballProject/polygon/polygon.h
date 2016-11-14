@@ -13,7 +13,7 @@ public:
 
     void changeNormal();
     point normal() const;
-    plane get_plane();
+    plane get_plane() const;
 
 public:
     bool napr;

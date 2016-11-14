@@ -24,7 +24,7 @@ point polygon::normal() const
     return p;
 }
 
-plane polygon::get_plane()
+plane polygon::get_plane() const
 {
     if (!operations::isPolygon(*this))
     {

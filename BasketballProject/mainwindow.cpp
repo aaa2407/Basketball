@@ -21,6 +21,18 @@ MainWindow::MainWindow(QWidget *parent) :
         draw->setPenColor(QColor(Qt::blue));
         draw->draw(pol1);
         scene->addPixmap(draw->createPixmap());
+        apolygon pol;
+        pol.add(point(-1, -1, 0));
+        pol.add(point(-1,  1, 0));
+        pol.add(point( 1,  1, 0));
+        pol.add(point( 1, -1, 0));
+        pol.set_koef(0.8);
+        space.addPolygon(pol);
+
+        emit space.spos(point(20, 20, 50));
+        emit space.ssecond_point(point(0, 0, 0));
+        emit space.smax_z(100);
+        emit space.sstart(50);
     }
     catch(errorBase& error)
     {
