@@ -10,20 +10,21 @@ void drawingFrame::draw(const polygon& pol)
         return;
     if (pol.size() == 1)
     {
-        drawing3Dbase::draw(pol[0], _pen);
+        drawing3Dbase::draw(pol[0]);
         return;
     }
     if (pol.size() == 2)
     {
-        drawing3Dbase::draw(pol[0], pol[1], _pen);
+        drawing3Dbase::draw(pol[0], pol[1]);
         return;
     }
     for (size_t i = 1; i < pol.size(); i++)
         for (size_t j = 0; j < i; j++)
-            drawing3Dbase::draw(pol[j], pol[i], _pen);
+            drawing3Dbase::draw(pol[j], pol[i]);
 }
 
-void drawingFrame::setPenColor(QColor pen)
+void drawingFrame::draw(const object_base& obj)
 {
-    _pen = pen;
+    drawing3Dbase::draw(obj);
 }
+

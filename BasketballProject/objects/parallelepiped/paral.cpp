@@ -12,6 +12,7 @@ paral::paral(size_t width, size_t lenght, size_t height, const point &cen)
     _vertex.add(point(cen.x() + width/2, cen.y() + lenght/2, cen.z() + height/2)); // 7
     setPolygons();
     setConnect();
+    initColors();
     _centre = cen;
 }
 
@@ -29,6 +30,7 @@ paral::paral(const point& p1, const point p2)
     _vertex.add(point(x2, y2, z2));
     setPolygons();
     setConnect();
+    initColors();
     _centre = point((x1 + x2)/2, (y1 + y2)/2, (z1 + z2)/2);
 }
 
@@ -37,6 +39,7 @@ paral::paral(const paral& par)
     _vertex = par._vertex;
     setPolygons();
     setConnect();
+    initColors();
     _centre = par.centre();
 }
 
@@ -60,4 +63,16 @@ void paral::setPolygons()
     pol.clear();
     pol.add(1); pol.add(3);  pol.add(7); pol.add(5);
     _polygons.add(pol);
+}
+
+
+void paral::initColors()
+{
+    _colors.setSize(_vertex.size());
+    for (size_t i = 0; i < _colors.size(); i++)
+    {
+        _colors[i].blue  = 0;
+        _colors[i].red   = 0;
+        _colors[i].green = 0;
+    }
 }

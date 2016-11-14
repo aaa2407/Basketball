@@ -4,6 +4,8 @@
 #include "point\point.h"
 #include "mutable_array\marray.h"
 #include "polygon\polygon.h"
+#include "rgb\rgb.h"
+
 
 class object_base
 {
@@ -11,11 +13,15 @@ public:
     object_base();
 
     polygon getPolygon(size_t index) const;
+    color::rgb getPolygonColor(size_t index) const;
     size_t  getPolygonCount() const;
 
     const point& centre() const;
     void setOutwardNormal(bool ok);
     bool outwardNormal() const;
+
+    void setPolygonColor(size_t index, QColor col);
+    void setObjectColor(QColor color);
 
 protected:
     bool setConnect();
@@ -26,6 +32,7 @@ protected:
     marray<marray<size_t>> _polygons;
     point _centre;
     bool _outward_normal;
+    array<color::rgb> _colors;
 };
 
 #endif // OBJECT_BASE_H

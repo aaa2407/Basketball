@@ -1,6 +1,8 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
+#include <QDebug>
+
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -10,23 +12,20 @@ MainWindow::MainWindow(QWidget *parent) :
     {
         scene = new QGraphicsScene(0, 0, ui->gv->width()-3, ui->gv->height()-3);
         ui->gv->setScene(scene);
-        draw = new drawingFrame(scene->width(), scene->height());
-        draw->setPenColor(QColor(Qt::blue));
-        _paral.setOutwardNormal(false);
-        for (size_t i = 0; i < _paral.getPolygonCount(); i++)
-        {
-            polygon pol = _paral.getPolygon(i);
-            point a = draw->new_vector(pol.normal());
-            if (a*point(-1, 0, 0) < 0)
-                draw->draw(pol);
-            if (a*point(-1, 0, 0) == 0 && !_paral.outwardNormal())
-                draw->draw(pol);
-        }
-        scene->addPixmap(draw->createPixmap());
+        draw = new drawingShading(scene->width(), scene->height());
+        _paral.setPolygonColor(0, QColor(Qt::blue));
+        _paral.setPolygonColor(1, QColor(Qt::red));
+        _paral.setPolygonColor(2, QColor(Qt::green));
+        _paral.setPolygonColor(3, QColor(Qt::cyan));
+        _paral.setPolygonColor(4, QColor(Qt::gray));
+        _paral.setPolygonColor(5, QColor(Qt::yellow));
 
+        _paral.setOutwardNormal(false);
+
+        draw->draw(_paral);
+        scene->addPixmap(draw->createPixmap());
         /*emit space.spos(point(20, 20, 50));
         emit space.ssecond_point(point(0, 0, 0));
-        emit space.smax_z(100);
         emit space.sstart(50);*/
     }
     catch(errorBase& error)
@@ -96,15 +95,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 
         }
         draw->clear();
-        for (size_t i = 0; i < _paral.getPolygonCount(); i++)
-        {
-            polygon pol = _paral.getPolygon(i);
-            point a = draw->new_vector(pol.normal());
-            if (a*point(-1, 0, 0) < 0)
-                draw->draw(pol);
-            if (a*point(-1, 0, 0) == 0 && !_paral.outwardNormal())
-                draw->draw(pol);
-        }
+        draw->draw(_paral);
         scene->addPixmap(draw->createPixmap());
     }
     catch(errorBase& error)

@@ -46,6 +46,25 @@ polygon object_base::getPolygon(size_t index) const
     return pol;
 }
 
+color::rgb object_base::getPolygonColor(size_t index) const
+{
+    return _colors[index];
+}
+
+
+void object_base::setPolygonColor(size_t index, QColor col)
+{
+    _colors[index] = color::get_rgb(col);
+}
+
+void object_base::setObjectColor(QColor color)
+{
+    for (size_t i = 0; i < _colors.size(); i++)
+    {
+        _colors[i] = color::get_rgb(color);
+    }
+}
+
 size_t object_base::getPolygonCount() const
 {
     return _polygons.size();

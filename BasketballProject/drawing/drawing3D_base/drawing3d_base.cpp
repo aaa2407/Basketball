@@ -6,14 +6,19 @@ drawing3Dbase::drawing3Dbase(size_t width, size_t height, size_t max_depth, QCol
     this->clear();
 }
 
-void drawing3Dbase::draw(const point& p, QColor color)
+void drawing3Dbase::draw(const point& p)
 {
     point a = this->new_point(p);
     point a1 = a.to2D();
-    this->setPixel(x_2d(a1.x()), y_2d(a1.y()), color, distance(a));
+    this->setPixel(x_2d(a1.x()), y_2d(a1.y()), _color, distance(a));
 }
 
-void drawing3Dbase::draw(const point& p1, const point& p2, QColor color)
+void drawing3Dbase::setPenColor(color::rgb color)
+{
+    _color = color;
+}
+
+void drawing3Dbase::draw(const point& p1, const point& p2)
 {
     point a1 = this->new_point(p1);
     point a2 = this->new_point(p2);
@@ -27,7 +32,7 @@ void drawing3Dbase::draw(const point& p1, const point& p2, QColor color)
     double d2 = this->distance(a2);
     if (x1 == x2 && y1 == y2)
     {
-        this->setPixel(x1, x2, color, d1);
+        this->setPixel(x1, x2, _color, d1);
         return;
     }
     int x = fabs(x1 - x2);
@@ -42,10 +47,24 @@ void drawing3Dbase::draw(const point& p1, const point& p2, QColor color)
 
     for (int i = 0; i <= count; i++)
     {
-        this->setPixel((int)_x, (int)_y, color, (size_t)_d);
+        this->setPixel((int)_x, (int)_y, _color, (size_t)_d);
         _x += dx;
         _y += dy;
         _d += dd;
+    }
+}
+
+void drawing3Dbase::draw(const object_base& obj)
+{
+    for (size_t i = 0; i < obj.getPolygonCount(); i++)
+    {
+        this->setPenColor(obj.getPolygonColor(i));
+        polygon pol = obj.getPolygon(i);
+        point a = this->new_vector(pol.normal());
+        if (a*point(-1, 0, 0) < 0)
+            this->draw(pol);
+        if (a*point(-1, 0, 0) == 0 && !obj.outwardNormal())
+            this->draw(pol);
     }
 }
 

@@ -11,6 +11,7 @@ public:
     paral(const paral& par);
 
 private:
+    void initColors();
     void setPolygons();
 };
 

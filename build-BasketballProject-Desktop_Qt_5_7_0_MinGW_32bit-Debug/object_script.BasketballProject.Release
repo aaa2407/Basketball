@@ -16,6 +16,8 @@ INPUT(
 ./release\apolygon.o
 ./release\object_base.o
 ./release\paral.o
+./release\drawing_shading.o
+./release\rgb.o
 ./release\moc_mainwindow.o
 ./release\moc_apoint.o
 ./release\moc_aspace.o

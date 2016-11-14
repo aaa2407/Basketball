@@ -5,16 +5,15 @@
 #include <QPixmap>
 #include <QPainter>
 
-#include "matrix/matrix.h"
+#include "matrix\matrix.h"
 #include "error_z-buffer.h"
+#include "rgb\rgb.h"
 
 struct pixel
 {
 public:
     size_t depth;       // Глубина пикселя
-    unsigned char red;  // Цвет RGB
-    unsigned char blue;
-    unsigned char green;
+    color::rgb    color;
 };
 
 class Z_buffer:  private matrix<struct pixel>
@@ -31,7 +30,7 @@ public:
     void setBackgroundColor(QColor back);
     void setMaxDepth(size_t depth);
 
-    void setPixel(int x, int y, char r, char g, char b, size_t depth);
+    void setPixel(int x, int y, color::rgb color, size_t depth);
     void setPixel(int x, int y, QColor col, size_t depth);
 
     void clear();

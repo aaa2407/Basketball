@@ -8,6 +8,7 @@
 
 #include "error\error_base.h"
 #include "drawing\drawing_frame\drawingframe.h"
+#include "drawing\drawing_shading\drawing_shading.h"
 #include "fisics\aspace.h"
 #include "objects\parallelepiped\paral.h"
 using namespace std;
@@ -26,7 +27,7 @@ public:
     ~MainWindow();
 
     QGraphicsScene *scene;
-    drawingFrame *draw;
+    drawingShading *draw;
     paral _paral;
     void keyPressEvent(QKeyEvent *event);
 

@@ -12,9 +12,9 @@ Z_buffer::Z_buffer(size_t width, size_t height, size_t max, QColor back)
        {
            struct pixel p;
            p.depth = MaxDepth;
-           p.red = back.red();
-           p.blue = back.blue();
-           p.green = back.green();
+           p.color.red = back.red();
+           p.color.blue = back.blue();
+           p.color.green = back.green();
            (*this)[i][j] = p;
        }
    }
@@ -60,7 +60,7 @@ void Z_buffer::setMaxDepth(size_t depth)
     MaxDepth = depth;
 }
 
-void Z_buffer::setPixel(int x, int y, char r, char g, char b, size_t depth)
+void Z_buffer::setPixel(int x, int y, color::rgb color, size_t depth)
 {
     if (x < 0 || y < 0 || (size_t)x > columnCount() || (size_t)y > rowCount())
     {
@@ -71,9 +71,9 @@ void Z_buffer::setPixel(int x, int y, char r, char g, char b, size_t depth)
     {
         struct pixel p;
         p.depth = depth;
-        p.red = r;
-        p.blue = b;
-        p.green = g;
+        p.color.red = color.red;
+        p.color.blue = color.blue;
+        p.color.green = color.green;
         (*this)[y][x] = p;
     }
 }
@@ -82,29 +82,16 @@ void Z_buffer::setPixel(int x, int y, char r, char g, char b, size_t depth)
 
 void Z_buffer::setPixel(int x, int y, QColor col, size_t depth)
 {
-    if (x < 0 || y < 0 || (size_t)x >= columnCount() || (size_t)y >= rowCount())
-    {
-        return;
-        //throw errZ_buffer::errorPixel();
-    }
-    if (depth < value(y, x).depth)
-    {
-        struct pixel p;
-        p.depth = depth;
-        p.red = col.red();
-        p.blue = col.blue();
-        p.green = col.green();
-        (*this)[y][x] = p;
-    }
+    this->setPixel(x, y, color::get_rgb(col), depth);
 }
 
 void Z_buffer::clear()
 {
     struct pixel p;
     p.depth = MaxDepth;
-    p.blue = 0;
-    p.red = 0;
-    p.green = 0;
+    p.color.blue = 0;
+    p.color.red = 0;
+    p.color.green = 0;
     for (size_t i = 0 ; i < rowCount(); i++)
         for (size_t j = 0 ; j < columnCount(); j++)
             if ((*this)[i][j].depth < MaxDepth)
@@ -144,7 +131,7 @@ QColor Z_buffer::getPixel(int x, int y) const
     {
         throw err_Z_buffer::errorPixel();
     }
-    return QColor(value(y, x).red, value(y, x).green, value(y, x).blue);
+    return QColor(value(y, x).color.red, value(y, x).color.green, value(y, x).color.blue);
 }
 
 size_t Z_buffer::depth(int x, int y) const
@@ -169,7 +156,7 @@ QPixmap Z_buffer::createPixmap() const
             struct pixel p = (*this)[j][i];
             if (p.depth < MaxDepth)
             {
-                painter.setPen(QColor(p.red, p.green, p.blue));
+                painter.setPen(QColor(p.color.red, p.color.green, p.color.blue));
                 painter.drawPoint(i, j);
             }
         }

@@ -21,7 +21,6 @@ SOURCES += main.cpp\
     plane/plane.cpp \
     geom_operations/operations.cpp \
     drawing/z-buffer/z-buffer.cpp \
-    mutable_array/marray.cpp \
     polygon/polygon.cpp \
     camera/camera.cpp \
     drawing/drawing3D_base/drawing3d_base.cpp \
@@ -31,7 +30,10 @@ SOURCES += main.cpp\
     fisics/traject.cpp \
     fisics/apolygon.cpp \
     objects/object_base/object_base.cpp \
-    objects/parallelepiped/paral.cpp
+    objects/parallelepiped/paral.cpp \
+    drawing/drawing_shading/drawing_shading.cpp \
+    mutable_array/marray.cpp \
+    rgb/rgb.cpp
 
 HEADERS  += mainwindow.h \
     array/_array.h \
@@ -60,7 +62,6 @@ HEADERS  += mainwindow.h \
     drawing/z-buffer/error_z-buffer_base.h \
     drawing/z-buffer/error_z-buffer.h \
     mutable_array/marray.h \
-    mutable_array/_marray.h \
     mutable_array/error_marray.h \
     mutable_array/error_marray_base.h \
     polygon/polygon.h \
@@ -78,6 +79,12 @@ HEADERS  += mainwindow.h \
     fisics/traject.h \
     fisics/apolygon.h \
     objects/object_base/object_base.h \
-    objects/parallelepiped/paral.h
+    objects/parallelepiped/paral.h \
+    drawing/drawing_shading/drawing_shading.h \
+    mutable_array/error_marray_base.h \
+    mutable_array/error_marray.h \
+    mutable_array/marray.h \
+    mutable_array/_marray.h \
+    rgb/rgb.h
 
 FORMS    += mainwindow.ui

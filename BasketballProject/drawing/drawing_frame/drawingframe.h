@@ -10,10 +10,7 @@ public:
 
     void draw(const polygon& pol);
 
-    void setPenColor(QColor pen);
-
-private:
-    QColor _pen;
+    void draw(const object_base& obj);
 };
 
 #endif // DRAWINGFRAME_H
