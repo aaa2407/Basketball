@@ -9,5 +9,14 @@ INPUT(
 ./debug\polygon.o
 ./debug\camera.o
 ./debug\drawing3d_base.o
+./debug\drawingframe.o
+./debug\apoint.o
+./debug\aspace.o
+./debug\traject.o
+./debug\apolygon.o
+./debug\object_base.o
+./debug\paral.o
 ./debug\moc_mainwindow.o
+./debug\moc_apoint.o
+./debug\moc_aspace.o
 );

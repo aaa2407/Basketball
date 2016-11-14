@@ -9,5 +9,14 @@ INPUT(
 ./release\polygon.o
 ./release\camera.o
 ./release\drawing3d_base.o
+./release\drawingframe.o
+./release\apoint.o
+./release\aspace.o
+./release\traject.o
+./release\apolygon.o
+./release\object_base.o
+./release\paral.o
 ./release\moc_mainwindow.o
+./release\moc_apoint.o
+./release\moc_aspace.o
 );

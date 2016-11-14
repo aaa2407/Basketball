@@ -29,7 +29,9 @@ SOURCES += main.cpp\
     fisics/apoint.cpp \
     fisics/aspace.cpp \
     fisics/traject.cpp \
-    fisics/apolygon.cpp
+    fisics/apolygon.cpp \
+    objects/object_base/object_base.cpp \
+    objects/parallelepiped/paral.cpp
 
 HEADERS  += mainwindow.h \
     array/_array.h \
@@ -74,6 +76,8 @@ HEADERS  += mainwindow.h \
     fisics/error_traject.h \
     fisics/error_traject_base.h \
     fisics/traject.h \
-    fisics/apolygon.h
+    fisics/apolygon.h \
+    objects/object_base/object_base.h \
+    objects/parallelepiped/paral.h
 
 FORMS    += mainwindow.ui

@@ -8,9 +8,10 @@
 
 #include "error\error_base.h"
 #include "drawing\drawing_frame\drawingframe.h"
+#include "fisics\aspace.h"
+#include "objects\parallelepiped\paral.h"
 using namespace std;
 
-#include "fisics\aspace.h"
 
 namespace Ui {
 class MainWindow;
@@ -26,7 +27,7 @@ public:
 
     QGraphicsScene *scene;
     drawingFrame *draw;
-
+    paral _paral;
     void keyPressEvent(QKeyEvent *event);
 
     aspace space;
