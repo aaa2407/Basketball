@@ -21,6 +21,9 @@ public:
 
     void setPenColor(color::rgb color);
 
+    point new_point(const point& copy);
+
+
 protected:
     color::rgb _color;
     int x_2d(double x) const;

@@ -18,6 +18,15 @@ void drawing3Dbase::setPenColor(color::rgb color)
     _color = color;
 }
 
+point drawing3Dbase::new_point(const point& copy)
+{
+    point p = camera::new_point(copy);
+    p = p.to2D();
+    p.set_x(p.x() + this->width()/2);
+    p.set_y(p.y() + this->height()/2);
+    return p;
+}
+
 void drawing3Dbase::draw(const point& p1, const point& p2)
 {
     point a1 = this->new_point(p1);

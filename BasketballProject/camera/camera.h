@@ -34,7 +34,7 @@ public:
     const point& position() const;
     point vector() const;
 
-    point new_point(const point& copy);
+    virtual point new_point(const point& copy);
     point new_vector(const point& copy);
     int distance(const point& copy);
 

@@ -33,7 +33,8 @@ SOURCES += main.cpp\
     objects/parallelepiped/paral.cpp \
     drawing/drawing_shading/drawing_shading.cpp \
     mutable_array/marray.cpp \
-    rgb/rgb.cpp
+    rgb/rgb.cpp \
+    picture/picture.cpp
 
 HEADERS  += mainwindow.h \
     array/_array.h \
@@ -85,6 +86,7 @@ HEADERS  += mainwindow.h \
     mutable_array/error_marray.h \
     mutable_array/marray.h \
     mutable_array/_marray.h \
-    rgb/rgb.h
+    rgb/rgb.h \
+    picture/picture.h
 
 FORMS    += mainwindow.ui
