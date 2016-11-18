@@ -1,6 +1,6 @@
 #include "apoint.h"
 
-apoint::apoint() : _state(WAIT), _max_count(300), _min_z(-100)
+apoint::apoint() : _state(WAIT), _max_count(300), _min_z(-500)
 {
     connect(this, SIGNAL(spos(point)), this, SLOT(pos(point)));
     connect(this, SIGNAL(sfi(double)), this, SLOT(set_fi(double)));

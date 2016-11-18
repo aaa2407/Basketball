@@ -4,6 +4,7 @@
 #include "point\point.h"
 #include "plane\plane.h"
 #include "mutable_array\marray.h"
+#include "warning_operations.h"
 
 namespace operations{
 
@@ -25,6 +26,10 @@ point reflation_napr(const point& falling, const point& normal);
 bool isPolygon(const marray<point>& arr, double error = 1e-5);
 bool isConvexPolygon(const marray<point>& arr, double error = 1e-5);
 bool isInConvexPolygon(const point&p, const marray<point>&, double error = 1e-5);
+
+
+point intersection2D(const point& L11, const point& L12,
+                     const point& L21, const point& L22);
 
 }
 

@@ -13,20 +13,43 @@ MainWindow::MainWindow(QWidget *parent) :
         scene = new QGraphicsScene(0, 0, ui->gv->width()-3, ui->gv->height()-3);
         ui->gv->setScene(scene);
         draw = new drawingShading(scene->width(), scene->height());
-        _paral.setPolygonColor(0, QColor(Qt::blue));
-        _paral.setPolygonColor(1, QColor(Qt::red));
-        _paral.setPolygonColor(2, QColor(Qt::green));
-        _paral.setPolygonColor(3, QColor(Qt::cyan));
-        _paral.setPolygonColor(4, QColor(Qt::gray));
-        _paral.setPolygonColor(5, QColor(Qt::yellow));
+        _picture.set("MonaLisa.jpg");
+        _floor.set("BasketFloor.jpg");
 
+        _paral = paral(400, 600, 230);
+        _paral.setPolygonPicture(0, &_picture);
+        _paral.setPolygonPicture(1, &_picture);
+        _paral.setPolygonPicture(2, &_picture);
+        _paral.setPolygonPicture(3, &_picture);
+        _paral.setPolygonPicture(4, &_picture);
+        _paral.setPolygonPicture(PARAL_FLOOR, &_floor);
+        _paral.setPolygonPicturePos(PARAL_CEILING, 3);
+        _paral.setPolygonPicturePos(PARAL_FLOOR, 3);
         _paral.setOutwardNormal(false);
-
+        draw->decrease(400);
         draw->draw(_paral);
+
         scene->addPixmap(draw->createPixmap());
-        /*emit space.spos(point(20, 20, 50));
+
+        for (size_t i = 0; i < _paral.getPolygonCount(); i++)
+        {
+            apolygon apol;
+            polygon pol = _paral.getPolygon(i);
+            for (size_t j = 0; j < pol.size(); j++)
+            {
+                 apol.add(pol[j]);
+                 if (j == PARAL_FLOOR)
+                     apol.set_koef(0.7);
+                 else
+                     apol.set_koef(0.95);
+            }
+            space.addPolygon(apol);
+        }
+
+        emit space.spos(point(20, 20, 50));
         emit space.ssecond_point(point(0, 0, 0));
-        emit space.sstart(50);*/
+        emit space.smax_z(100);
+        emit space.sstart(50);
     }
     catch(errorBase& error)
     {

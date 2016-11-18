@@ -1,7 +1,9 @@
 #include "apolygon.h"
 
 apolygon::apolygon()
-{ }
+{
+    _koef = 1;
+}
 
 double apolygon::koef() const
 {

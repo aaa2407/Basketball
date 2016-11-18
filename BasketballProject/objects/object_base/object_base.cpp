@@ -48,26 +48,50 @@ polygon object_base::getPolygon(size_t index) const
 
 color::rgb object_base::getPolygonColor(size_t index) const
 {
-    return _colors[index];
+    return _pol_text[index]._col;
 }
 
 
 void object_base::setPolygonColor(size_t index, QColor col)
 {
-    _colors[index] = color::get_rgb(col);
+    _pol_text[index]._col = color::get_rgb(col);
 }
 
 void object_base::setObjectColor(QColor color)
 {
-    for (size_t i = 0; i < _colors.size(); i++)
+    for (size_t i = 0; i < _pol_text.size(); i++)
     {
-        _colors[i] = color::get_rgb(color);
+        _pol_text[i]._col = color::get_rgb(color);
     }
 }
+
+void object_base::setPolygonPicture(size_t index, picture* pic)
+{
+    _pol_text[index]._pic = pic;
+}
+
+void object_base::setPolygonPicturePos(size_t index, size_t pos)
+{
+    if (index < _pol_text.size())
+    {
+        _pol_text[index]._pic_pos = pos;
+    }
+}
+
 
 size_t object_base::getPolygonCount() const
 {
     return _polygons.size();
+}
+
+picture* object_base::getPolygonTexture(size_t index) const
+{
+    return _pol_text[index]._pic;
+}
+
+size_t object_base::getPolygonTexturePos(size_t index) const
+{
+    return _pol_text[index]._pic_pos;
 }
 
 const point& object_base::centre() const

@@ -3,6 +3,9 @@
 
 #include "objects\object_base\object_base.h"
 
+#define PARAL_CEILING 4
+#define PARAL_FLOOR 5
+
 class paral : public object_base
 {
 public:

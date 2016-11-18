@@ -2,6 +2,7 @@
 #define DRAWINGSHADING_H
 
 #include "drawing\drawing3D_base\drawing3d_base.h"
+#include "line\line2d.h"
 
 class drawingShading : public drawing3Dbase
 {

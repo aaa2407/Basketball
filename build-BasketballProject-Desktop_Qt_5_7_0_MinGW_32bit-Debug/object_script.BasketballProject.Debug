@@ -18,6 +18,8 @@ INPUT(
 ./debug\paral.o
 ./debug\drawing_shading.o
 ./debug\rgb.o
+./debug\picture.o
+./debug\line2d.o
 ./debug\moc_mainwindow.o
 ./debug\moc_apoint.o
 ./debug\moc_aspace.o

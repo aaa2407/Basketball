@@ -18,11 +18,28 @@ void drawingShading::draw(const polygon& pol)
     {
         return;
     }
+    point p1, p2, p3, p4;
     double ymin = this->height();
     double ymax = 0;
     for (size_t i = 0; i < pol.size(); i++)
     {
         point a = this->new_point(pol[i]);
+        if (pol.isTexture())
+        {
+            if (i == pol.getTexturePos())
+                p1 = a;
+            if (i == (pol.getTexturePos() + 1) % pol.size())
+                p2 = a;
+            if (pol.getTexturePos() == 0 && i == pol.size() - 1)
+                p3 = a;
+            if (pol.getTexturePos() != 0 && i == pol.getTexturePos() - 1)
+                p3 = a;
+            if (pol.size() == 4)
+            {
+                if (i == (pol.getTexturePos() + 2) % pol.size())
+                    p4 = a;
+            }
+        }
         if (a.y() < ymin)
             ymin = a.y();
         if (a.y() > ymax)
@@ -66,22 +83,86 @@ void drawingShading::draw(const polygon& pol)
             }
         }
     }
+    line2D w1(p1.x(), p1.y(), p3.x(), p3.y());
+    line2D h1(p1.x(), p1.y(), p2.x(), p2.y());
+    line2D w2(p2.x(), p2.y(), p4.x(), p4.y());
+    line2D h2(p3.x(), p3.y(), p4.x(), p4.y());
     for (size_t y = 0; y <= ymax - ymin; y++)
     {
-        if (xmax[y] < this->width())
+        if (xmax[y] >= this->width())
+            continue;
+
+        double d = dmin[y];
+        size_t count = xmax[y] - xmin[y];
+        double dd;
+        if (count != 0)
+            dd = (dmax[y] - dmin[y])/count;
+        else
+            dd = 0;
+        for (uint x = xmin[y]; x <= xmax[y]; x++)
         {
-            double d = dmin[y];
-            size_t count = xmax[y] - xmin[y];
-            double dd;
-            if (count != 0)
-                dd = (dmax[y] - dmin[y])/count;
-            else
-                dd = 0;
-            for (uint x = xmin[y]; x <= xmax[y]; x++)
+            double _x = -1, _y = -1;
+
+            rgb col;
+            if (!pol.isTexture())
             {
-                setPixel(x, y+ymin, _color, (size_t) d);
-                d += dd;
+                col = _color;
             }
+            else
+            {
+                if (w1.isParallel(w2))
+                {
+                    if (h1.isParallel(h2))
+                    {
+                        line2D pw(x, y + ymin, x + p3.x() - p1.x(), y + ymin + p3.y() - p1.y());
+                        line2D ph(x, y + ymin, x + p2.x() - p1.x(), y + ymin + p2.y() - p1.y());
+                        point px = ph^w1;
+                        point py = pw^h1;
+                        _x = (px - p1).length()/(p3 - p1).length();
+                        _y = (py - p1).length()/(p2 - p1).length();
+                    }
+                    else
+                    {
+                        point p = h1^h2;
+                        line2D pw(x, y + ymin, x + p3.x() - p1.x(), y + ymin + p3.y() - p1.y());
+                        line2D ph(x, y + ymin, p.x(), p.y());
+                        point px = ph^w1;
+                        point py = pw^h1;
+                        _x = (px - p1).length()/(p3 - p1).length();
+                        _y = (py - p1).length()/(p2 - p1).length();
+                    }
+                }
+                else
+                {
+                    point _p = w1^w2;
+                    if (h1.isParallel(h2))
+                    {
+                        line2D pw(x, y + ymin, _p.x(), _p.y());
+                        line2D ph(x, y + ymin, x + p2.x() - p1.x(), y + ymin + p2.y() - p1.y());
+                        point px = ph^w1;
+                        point py = pw^h1;
+                        _x = (px - p1).length()/(p3 - p1).length();
+                        _y = (py - p1).length()/(p2 - p1).length();
+                    }
+                    else
+                    {
+                        point _p2 = h1^h2;
+                        line2D pw(x, y + ymin, _p.x(), _p.y());
+                        line2D ph(x, y + ymin, _p2.x(), _p2.y());
+                        point px = ph^w1;
+                        point py = pw^h1;
+                        _x = (px - p1).length()/(p3 - p1).length();
+                        _y = (py - p1).length()/(p2 - p1).length();
+                    }
+                }
+                if (_x >= 0 && _x <= 1 && _y >=0 && _y <= 1)
+                    col = pol.getTexturePixel(_x, _y);
+                else
+                    col = _color;
+            }
+            setPixel(x, y+ymin, col, (size_t)d);
+            d += dd;
         }
+
     }
 }

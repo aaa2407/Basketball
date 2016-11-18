@@ -49,10 +49,10 @@ void paral::setPolygons()
     pol.add(0); pol.add(1); pol.add(3); pol.add(2);
     _polygons.add(pol);
     pol.clear();
-    pol.add(4); pol.add(5); pol.add(7); pol.add(6);
+    pol.add(6); pol.add(7); pol.add(5); pol.add(4);
     _polygons.add(pol);
     pol.clear();
-    pol.add(0); pol.add(1); pol.add(5); pol.add(4);
+    pol.add(4); pol.add(5); pol.add(1); pol.add(0);
     _polygons.add(pol);
     pol.clear();
     pol.add(2); pol.add(3); pol.add(7); pol.add(6);
@@ -61,18 +61,20 @@ void paral::setPolygons()
     pol.add(0); pol.add(2); pol.add(6); pol.add(4);
     _polygons.add(pol);
     pol.clear();
-    pol.add(1); pol.add(3);  pol.add(7); pol.add(5);
+    pol.add(5); pol.add(7);  pol.add(3); pol.add(1);
     _polygons.add(pol);
 }
 
 
 void paral::initColors()
 {
-    _colors.setSize(_vertex.size());
-    for (size_t i = 0; i < _colors.size(); i++)
+    _pol_text.setSize(_vertex.size());
+    for (size_t i = 0; i < _pol_text.size(); i++)
     {
-        _colors[i].blue  = 0;
-        _colors[i].red   = 0;
-        _colors[i].green = 0;
+        _pol_text[i]._col.blue  = 0;
+        _pol_text[i]._col.blue   = 0;
+        _pol_text[i]._col.blue = 0;
+        _pol_text[i]._pic = NULL;
+        _pol_text[i]._pic_pos = 0;
     }
 }

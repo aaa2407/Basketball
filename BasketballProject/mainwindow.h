@@ -11,6 +11,7 @@
 #include "drawing\drawing_shading\drawing_shading.h"
 #include "fisics\aspace.h"
 #include "objects\parallelepiped\paral.h"
+#include "line\line2d.h"
 using namespace std;
 
 
@@ -29,9 +30,10 @@ public:
     QGraphicsScene *scene;
     drawingShading *draw;
     paral _paral;
-    void keyPressEvent(QKeyEvent *event);
-
+    picture _picture, _floor;
     aspace space;
+
+    void keyPressEvent(QKeyEvent *event);
 
 private:
     Ui::MainWindow *ui;

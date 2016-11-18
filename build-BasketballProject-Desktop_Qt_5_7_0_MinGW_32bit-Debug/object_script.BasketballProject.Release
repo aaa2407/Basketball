@@ -18,6 +18,8 @@ INPUT(
 ./release\paral.o
 ./release\drawing_shading.o
 ./release\rgb.o
+./release\picture.o
+./release\line2d.o
 ./release\moc_mainwindow.o
 ./release\moc_apoint.o
 ./release\moc_aspace.o

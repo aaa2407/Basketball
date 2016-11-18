@@ -173,3 +173,43 @@ bool operations::isInConvexPolygon(const point& p, const marray<point>& arr, dou
     }
     return ok;
 }
+
+
+point operations::intersection2D(const point& L11, const point& L12,
+                               const point& L21, const point& L22)
+{
+    marray<point> arr;
+    arr.add(L11);
+    arr.add(L12);
+    arr.add(L21);
+    arr.add(L22);
+    double z = arr[0].z();
+    for (size_t i = 1; i < arr.size(); i++)
+    {
+        if (z != arr[i].z())
+            return point(0, 0, -1.23);
+    }
+    point p1 = L12 - L11;
+    point p2 = L22 - L21;
+    p1.normalization();
+    p2.normalization();
+    if (p1 == p2 || p1 == -p2)
+    {
+        return point(0, 0, -1.23);
+    }
+    p1 = p1^point(0, 0, 1);
+    p2 = p2^point(0, 0, 1);
+    double a1, b1, c1;
+    double a2, b2, c2;
+    a1 = p1.x();
+    b1 = p1.y();
+    a2 = p2.x();
+    b2 = p2.y();
+    c1 = - a1*L11.x() - b1*L11.y();
+    c2 = - a2*L21.x() - b2*L21.y();
+    double det, det_1, det_2;
+    det = a1*b2 - a2*b1;
+    det_1 = c1*b2 - c2*b1;
+    det_2 = a1*c2 - a2*c1;
+    return point(det_1/det, det_2/det, z);
+}

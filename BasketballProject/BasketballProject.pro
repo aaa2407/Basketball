@@ -34,7 +34,8 @@ SOURCES += main.cpp\
     drawing/drawing_shading/drawing_shading.cpp \
     mutable_array/marray.cpp \
     rgb/rgb.cpp \
-    picture/picture.cpp
+    picture/picture.cpp \
+    line/line2d.cpp
 
 HEADERS  += mainwindow.h \
     array/_array.h \
@@ -87,6 +88,11 @@ HEADERS  += mainwindow.h \
     mutable_array/marray.h \
     mutable_array/_marray.h \
     rgb/rgb.h \
-    picture/picture.h
+    picture/picture.h \
+    error/warning_base.h \
+    geom_operations/warning_operations.h \
+    line/line2d.h \
+    line/error_line2d_base.h \
+    line/error_line2d.h
 
 FORMS    += mainwindow.ui

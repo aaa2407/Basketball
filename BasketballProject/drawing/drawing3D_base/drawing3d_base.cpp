@@ -69,6 +69,9 @@ void drawing3Dbase::draw(const object_base& obj)
     {
         this->setPenColor(obj.getPolygonColor(i));
         polygon pol = obj.getPolygon(i);
+        pol.setTexture(obj.getPolygonTexture(i));
+
+        pol.setTexturePos(obj.getPolygonTexturePos(i));
         point a = this->new_vector(pol.normal());
         if (a*point(-1, 0, 0) < 0)
             this->draw(pol);
