@@ -13,19 +13,19 @@ MainWindow::MainWindow(QWidget *parent) :
         scene = new QGraphicsScene(0, 0, ui->gv->width()-3, ui->gv->height()-3);
         ui->gv->setScene(scene);
         draw = new drawingShading(scene->width(), scene->height());
-        _picture.set("MonaLisa.jpg");
+        _wall.set("BasketWall.jpg");
         _floor.set("BasketFloor.jpg");
 
-        _paral = paral(400, 600, 230);
-        _paral.setPolygonPicture(0, &_picture);
-        _paral.setPolygonPicture(1, &_picture);
-        _paral.setPolygonPicture(2, &_picture);
-        _paral.setPolygonPicture(3, &_picture);
-        _paral.setPolygonPicture(4, &_picture);
+        _paral = paral(400, 400, 230);
+        _paral.setPolygonPicture(0, &_wall);
+        _paral.setPolygonPicture(1, &_wall);
+        _paral.setPolygonPicture(2, &_wall);
+        _paral.setPolygonPicture(3, &_wall);
         _paral.setPolygonPicture(PARAL_FLOOR, &_floor);
         _paral.setPolygonPicturePos(PARAL_CEILING, 3);
         _paral.setPolygonPicturePos(PARAL_FLOOR, 3);
         _paral.setOutwardNormal(false);
+        _paral.setPolygonColor(4, QColor(Qt::red));
         draw->decrease(400);
         draw->draw(_paral);
 

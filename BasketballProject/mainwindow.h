@@ -30,7 +30,7 @@ public:
     QGraphicsScene *scene;
     drawingShading *draw;
     paral _paral;
-    picture _picture, _floor;
+    picture _wall, _floor;
     aspace space;
 
     void keyPressEvent(QKeyEvent *event);

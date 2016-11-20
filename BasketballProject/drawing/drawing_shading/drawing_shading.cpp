@@ -83,10 +83,14 @@ void drawingShading::draw(const polygon& pol)
             }
         }
     }
-    line2D w1(p1.x(), p1.y(), p3.x(), p3.y());
-    line2D h1(p1.x(), p1.y(), p2.x(), p2.y());
-    line2D w2(p2.x(), p2.y(), p4.x(), p4.y());
-    line2D h2(p3.x(), p3.y(), p4.x(), p4.y());
+    line2D w1, h1, w2, h2;
+    if (pol.isTexture())
+    {
+        w1.set(p1.x(), p1.y(), p3.x(), p3.y());
+        h1.set(p1.x(), p1.y(), p2.x(), p2.y());
+        w2.set(p2.x(), p2.y(), p4.x(), p4.y());
+        h2.set(p3.x(), p3.y(), p4.x(), p4.y());
+    }
     for (size_t y = 0; y <= ymax - ymin; y++)
     {
         if (xmax[y] >= this->width())

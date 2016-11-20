@@ -39,7 +39,7 @@ void line2D::set(double x1, double y1, double x2, double y2)
     {
         throw errLine2D::errorIncorrectSet();
     }
-    point a = point(x2 - x1, y2, y1)^point(0, 0, 1);
+    point a = point(x2 - x1, y2 - y1)^point(0, 0, 1);
     _a = a.x();
     _b = a.y();
     _c = -_a*x1 - _b*y1;

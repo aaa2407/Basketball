@@ -8,7 +8,7 @@
 class line2D
 {
 public:
-    line2D(double a, double b, double c);
+    line2D(double a = 1, double b = 0, double c = 0);
     line2D(double x1, double y1, double x2, double y2);
     line2D(const line2D& copy);
 
