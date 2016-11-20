@@ -114,51 +114,29 @@ void drawingShading::draw(const polygon& pol)
             }
             else
             {
-                if (w1.isParallel(w2))
+                line2D pw, ph;
+                if (h1.isParallel(h2))
                 {
-                    if (h1.isParallel(h2))
-                    {
-                        line2D pw(x, y + ymin, x + p3.x() - p1.x(), y + ymin + p3.y() - p1.y());
-                        line2D ph(x, y + ymin, x + p2.x() - p1.x(), y + ymin + p2.y() - p1.y());
-                        point px = ph^w1;
-                        point py = pw^h1;
-                        _x = (px - p1).length()/(p3 - p1).length();
-                        _y = (py - p1).length()/(p2 - p1).length();
-                    }
-                    else
-                    {
-                        point p = h1^h2;
-                        line2D pw(x, y + ymin, x + p3.x() - p1.x(), y + ymin + p3.y() - p1.y());
-                        line2D ph(x, y + ymin, p.x(), p.y());
-                        point px = ph^w1;
-                        point py = pw^h1;
-                        _x = (px - p1).length()/(p3 - p1).length();
-                        _y = (py - p1).length()/(p2 - p1).length();
-                    }
+                    ph.set(x, y + ymin, x + p2.x() - p1.x(), y + ymin + p2.y() - p1.y());
                 }
                 else
                 {
-                    point _p = w1^w2;
-                    if (h1.isParallel(h2))
-                    {
-                        line2D pw(x, y + ymin, _p.x(), _p.y());
-                        line2D ph(x, y + ymin, x + p2.x() - p1.x(), y + ymin + p2.y() - p1.y());
-                        point px = ph^w1;
-                        point py = pw^h1;
-                        _x = (px - p1).length()/(p3 - p1).length();
-                        _y = (py - p1).length()/(p2 - p1).length();
-                    }
-                    else
-                    {
-                        point _p2 = h1^h2;
-                        line2D pw(x, y + ymin, _p.x(), _p.y());
-                        line2D ph(x, y + ymin, _p2.x(), _p2.y());
-                        point px = ph^w1;
-                        point py = pw^h1;
-                        _x = (px - p1).length()/(p3 - p1).length();
-                        _y = (py - p1).length()/(p2 - p1).length();
-                    }
+                    point p = h1^h2;
+                    ph.set(x, y + ymin, p.x(), p.y());
                 }
+                if (w1.isParallel(w2))
+                {
+                    pw.set(x, y + ymin, x + p3.x() - p1.x(), y + ymin + p3.y() - p1.y());
+                }
+                else
+                {
+                    point p = w1^w2;
+                    pw.set(x, y + ymin, p.x(), p.y());
+                }
+                point px = ph^w1;
+                point py = pw^h1;
+                _x = (px - p1).length()/(p3 - p1).length();
+                _y = (py - p1).length()/(p2 - p1).length();
                 if (_x >= 0 && _x <= 1 && _y >=0 && _y <= 1)
                     col = pol.getTexturePixel(_x, _y);
                 else

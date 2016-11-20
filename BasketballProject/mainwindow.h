@@ -32,8 +32,12 @@ public:
     paral _paral;
     picture _wall, _floor;
     aspace space;
+    marray<point> lines;
 
     void keyPressEvent(QKeyEvent *event);
+
+private slots:
+    void basket_draw();
 
 private:
     Ui::MainWindow *ui;

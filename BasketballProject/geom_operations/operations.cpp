@@ -77,7 +77,7 @@ point operations::reflation_napr(const point& falling, const point& normal)
     point n = normal;
     n.normalization();
     point p = falling;
-    std::cout << "ref " << p << " --> ";
+    //std::cout << "ref " << p << " --> ";
     double len = p.length();
     p.normalization();
     double cosn = (n.x()*p.x() + n.y()*p.y() + n.z()*p.z());
@@ -86,7 +86,7 @@ point operations::reflation_napr(const point& falling, const point& normal)
     r.set_x((2*n.x()*cosn - p.x())*len);
     r.set_y((2*n.y()*cosn - p.y())*len);
     r.set_z((2*n.z()*cosn - p.z())*len);
-    std::cout << r << std::endl;
+    //std::cout << r << std::endl;
     return -r;
 }
 

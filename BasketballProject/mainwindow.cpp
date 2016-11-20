@@ -26,9 +26,8 @@ MainWindow::MainWindow(QWidget *parent) :
         _paral.setPolygonPicturePos(PARAL_FLOOR, 3);
         _paral.setOutwardNormal(false);
         _paral.setPolygonColor(4, QColor(Qt::red));
-        draw->decrease(400);
+        draw->decrease(200);
         draw->draw(_paral);
-
         scene->addPixmap(draw->createPixmap());
 
         for (size_t i = 0; i < _paral.getPolygonCount(); i++)
@@ -45,11 +44,12 @@ MainWindow::MainWindow(QWidget *parent) :
             }
             space.addPolygon(apol);
         }
-
         emit space.spos(point(20, 20, 50));
         emit space.ssecond_point(point(0, 0, 0));
         emit space.smax_z(100);
         emit space.sstart(50);
+        lines.add(space.position());
+        connect(&(this->space), SIGNAL(smove()), this, SLOT(basket_draw()));
     }
     catch(errorBase& error)
     {
@@ -62,11 +62,28 @@ MainWindow::MainWindow(QWidget *parent) :
 
 MainWindow::~MainWindow()
 {
-    delete draw;
-    delete scene;
+    delete this->draw;
+    delete this->scene;
     delete ui;
 }
 
+
+void MainWindow::basket_draw()
+{
+    try{
+        std::cout << lines[lines.size() - 1] << std::endl;
+        draw->setPenColor(get_rgb(QColor(Qt::yellow)));
+        draw->drawing3Dbase::draw(lines[lines.size() - 1], space.position());
+        scene->addPixmap(draw->createPixmap());
+        lines.add(space.position());
+    }
+    catch(errorBase& error){
+        QMessageBox box;
+        box.setText(error.what());
+        box.show();
+        box.exec();
+    }
+}
 
 void MainWindow::keyPressEvent(QKeyEvent *event)
 {
@@ -119,6 +136,11 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
         }
         draw->clear();
         draw->draw(_paral);
+        draw->setPenColor(color::get_rgb(QColor(Qt::yellow)));
+        for (size_t i = 1; i < lines.size();i++)
+        {
+            draw->drawing3Dbase::draw(lines[i-1], lines[i]);
+        }
         scene->addPixmap(draw->createPixmap());
     }
     catch(errorBase& error)

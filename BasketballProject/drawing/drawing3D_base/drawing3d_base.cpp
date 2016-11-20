@@ -29,16 +29,14 @@ point drawing3Dbase::new_point(const point& copy)
 
 void drawing3Dbase::draw(const point& p1, const point& p2)
 {
-    point a1 = this->new_point(p1);
-    point a2 = this->new_point(p2);
-    point b1 = a1.to2D();
-    point b2 = a2.to2D();
-    int x1 = x_2d(b1.x());
-    int x2 = x_2d(b2.x());
-    int y1 = y_2d(b1.y());
-    int y2 = y_2d(b2.y());
-    double d1 = this->distance(a1);
-    double d2 = this->distance(a2);
+    point a1 = new_point(p1);
+    point a2 = new_point(p2);
+    int x1 = a1.x();
+    int x2 = a2.x();
+    int y1 = a1.y();
+    int y2 = a2.y();
+    double d1 = this->distance(p1);
+    double d2 = this->distance(p2);
     if (x1 == x2 && y1 == y2)
     {
         this->setPixel(x1, x2, _color, d1);

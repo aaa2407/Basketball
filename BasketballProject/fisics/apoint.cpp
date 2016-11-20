@@ -13,7 +13,7 @@ apoint::apoint() : _state(WAIT), _max_count(300), _min_z(-500)
     connect(this, SIGNAL(sreset()), this, SLOT(reset()));
     connect(this, SIGNAL(sback()), this, SLOT(back()));
     connect(this, SIGNAL(snadir()), this, SLOT(stop()));
-    connect(&(this->_timer), SIGNAL(timeout()), this, SLOT(output()));
+ //   connect(&(this->_timer), SIGNAL(timeout()), this, SLOT(output()));
     connect(&(this->_timer), SIGNAL(timeout()), this, SLOT(move()));
 }
 

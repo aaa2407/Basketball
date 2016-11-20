@@ -54,12 +54,12 @@ void aspace::collision()
 {
     if (this->state() == MOVE)
     {
-        std::cout << std::endl <<  "Collision!" << std::endl;
+     //   std::cout << std::endl <<  "Collision!" << std::endl;
         point p1 = operations::reflation_napr(_traj.napr, _pol[_num_nearest].normal())*_pol[_num_nearest].koef();
         point p2 = _pol[_num_nearest].get_plane().reflaction(_traj.pos);
-        std::cout << "norm:\t" << _pol[_num_nearest].get_plane().norm() << std::endl;
-        std::cout << "napr:\t" << _traj.napr << " -> " << p1 << std::endl;
-        std::cout << "pos:\t" << _traj.pos << " -> " << p2 << std::endl << std::endl;
+     //   std::cout << "norm:\t" << _pol[_num_nearest].get_plane().norm() << std::endl;
+     //   std::cout << "napr:\t" << _traj.napr << " -> " << p1 << std::endl;
+     //   std::cout << "pos:\t" << _traj.pos << " -> " << p2 << std::endl << std::endl;
         _traj.napr = p1;
         _traj.pos = p2;
         emit this->new_colision();
@@ -91,6 +91,6 @@ void aspace::calc_time_coll()
         else
             ok = true;
 
-        std::cout << "next collision: " << _time << "  num of pol: " << _num_nearest << std::endl;
+       // std::cout << "next collision: " << _time << "  num of pol: " << _num_nearest << std::endl;
     }
 }
