@@ -1,7 +1,8 @@
 #include "paral.h"
 
-paral::paral(size_t width, size_t lenght, size_t height, const point &cen)
+paral::paral(const char* name, size_t width, size_t lenght, size_t height, const point &cen)
 {
+    _name = name ? (char*)name : NULL;
     _vertex.add(point(cen.x() - width/2, cen.y() - lenght/2, cen.z() - height/2)); // 0
     _vertex.add(point(cen.x() - width/2, cen.y() - lenght/2, cen.z() + height/2)); // 1
     _vertex.add(point(cen.x() - width/2, cen.y() + lenght/2, cen.z() - height/2)); // 2
@@ -16,8 +17,9 @@ paral::paral(size_t width, size_t lenght, size_t height, const point &cen)
     _centre = cen;
 }
 
-paral::paral(const point& p1, const point p2)
+paral::paral(const char *name, const point& p1, const point p2)
 {
+    _name = name ? (char*)name : NULL;
     double x1 = p1.x(), y1 = p1.y(), z1 = p1.z();
     double x2 = p2.x(), y2 = p2.y(), z2 = p2.z();
     _vertex.add(point(x1, y1, z1));
@@ -36,6 +38,7 @@ paral::paral(const point& p1, const point p2)
 
 paral::paral(const paral& par)
 {
+    _name = (par._name != NULL) ? par._name : NULL;
     _vertex = par._vertex;
     setPolygons();
     setConnect();
@@ -68,12 +71,12 @@ void paral::setPolygons()
 
 void paral::initColors()
 {
-    _pol_text.setSize(_vertex.size());
+    _pol_text.setSize(_polygons.size());
     for (size_t i = 0; i < _pol_text.size(); i++)
     {
         _pol_text[i]._col.blue  = 0;
-        _pol_text[i]._col.blue   = 0;
-        _pol_text[i]._col.blue = 0;
+        _pol_text[i]._col.red   = 0;
+        _pol_text[i]._col.green = 0;
         _pol_text[i]._pic = NULL;
         _pol_text[i]._pic_pos = 0;
     }

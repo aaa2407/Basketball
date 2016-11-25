@@ -46,5 +46,14 @@ size_t picture::height() const
 
 rgb picture::getPixel(size_t x, size_t y) const
 {
-    return _map[y][x];
+    rgb c1 = _map[y][x];
+    rgb c2 = _map[y+1][x];
+    c1.blue = ((int)c1.blue +(int)c2.blue)/2;
+    c1.red = ((int)c1.red  +(int)c2.red)/2;
+    c1.green = ((int)c1.green +(int)c2.green)/2;
+    rgb c3 = _map[y][x+1];
+    c1.blue = ((int)c1.blue +(int)c2.blue)/2;
+    c1.red = ((int)c1.red  +(int)c3.red)/2;
+    c1.green = ((int)c1.green +(int)c3.green)/2;
+    return c1;
 }

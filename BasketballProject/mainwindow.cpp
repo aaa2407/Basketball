@@ -1,8 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
-#include <QDebug>
-
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -12,44 +10,45 @@ MainWindow::MainWindow(QWidget *parent) :
     {
         scene = new QGraphicsScene(0, 0, ui->gv->width()-3, ui->gv->height()-3);
         ui->gv->setScene(scene);
-        draw = new drawingShading(scene->width(), scene->height());
-        _wall.set("BasketWall.jpg");
+        buf = new Z_buffer(scene->width(), scene->height());
+        buf->set(scene->width(), scene->height());
+        cam.decrease(1000);
         _floor.set("BasketFloor.jpg");
+        _wall.set("wall.jpg");
+        
+        par = new paral("Room", 900, 600, 400);
+        par->setPolygonPicture(0, &_wall);
+        par->setPolygonPicture(1, &_wall);
+        par->setPolygonPicture(2, &_wall);
+        par->setPolygonPicture(3, &_wall);
+        par->setPolygonPicture(4, &_floor);
+        par->setPolygonPicture(5, &_wall);
+        par->setObjectColor(QColor(Qt::red));
+        par->setOutwardNormal(false);
+        par->drawing = TEXTURE;
 
-        _paral = paral(400, 400, 230);
-        _paral.setPolygonPicture(0, &_wall);
-        _paral.setPolygonPicture(1, &_wall);
-        _paral.setPolygonPicture(2, &_wall);
-        _paral.setPolygonPicture(3, &_wall);
-        _paral.setPolygonPicture(PARAL_FLOOR, &_floor);
-        _paral.setPolygonPicturePos(PARAL_CEILING, 3);
-        _paral.setPolygonPicturePos(PARAL_FLOOR, 3);
-        _paral.setOutwardNormal(false);
-        _paral.setPolygonColor(4, QColor(Qt::red));
-        draw->decrease(200);
-        draw->draw(_paral);
-        scene->addPixmap(draw->createPixmap());
 
-        for (size_t i = 0; i < _paral.getPolygonCount(); i++)
-        {
-            apolygon apol;
-            polygon pol = _paral.getPolygon(i);
-            for (size_t j = 0; j < pol.size(); j++)
-            {
-                 apol.add(pol[j]);
-                 if (j == PARAL_FLOOR)
-                     apol.set_koef(0.7);
-                 else
-                     apol.set_koef(0.95);
-            }
-            space.addPolygon(apol);
-        }
-        emit space.spos(point(20, 20, 50));
-        emit space.ssecond_point(point(0, 0, 0));
-        emit space.smax_z(100);
-        emit space.sstart(50);
-        lines.add(space.position());
-        connect(&(this->space), SIGNAL(smove()), this, SLOT(basket_draw()));
+        //torus *_torus = new torus("Torus", 24, 4, 20, 6);
+        //_torus->drawing = FRAME;
+        composite *basket = new composite("Basket");
+        basket->add(new paral("Post", point(-5, -5, -200), point(5, 5, 75)));
+        basket->add(new paral("Post2", point(5, 5, 75), point(-25, -5, 85)));
+        basket->add(new paral("Shield", 5, 150, 100, point(-27.5, -5, 100)));
+        basket->add(new paral("Festerner", point(-30, -3, 70), point(-35, 3, 73)));
+        basket->add(new torus("Ring", 24, 4, 24, 4, point(-63, 0,73)));
+        basket->transform(TransformMatrix::move(425, 0, 0));
+        comp.add(par);
+        comp.add(basket);
+
+        _ball = new ball("Ball", 15);
+        emit _ball->spos(point(50, 50, 0));
+        emit _ball->ssecond_point(point(425-63, 0, 73));
+        emit _ball->smax_z(120);
+        connect(_ball, SIGNAL(smove()), this, SLOT(basket_draw()));
+        comp.draw(buf, &cam);
+        _ball->draw(buf, &cam);
+        scene->addPixmap(buf->createPixmap());
+
     }
     catch(errorBase& error)
     {
@@ -62,27 +61,16 @@ MainWindow::MainWindow(QWidget *parent) :
 
 MainWindow::~MainWindow()
 {
-    delete this->draw;
     delete this->scene;
     delete ui;
 }
 
+void MainWindow::basket_draw(){
+    buf->clear();
+    comp.draw(buf, &cam);
+    _ball->draw(buf, &cam);
+    scene->addPixmap(buf->createPixmap());
 
-void MainWindow::basket_draw()
-{
-    try{
-        std::cout << lines[lines.size() - 1] << std::endl;
-        draw->setPenColor(get_rgb(QColor(Qt::yellow)));
-        draw->drawing3Dbase::draw(lines[lines.size() - 1], space.position());
-        scene->addPixmap(draw->createPixmap());
-        lines.add(space.position());
-    }
-    catch(errorBase& error){
-        QMessageBox box;
-        box.setText(error.what());
-        box.show();
-        box.exec();
-    }
 }
 
 void MainWindow::keyPressEvent(QKeyEvent *event)
@@ -94,54 +82,50 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
         switch (event->key())
         {
             case Qt::Key_W:
-                draw->upIncline(M_PI_2/12);
+                cam.upIncline(M_PI_2/12);
             break;
             case Qt::Key_S:
-                draw->downIncline(M_PI_2/12);
+                cam.downIncline(M_PI_2/12);
             break;
             case Qt::Key_A:
-                draw->rotate(-M_PI_2/12);
+                cam.rotate(-M_PI_2/12);
             break;
             case Qt::Key_D:
-                draw->rotate(M_PI_2/12);
+                cam.rotate(M_PI_2/12);
             break;
 
             case Qt::Key_8:
-                draw->up(10);
+                cam.up(10);
             break;
             case Qt::Key_2:
-                draw->down(10);
+                cam.down(10);
             break;
             case Qt::Key_4:
-                draw->left(10);
+                cam.left(10);
             break;
             case Qt::Key_6:
-                draw->right(10);
+                cam.right(10);
             break;
             case Qt::Key_9:
-                draw->forward(10);
+                cam.forward(10);
             break;
             case Qt::Key_3:
-                draw->back(10);
+                cam.back(10);
             break;
 
 
             case Qt::Key_Plus:
-                draw->increase(10);
+                cam.increase(10);
             break;
             case Qt::Key_Minus:
-                draw->decrease(10);
+                cam.decrease(10);
             break;
 
         }
-        draw->clear();
-        draw->draw(_paral);
-        draw->setPenColor(color::get_rgb(QColor(Qt::yellow)));
-        for (size_t i = 1; i < lines.size();i++)
-        {
-            draw->drawing3Dbase::draw(lines[i-1], lines[i]);
-        }
-        scene->addPixmap(draw->createPixmap());
+        buf->clear();
+        comp.draw(buf, &cam);
+        _ball->draw(buf, &cam);
+        scene->addPixmap(buf->createPixmap());
     }
     catch(errorBase& error)
     {
@@ -150,4 +134,9 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
         box.show();
         box.exec();
     }
+}
+
+void MainWindow::on_pushButton_clicked()
+{
+    emit _ball->sstart(20);
 }

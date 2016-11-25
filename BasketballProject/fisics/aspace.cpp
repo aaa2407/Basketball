@@ -11,7 +11,7 @@ aspace::aspace()
 }
 
 
-const polygon& aspace::getPolygon(size_t index) const
+const apolygon &aspace::getPolygon(size_t index) const
 {
     return _pol[index];
 }
@@ -54,12 +54,13 @@ void aspace::collision()
 {
     if (this->state() == MOVE)
     {
-     //   std::cout << std::endl <<  "Collision!" << std::endl;
+        std::cout << std::endl <<  "Collision!" << std::endl;
+        std::cout << "koef:\t" << _pol[_num_nearest].koef() << std::endl;
         point p1 = operations::reflation_napr(_traj.napr, _pol[_num_nearest].normal())*_pol[_num_nearest].koef();
         point p2 = _pol[_num_nearest].get_plane().reflaction(_traj.pos);
-     //   std::cout << "norm:\t" << _pol[_num_nearest].get_plane().norm() << std::endl;
-     //   std::cout << "napr:\t" << _traj.napr << " -> " << p1 << std::endl;
-     //   std::cout << "pos:\t" << _traj.pos << " -> " << p2 << std::endl << std::endl;
+        std::cout << "norm:\t" << _pol[_num_nearest].get_plane().norm() << std::endl;
+        std::cout << "napr:\t" << _traj.napr << " -> " << p1 << std::endl;
+        std::cout << "pos:\t" << _traj.pos << " -> " << p2 << std::endl << std::endl;
         _traj.napr = p1;
         _traj.pos = p2;
         emit this->new_colision();
@@ -75,7 +76,9 @@ void aspace::calc_time_coll()
         _time = -1;
         for (size_t i = 0; i < _pol.size(); i++)
         {
+            std::cout << i;
             double time = _pol[i].time_to(_traj);
+            std::cout << "\t" << time << std::endl;
             if (time != -1)
             {
                 if (time < _time || _time == -1)
@@ -91,6 +94,6 @@ void aspace::calc_time_coll()
         else
             ok = true;
 
-       // std::cout << "next collision: " << _time << "  num of pol: " << _num_nearest << std::endl;
+        std::cout << "next collision: " << _time << "  num of pol: " << _num_nearest << std::endl;
     }
 }

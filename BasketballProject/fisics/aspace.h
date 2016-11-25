@@ -10,7 +10,7 @@ class aspace : public apoint
 public:
     aspace();
 
-    const polygon& getPolygon(size_t index) const;
+    const apolygon& getPolygon(size_t index) const;
     size_t getCountPolygon() const;
 
     void addPolygon(const apolygon& copy);

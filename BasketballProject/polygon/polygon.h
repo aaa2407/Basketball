@@ -6,8 +6,10 @@
 #include "geom_operations\operations.h"
 #include "error_polygon.h"
 #include "picture\picture.h"
+#include "drawing/drawing_object.h"
+#include "line/line2d.h"
 
-class polygon : public marray<point>
+class polygon : public marray<point>, public drawing_object
 {
 public:
     polygon();
@@ -24,7 +26,13 @@ public:
     size_t getTextureWidth() const;
     size_t getTextureHeight() const;
 
-public:
+    void draw(Z_buffer *, const camera_base *) const;
+
+protected:
+    void drawFrame(Z_buffer *, const camera_base *) const;
+    void drawShading(Z_buffer *, const camera_base *) const;
+    void drawTexture(Z_buffer *, const camera_base *) const;
+
     bool napr;
     picture* _pic;
     size_t _num;

@@ -149,6 +149,21 @@ void matrix<type>::setColumn(size_t index, const array<type>& column)
 }
 
 template <typename type>
+void matrix<type>::setSize(size_t rows, size_t columns)
+{
+    /*for (size_t i = rows; i < data.size(); i++)
+    {
+        delete data[i];
+    }*/
+    data.setSize(rows);
+    for (size_t i = 0; i < rows; i++)
+    {
+        data[i]->setSize(columns);
+    }
+}
+
+
+template <typename type>
 const type& matrix<type>::value(size_t rowIndex, size_t columnIndex) const
 {
     if (rowIndex >= _rowCount || columnIndex >= _columnCount)

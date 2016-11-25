@@ -7,7 +7,7 @@
 #include "geom_operations\operations.h"
 #include "math.h"
 
-class camera : public BaseCamera
+class camera : public camera_base
 {
 public:
     camera();
@@ -26,17 +26,23 @@ public:
 
     double incline() const;
     double rotate() const;
-    double distance() const;
-
+    double distanceCentre() const;
     transform_base get() const;
 
     const point& centre() const;
     const point& position() const;
     point vector() const;
 
-    virtual point new_point(const point& copy);
-    point new_vector(const point& copy);
-    int distance(const point& copy);
+    double x() const;
+    double y() const;
+    double z() const;
+
+    double xc() const;
+    double yc() const;
+    double zc() const;
+
+    int distance(double x, double y, double z) const;
+    int distance(const point& copy) const;
 
 private:
     point _centre;

@@ -14,12 +14,14 @@ INPUT(
 ./debug\aspace.o
 ./debug\traject.o
 ./debug\apolygon.o
-./debug\object_base.o
 ./debug\paral.o
 ./debug\drawing_shading.o
 ./debug\rgb.o
 ./debug\picture.o
 ./debug\line2d.o
+./debug\sphere.o
+./debug\torus.o
+./debug\composite.o
 ./debug\moc_mainwindow.o
 ./debug\moc_apoint.o
 ./debug\moc_aspace.o

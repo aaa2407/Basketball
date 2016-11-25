@@ -115,7 +115,7 @@ double camera::rotate() const
     return alfa;
 }
 
-double camera::distance() const
+double camera::distanceCentre() const
 {
     return (_position - _centre).length();
 }
@@ -123,9 +123,9 @@ double camera::distance() const
 transform_base camera::get() const
 {
     transform_base matr;
-    matr *= TransformMatrix::scale(500/this->distance());
-    matr *= TransformMatrix::rotateY(this->incline());
+    matr *= TransformMatrix::scale(500/this->distanceCentre());
     matr *= TransformMatrix::rotateZ(this->rotate());
+    matr *= TransformMatrix::rotateY(this->incline());
     matr *= TransformMatrix::move(_centre.x(), _centre.y(), _centre.z());
     return matr;
 }
@@ -148,21 +148,34 @@ point camera::vector() const
     return p;
 }
 
-point camera::new_point(const point& copy)
-{
-    return point(copy.toArray()*this->get());
+double camera::x() const{
+    return _position.x();
 }
 
-point camera::new_vector(const point& copy)
-{
-    array<double> arr = copy.toArray();
-    arr = arr * TransformMatrix::rotateY(this->incline());
-    arr = arr * TransformMatrix::rotateZ(this->rotate());
-    return point(arr);
+double camera::y() const{
+    return _position.y();
 }
 
+double camera::z() const{
+    return _position.z();
+}
 
-int camera::distance(const point& copy)
-{
-    return (int)((_position - copy).length());
+double camera::xc() const{
+    return _centre.x();
+}
+
+double camera::yc() const{
+    return _centre.y();
+}
+
+double camera::zc() const{
+    return _centre.z();
+}
+
+int camera::distance(double x, double y, double z) const{
+    return (point(x, y, z) - _position).length();
+}
+
+int camera::distance(const point &copy) const{
+    return (int)(copy - _position).length();
 }

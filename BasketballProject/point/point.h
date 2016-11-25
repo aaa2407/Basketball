@@ -1,12 +1,11 @@
 #ifndef POINT_H
 #define POINT_H
 
-#include "transform_matrix\transform_matrix_base.h"
 #include "math.h"
+#include "drawing/drawing_object.h"
 
-class point
+class point : public drawing_object
 {
-    
 public:
     point();    
     point(double x, double y, double z = 0);
@@ -60,6 +59,8 @@ public:
     point XoY() const;
     point XoZ() const;
     point YoZ() const;
+
+    void draw(Z_buffer *, const camera_base *) const;
 
 protected:
     double _x;

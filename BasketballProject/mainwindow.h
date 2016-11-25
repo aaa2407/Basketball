@@ -7,13 +7,16 @@
 #include <QKeyEvent>
 
 #include "error\error_base.h"
-#include "drawing\drawing_frame\drawingframe.h"
-#include "drawing\drawing_shading\drawing_shading.h"
 #include "fisics\aspace.h"
 #include "objects\parallelepiped\paral.h"
 #include "line\line2d.h"
+#include "objects\sphere\sphere.h"
+#include "drawing\z-buffer\z-buffer.h"
+#include "camera\camera.h"
+#include "objects\torus\torus.h"
+#include "objects\composite\composite.h"
+#include "fisics/ball/ball.h"
 using namespace std;
-
 
 namespace Ui {
 class MainWindow;
@@ -28,16 +31,20 @@ public:
     ~MainWindow();
 
     QGraphicsScene *scene;
-    drawingShading *draw;
-    paral _paral;
-    picture _wall, _floor;
-    aspace space;
-    marray<point> lines;
-
+    camera cam;
+    Z_buffer* buf;
+    paral *par;
+    picture _wall;
+    picture _floor;
+    composite comp;
+    ball *_ball;
+    
     void keyPressEvent(QKeyEvent *event);
 
 private slots:
     void basket_draw();
+
+    void on_pushButton_clicked();
 
 private:
     Ui::MainWindow *ui;

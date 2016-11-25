@@ -23,19 +23,20 @@ SOURCES += main.cpp\
     drawing/z-buffer/z-buffer.cpp \
     polygon/polygon.cpp \
     camera/camera.cpp \
-    drawing/drawing3D_base/drawing3d_base.cpp \
-    drawing/drawing_frame/drawingframe.cpp \
     fisics/apoint.cpp \
     fisics/aspace.cpp \
     fisics/traject.cpp \
     fisics/apolygon.cpp \
-    objects/object_base/object_base.cpp \
     objects/parallelepiped/paral.cpp \
-    drawing/drawing_shading/drawing_shading.cpp \
     mutable_array/marray.cpp \
     rgb/rgb.cpp \
     picture/picture.cpp \
-    line/line2d.cpp
+    line/line2d.cpp \
+    objects/sphere/sphere.cpp \
+    objects/torus/torus.cpp \
+    objects/composite/composite.cpp \
+    objects/object_base/object.cpp \
+    fisics/ball/ball.cpp
 
 HEADERS  += mainwindow.h \
     array/_array.h \
@@ -72,17 +73,13 @@ HEADERS  += mainwindow.h \
     camera/base_camera.h \
     camera/camera.h \
     drawing/drawing3D/drawing3d_base.h \
-    drawing/drawing3D_base/drawing3d_base.h \
-    drawing/drawing_frame/drawingframe.h \
     fisics/apoint.h \
     fisics/aspace.h \
     fisics/error_traject.h \
     fisics/error_traject_base.h \
     fisics/traject.h \
     fisics/apolygon.h \
-    objects/object_base/object_base.h \
     objects/parallelepiped/paral.h \
-    drawing/drawing_shading/drawing_shading.h \
     mutable_array/error_marray_base.h \
     mutable_array/error_marray.h \
     mutable_array/marray.h \
@@ -93,6 +90,13 @@ HEADERS  += mainwindow.h \
     geom_operations/warning_operations.h \
     line/line2d.h \
     line/error_line2d_base.h \
-    line/error_line2d.h
+    line/error_line2d.h \
+    objects/sphere/sphere.h \
+    objects/object_base/object.h \
+    objects/object_base/oblect_base.h \
+    drawing/drawing_object.h \
+    objects/torus/torus.h \
+    objects/composite/composite.h \
+    fisics/ball/ball.h
 
 FORMS    += mainwindow.ui

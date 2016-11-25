@@ -238,25 +238,22 @@ point point::YoZ() const
     return point(0, _y, _z);
 }
 
-/*
-point point::toChangeSystem(double incline) const
-{
-    point p = *this;
-    p.set_y(- cos(incline)*this->x() + cos(incline)*this->y());
-    p.set_z(this->z() - sin(incline)*this->x()  - sin(incline)*this->y());
-    return p;
-}
-*/
-
 point point::to2D() const
 {
     point newp;
-    newp.set_x(-this->y()*500/(-this->x() - 500));
-    newp.set_y(-this->z()*500/(-this->x() - 500));
+    newp.set_x(-this->y()*500/(-this->x() + 500));
+    newp.set_y(this->z()*500/(-this->x() + 500));
     return newp;
 }
 
-
+void point::draw(Z_buffer *buf, const camera_base *cam) const
+{
+    point a = point(this->toArray()*cam->get());
+    a = a.to2D();
+    a.set_x(a.x() + buf->width()/2);
+    a.set_y(-a.y() + buf->height()/2);
+    buf->setPixel(a.x(), a.y(), QColor(Qt::black), cam->distance(_x, _y, _z));
+}
 
 float length(const point& start, const point& end)
 {
@@ -266,6 +263,10 @@ float length(const point& start, const point& end)
 
 std::ostream& operator<<(std::ostream& cout, const point& copy)
 {
-    cout << "point(" << copy.x() << ", " << copy.y() << ", " << copy.z() << ")";
+    cout << "point(";
+    double x = (fabs(copy.x()) > 1e-6) ? copy.x() : 0;
+    double y = (fabs(copy.y()) > 1e-6) ? copy.y() : 0;
+    double z = (fabs(copy.z()) > 1e-6) ? copy.z() : 0;
+    cout << x << ", " << y << ", " << z << ")";
     return cout;
 }
