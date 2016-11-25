@@ -22,7 +22,7 @@ public:
 
     bool isComposite() const { return false; }
 
-    void draw(Z_buffer *buf, const camera_base* cam) const;
+    void draw(Z_buffer_base *buf, const camera_base* cam) const;
 
     virtual polygon getPolygon(size_t index) const;
     color::rgb getPolygonColor(size_t index) const;

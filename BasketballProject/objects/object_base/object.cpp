@@ -17,7 +17,7 @@ void object::setName(const char* n)
     _name = (char*)n;
 }
 
-void object::draw(Z_buffer *buf, const camera_base* cam) const{
+void object::draw(Z_buffer_base *buf, const camera_base* cam) const{
     for (size_t i = 0; i < this->getPolygonCount(); i++)
         {
             polygon pol = this->getPolygon(i);

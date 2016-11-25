@@ -7,16 +7,10 @@
 
 #include "matrix\matrix.h"
 #include "error_z-buffer.h"
-#include "rgb\rgb.h"
+#include "drawing/z-buffer_base/z_buffer_base.h"
+#include "pixel.h"
 
-struct pixel
-{
-public:
-    size_t depth;       // Глубина пикселя
-    color::rgb    color;
-};
-
-class Z_buffer:  private matrix<struct pixel>
+class Z_buffer:  private matrix<struct pixel>, public Z_buffer_base
 {
 public:
     Z_buffer(size_t width = 1000, size_t height = 800, size_t max = 3000, QColor back = QColor(Qt::white));

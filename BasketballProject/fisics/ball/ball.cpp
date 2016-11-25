@@ -17,11 +17,9 @@ void ball::move_ball_2(point p2){
     _ball.transform(TransformMatrix::move(p.x(), p.y(), p.z()));
 }
 
-void ball::draw(Z_buffer *buf, const camera_base *cam) const{
+void ball::draw(Z_buffer_base *buf, const camera_base *cam) const{
     _ball.draw(buf, cam);
 }
-
-
 
 double ball::radius() const{
     return _radius;

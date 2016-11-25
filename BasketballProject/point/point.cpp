@@ -246,7 +246,7 @@ point point::to2D() const
     return newp;
 }
 
-void point::draw(Z_buffer *buf, const camera_base *cam) const
+void point::draw(Z_buffer_base *buf, const camera_base *cam) const
 {
     point a = point(this->toArray()*cam->get());
     a = a.to2D();

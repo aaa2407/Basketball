@@ -3,6 +3,7 @@
 
 #include "math.h"
 #include "drawing/drawing_object.h"
+#include "drawing/z-buffer_detachment/z-buffer_detachment.h"
 
 class point : public drawing_object
 {
@@ -60,7 +61,7 @@ public:
     point XoZ() const;
     point YoZ() const;
 
-    void draw(Z_buffer *, const camera_base *) const;
+    void draw(Z_buffer_base *, const camera_base *) const;
 
 protected:
     double _x;

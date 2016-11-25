@@ -11,8 +11,8 @@ class ball : public aspace, public drawing_object
 public:
     ball(const char* name = NULL, double radius = 15);
     
-    void draw(Z_buffer *, const camera_base *) const;
-    
+    void draw(Z_buffer_base *, const camera_base *) const;
+
     double radius() const;
     
 private slots:

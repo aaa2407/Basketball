@@ -12,7 +12,10 @@ MainWindow::MainWindow(QWidget *parent) :
         ui->gv->setScene(scene);
         buf = new Z_buffer(scene->width(), scene->height());
         buf->set(scene->width(), scene->height());
-        cam.decrease(1000);
+        det = new Z_buffer_Detachment(buf);
+        cam.decrease(800);
+        cam.upIncline(M_PI_2/3);
+        cam.rotate(M_PI_4*3);
         _floor.set("BasketFloor.jpg");
         _wall.set("wall.jpg");
         
@@ -42,13 +45,16 @@ MainWindow::MainWindow(QWidget *parent) :
 
         _ball = new ball("Ball", 15);
         emit _ball->spos(point(50, 50, 0));
-        emit _ball->ssecond_point(point(425-63, 0, 73));
+        emit _ball->ssecond_point(point(427-63, 0, 73));
         emit _ball->smax_z(120);
         connect(_ball, SIGNAL(smove()), this, SLOT(basket_draw()));
         comp.draw(buf, &cam);
-        _ball->draw(buf, &cam);
-        scene->addPixmap(buf->createPixmap());
-
+        map = buf->createPixmap();
+        _ball->draw(det, &cam);
+        point a(0, 0, 300);
+        a.draw(det, &cam);
+        scene->addPixmap(map);
+        scene->addPixmap(det->createPixmap());
     }
     catch(errorBase& error)
     {
@@ -66,11 +72,11 @@ MainWindow::~MainWindow()
 }
 
 void MainWindow::basket_draw(){
-    buf->clear();
-    comp.draw(buf, &cam);
-    _ball->draw(buf, &cam);
-    scene->addPixmap(buf->createPixmap());
-
+    det->clear();
+    _ball->draw(det, &cam);
+    scene->clear();
+    scene->addPixmap(map);
+    scene->addPixmap(det->createPixmap());
 }
 
 void MainWindow::keyPressEvent(QKeyEvent *event)
@@ -88,10 +94,10 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
                 cam.downIncline(M_PI_2/12);
             break;
             case Qt::Key_A:
-                cam.rotate(-M_PI_2/12);
+                cam.rotate(M_PI_2/12);
             break;
             case Qt::Key_D:
-                cam.rotate(M_PI_2/12);
+                cam.rotate(-M_PI_2/12);
             break;
 
             case Qt::Key_8:
@@ -123,9 +129,13 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 
         }
         buf->clear();
+        det->clear();
+        _ball->draw(det, &cam);
         comp.draw(buf, &cam);
-        _ball->draw(buf, &cam);
-        scene->addPixmap(buf->createPixmap());
+        map = buf->createPixmap();
+        scene->clear();
+        scene->addPixmap(map);
+        scene->addPixmap(det->createPixmap());
     }
     catch(errorBase& error)
     {

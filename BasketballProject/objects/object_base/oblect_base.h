@@ -19,7 +19,7 @@ public:
     virtual void transform(const transform_base& matr) = 0;
     virtual void setObjectColor(QColor color) = 0;
     virtual void setOutwardNormal(bool ok) = 0;
-    virtual void draw(Z_buffer*, const camera_base*) const = 0;
+    virtual void draw(Z_buffer_base*, const camera_base*) const = 0;
 
 protected:
     char* _name;

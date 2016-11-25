@@ -16,6 +16,7 @@
 #include "objects\torus\torus.h"
 #include "objects\composite\composite.h"
 #include "fisics/ball/ball.h"
+#include "drawing/z-buffer_detachment/z-buffer_detachment.h"
 using namespace std;
 
 namespace Ui {
@@ -33,12 +34,14 @@ public:
     QGraphicsScene *scene;
     camera cam;
     Z_buffer* buf;
+    Z_buffer_Detachment* det;
     paral *par;
     picture _wall;
     picture _floor;
     composite comp;
     ball *_ball;
-    
+    QPixmap map;
+
     void keyPressEvent(QKeyEvent *event);
 
 private slots:

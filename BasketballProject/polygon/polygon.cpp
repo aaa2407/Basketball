@@ -98,7 +98,7 @@ size_t polygon::getTextureHeight() const
     return this->_pic->height();
 }
 
-void polygon::draw(Z_buffer *buf, const camera_base *cam) const
+void polygon::draw(Z_buffer_base *buf, const camera_base *cam) const
 {
     if (!operations::isConvexPolygon(*this) || this->size() < 3)
     {
@@ -118,7 +118,7 @@ void polygon::draw(Z_buffer *buf, const camera_base *cam) const
     }
 }
 
-void polygon::drawFrame(Z_buffer *buf, const camera_base *cam) const
+void polygon::drawFrame(Z_buffer_base *buf, const camera_base *cam) const
 {
     for (size_t i = 0; i < this->size(); i++)
     {
@@ -162,13 +162,13 @@ void polygon::drawFrame(Z_buffer *buf, const camera_base *cam) const
     }
 }
 
-void polygon::drawShading(Z_buffer *buf, const camera_base *cam) const
+void polygon::drawShading(Z_buffer_base *buf, const camera_base *cam) const
 {
 
 }
 
 
-void polygon::drawTexture(Z_buffer *buf, const camera_base *cam) const
+void polygon::drawTexture(Z_buffer_base *buf, const camera_base *cam) const
 {
     point p1, p2, p3, p4;
     double ymin = buf->height();

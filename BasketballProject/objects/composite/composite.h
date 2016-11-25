@@ -38,7 +38,7 @@ public:
         }
     }
 
-    void draw(Z_buffer* buf, const camera_base*cam) const{
+    void draw(Z_buffer_base* buf, const camera_base*cam) const{
         for (size_t i = 0; i < _objects.size(); i++){
             _objects[i]->draw(buf, cam);
         }

@@ -26,12 +26,12 @@ public:
     size_t getTextureWidth() const;
     size_t getTextureHeight() const;
 
-    void draw(Z_buffer *, const camera_base *) const;
+    void draw(Z_buffer_base *, const camera_base *) const;
 
 protected:
-    void drawFrame(Z_buffer *, const camera_base *) const;
-    void drawShading(Z_buffer *, const camera_base *) const;
-    void drawTexture(Z_buffer *, const camera_base *) const;
+    void drawFrame(Z_buffer_base *, const camera_base *) const;
+    void drawShading(Z_buffer_base *, const camera_base *) const;
+    void drawTexture(Z_buffer_base *, const camera_base *) const;
 
     bool napr;
     picture* _pic;

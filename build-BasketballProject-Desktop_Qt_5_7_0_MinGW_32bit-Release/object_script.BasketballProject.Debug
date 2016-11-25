@@ -21,6 +21,7 @@ INPUT(
 ./debug\composite.o
 ./debug\object.o
 ./debug\ball.o
+./debug\z-buffer_detachment.o
 ./debug\moc_mainwindow.o
 ./debug\moc_apoint.o
 ./debug\moc_aspace.o
