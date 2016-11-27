@@ -4,19 +4,12 @@
 #include "traject.h"
 #include "polygon\polygon.h"
 
-class apolygon : public polygon
-{
-public:
-    apolygon();
-
-    void set_koef(double);
-    double koef() const;
-
-    double time_to(const traject& copy) const;
-
-private:
+typedef struct {
+    polygon _pol;
     double _koef;
-};
+} apolygon;
+
+double time_to(const polygon& pol, const traject& copy);
 
 
 #endif // POLYGON_H

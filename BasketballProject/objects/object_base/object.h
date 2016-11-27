@@ -6,11 +6,17 @@
 #include "transform_matrix\transform_matrix.h"
 
 typedef struct{
+    bool ok;
     color::rgb _col;
     picture* _pic;
     size_t _pic_pos;
 } spolygon;
 
+
+typedef struct{
+    size_t p1, p2;
+    size_t pol1, pol2;
+} sline;
 
 class object : public object_base
 {
@@ -37,19 +43,29 @@ public:
     virtual void transform(const transform_base& matr);
 
     void setPolygonColor(size_t index, QColor col);
-    void setObjectColor(QColor color);
+    void setColor(QColor color);
     void setPolygonPicture(size_t index, picture* pic);
     void setPolygonPicturePos(size_t index, size_t pos);
+
+    virtual marray<polygon> createParallelObject(double radius) const {
+        return marray<polygon>();
+    }
+
 
 
 protected:
     bool setConnect();
+    void initColors();
+    virtual void setLines() = 0;
 
 protected:
-
     marray<point> _vertex;
     array<marray<size_t>> _connect;
     marray<marray<size_t>> _polygons;
+    marray<sline> _lines;
+
+    bool deleteRobert;
+    rgb _color;
     array<spolygon> _pol_text;
     point _centre;
     bool _outward_normal;

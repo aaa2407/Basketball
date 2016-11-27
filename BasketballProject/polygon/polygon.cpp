@@ -25,8 +25,7 @@ point polygon::normal() const
     return p;
 }
 
-plane polygon::get_plane() const
-{
+plane polygon::get_plane() const{
     if (!operations::isPolygon(*this))
     {
         errPolygon::errorNormal();
@@ -37,16 +36,15 @@ plane polygon::get_plane() const
     return p;
 }
 
-
-
-void polygon::setTexture(picture* pic)
-{
-    _pic = pic;
-
+void polygon::setColor(rgb color){
+    _color = color;
 }
 
-void polygon::setTexturePos(size_t index)
-{
+void polygon::setTexture(picture* pic){
+    _pic = pic;
+}
+
+void polygon::setTexturePos(size_t index){
     if (index >= this->size())
         throw errPolygon::errorIncorrectIndex();
     this->_num = index;
@@ -109,9 +107,6 @@ void polygon::draw(Z_buffer_base *buf, const camera_base *cam) const
         case FRAME:
             drawFrame(buf, cam);
         break;
-        case SHADING:
-            drawShading(buf, cam);
-        break;
         case TEXTURE:
             drawTexture(buf, cam);
         break;
@@ -140,7 +135,7 @@ void polygon::drawFrame(Z_buffer_base *buf, const camera_base *cam) const
         double d2 = (c2 - point(500, 0, 0)).length();
         if (x1 == x2 && y1 == y2)
         {
-            buf->setPixel(x1, x2, QColor(Qt::black), d1);
+            buf->setPixel(x1, x2, this->_color, d1);
             return;
         }
         int x = fabs(x1 - x2);
@@ -154,17 +149,12 @@ void polygon::drawFrame(Z_buffer_base *buf, const camera_base *cam) const
         double _d = d1;
         for (int i = 0; i <= count; i++)
         {
-            buf->setPixel((int)_x, (int)_y, QColor(Qt::black), (size_t)_d);
+            buf->setPixel((int)_x, (int)_y, _color, (size_t)_d);
             _x += dx;
             _y += dy;
             _d += dd;
         }
     }
-}
-
-void polygon::drawShading(Z_buffer_base *buf, const camera_base *cam) const
-{
-
 }
 
 
@@ -278,7 +268,7 @@ void polygon::drawTexture(Z_buffer_base *buf, const camera_base *cam) const
 
             rgb col;
             if (!this->isTexture()) {
-                col = get_rgb(QColor(Qt::yellow));
+                col = _color;
             }
             else {
                 line2D pw, ph;
@@ -303,7 +293,7 @@ void polygon::drawTexture(Z_buffer_base *buf, const camera_base *cam) const
                 if (_x >= 0 && _x <= 1 && _y >=0 && _y <= 1)
                     col = this->getTexturePixel(_x, _y);
                 else
-                    col = get_rgb(QColor(Qt::yellow));
+                    col = _color;
             }
             buf->setPixel(x, y+ymin, col, (size_t)d);
             d += dd;

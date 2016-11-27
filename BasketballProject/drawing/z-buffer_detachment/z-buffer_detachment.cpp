@@ -44,10 +44,8 @@ size_t Z_buffer_Detachment::maxDepth() const{
 }
 
 QPixmap Z_buffer_Detachment::createPixmap() const{
-    std::cout << "1";
     if (_buf == NULL)
         return QPixmap();
-    std::cout << "2";
     QPixmap pixmap(this->width(), this->height());
     pixmap.fill(QColor(255, 255, 255 ,0));
     QPainter *painter = new QPainter(&pixmap);

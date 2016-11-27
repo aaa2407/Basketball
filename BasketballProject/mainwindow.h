@@ -36,8 +36,7 @@ public:
     Z_buffer* buf;
     Z_buffer_Detachment* det;
     paral *par;
-    picture _wall;
-    picture _floor;
+    picture _wall, _floor, _shield;
     composite comp;
     ball *_ball;
     QPixmap map;
@@ -48,6 +47,8 @@ private slots:
     void basket_draw();
 
     void on_pushButton_clicked();
+    void on_pushButton_2_clicked();
+    void on_pushButton_3_clicked();
 
 private:
     Ui::MainWindow *ui;

@@ -2,7 +2,8 @@
 
 object::object() : _outward_normal(true)
 {
-    drawing = FRAME;
+    drawing = TEXTURE;
+    deleteRobert = false;
 }
 
 
@@ -22,16 +23,26 @@ void object::draw(Z_buffer_base *buf, const camera_base* cam) const{
         {
             polygon pol = this->getPolygon(i);
             pol.drawing = this->drawing;
+            if (_pol_text[i].ok == true){
+                pol.setColor(_pol_text[i]._col);
+            }
+            else {
+                pol.setColor(this->_color);
+            }
             pol.setTexture(this->getPolygonTexture(i));
             pol.setTexturePos(this->getPolygonTexturePos(i));
             array<double> a = pol.normal().toArray();
             a = a * TransformMatrix::rotateZ(cam->rotate());
             a = a * TransformMatrix::rotateY(cam->incline());
             point p(a);
-            double r = p * point(-1, 0, 0);
-            if (r > 0 || (fabs(r) < 1e-6 && !this->outwardNormal())) {
-                pol.draw(buf, cam);
+            if (!this->outwardNormal() || deleteRobert){
+                double r = p * point(-1, 0, 0);
+                if (r >= 0) {
+                    pol.draw(buf, cam);
+                }
             }
+            else
+                pol.draw(buf, cam);
         }
 }
 
@@ -53,6 +64,20 @@ bool object::setConnect()
         }
     }
     return true;
+}
+
+void object::initColors()
+{
+    _pol_text.setSize(_polygons.size());
+    for (size_t i = 0; i < _pol_text.size(); i++)
+    {
+        _pol_text[i].ok  = false;
+        _pol_text[i]._col.blue  = 0;
+        _pol_text[i]._col.red   = 0;
+        _pol_text[i]._col.green = 0;
+        _pol_text[i]._pic = NULL;
+        _pol_text[i]._pic_pos = 0;
+    }
 }
 
 polygon object::getPolygon(size_t index) const
@@ -78,15 +103,13 @@ color::rgb object::getPolygonColor(size_t index) const
 
 void object::setPolygonColor(size_t index, QColor col)
 {
+    _pol_text[index].ok = true;
     _pol_text[index]._col = color::get_rgb(col);
 }
 
-void object::setObjectColor(QColor color)
+void object::setColor(QColor color)
 {
-    for (size_t i = 0; i < _pol_text.size(); i++)
-    {
-        _pol_text[i]._col = color::get_rgb(color);
-    }
+    _color = get_rgb(color);
 }
 
 void object::setPolygonPicture(size_t index, picture* pic)

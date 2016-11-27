@@ -4,6 +4,7 @@
 #include "fisics/aspace.h"
 #include "objects/sphere/sphere.h"
 #include "transform_matrix/transform_matrix.h"
+#include "objects/composite/composite.h"
 
 class ball : public aspace, public drawing_object
 {
@@ -12,6 +13,8 @@ public:
     ball(const char* name = NULL, double radius = 15);
     
     void draw(Z_buffer_base *, const camera_base *) const;
+
+    void  addPolygons(const composite& copy);
 
     double radius() const;
     

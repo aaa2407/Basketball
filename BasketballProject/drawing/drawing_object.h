@@ -5,7 +5,7 @@
 #include "z-buffer/z-buffer.h"
 #include "camera/base_camera.h"
 
-typedef enum{FRAME, SHADING, TEXTURE} edrawing;
+typedef enum{FRAME, TEXTURE} edrawing;
 
 class drawing_object
 {

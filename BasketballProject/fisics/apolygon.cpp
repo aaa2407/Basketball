@@ -1,28 +1,12 @@
 #include "apolygon.h"
 
-apolygon::apolygon()
+double time_to(const polygon& pol, const traject& copy)
 {
-    _koef = 1;
-}
-
-double apolygon::koef() const
-{
-    return _koef;
-}
-
-void apolygon::set_koef(double koef)
-{
-    _koef = koef;
-}
-
-double apolygon::time_to(const traject& copy) const
-{
-    if (!operations::isConvexPolygon(*this))
+    if (!operations::isConvexPolygon(pol))
     {
         return -1;
     }
-
-    plane pl = this->get_plane();
+    plane pl = pol.get_plane();
     double A = -_G_/2 *pl.c();
     double B = pl.norm() * copy.napr;
     double C = pl.value(copy.pos)/_M_;
@@ -38,6 +22,9 @@ double apolygon::time_to(const traject& copy) const
             return -1;
         if (t < 0)
             t = t2;
+        else{
+            t = (t < t2) ? t : t2;
+        }
     }
     else
     {
@@ -46,8 +33,7 @@ double apolygon::time_to(const traject& copy) const
             return -1;
     }
     point pt = point_at_time(copy, t*1000);
-    std::cout << "\t" << pt;
-    if (!operations::isInConvexPolygon(pt, *this, 1))
+    if (!operations::isInConvexPolygon(pt, pol, 1))
         return -1;
     else
         return t;

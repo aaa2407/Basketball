@@ -30,6 +30,8 @@ public:
     QWidget *centralWidget;
     QGraphicsView *gv;
     QPushButton *pushButton;
+    QPushButton *pushButton_2;
+    QPushButton *pushButton_3;
     QMenuBar *menuBar;
     QToolBar *mainToolBar;
     QStatusBar *statusBar;
@@ -46,7 +48,13 @@ public:
         gv->setGeometry(QRect(10, 10, 901, 571));
         pushButton = new QPushButton(centralWidget);
         pushButton->setObjectName(QStringLiteral("pushButton"));
-        pushButton->setGeometry(QRect(400, 20, 93, 28));
+        pushButton->setGeometry(QRect(320, 20, 93, 28));
+        pushButton_2 = new QPushButton(centralWidget);
+        pushButton_2->setObjectName(QStringLiteral("pushButton_2"));
+        pushButton_2->setGeometry(QRect(420, 20, 93, 28));
+        pushButton_3 = new QPushButton(centralWidget);
+        pushButton_3->setObjectName(QStringLiteral("pushButton_3"));
+        pushButton_3->setGeometry(QRect(520, 20, 93, 28));
         MainWindow->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(MainWindow);
         menuBar->setObjectName(QStringLiteral("menuBar"));
@@ -68,6 +76,8 @@ public:
     {
         MainWindow->setWindowTitle(QApplication::translate("MainWindow", "MainWindow", 0));
         pushButton->setText(QApplication::translate("MainWindow", "\320\241\321\202\320\260\321\200\321\202", 0));
+        pushButton_2->setText(QApplication::translate("MainWindow", "\320\241\321\202\320\276\320\277", 0));
+        pushButton_3->setText(QApplication::translate("MainWindow", "\320\222\320\276\320\267\320\276\320\261\320\275\320\276\320\262\320\270\321\202\321\214", 0));
     } // retranslateUi
 
 };

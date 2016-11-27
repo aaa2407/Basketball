@@ -15,6 +15,7 @@ sphere::sphere(const char *name, double radius, size_t c1, size_t c2, const poin
             p.set_z(radius*sin(inc));
             _vertex.add(p);
         }
+    deleteRobert = true;
     _vertex.add(point(0, 0, radius));
     setPolygons();
     setConnect();
@@ -45,19 +46,6 @@ polygon sphere::getPolygon(size_t index) const
         pol.changeNormal();
     }
     return pol;
-}
-
-void sphere::initColors()
-{
-    _pol_text.setSize(_polygons.size());
-    for (size_t i = 0; i < _pol_text.size(); i++)
-    {
-        _pol_text[i]._col.blue  = 0;
-        _pol_text[i]._col.red   = 0;
-        _pol_text[i]._col.green = 0;
-        _pol_text[i]._pic = NULL;
-        _pol_text[i]._pic_pos = 0;
-    }
 }
 
 void sphere::setPolygons()
@@ -93,4 +81,9 @@ void sphere::setPolygons()
 void sphere::transform(const transform_base& matr)
 {
     _centre = point(_centre.toArray()*matr);
+}
+
+
+marray<polygon> sphere::createParallelObject(double radius) const{
+    return marray<polygon>();
 }

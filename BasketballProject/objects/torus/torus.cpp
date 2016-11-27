@@ -1,9 +1,13 @@
 #include "torus.h"
 
-torus::torus(const char* name, double MainRadius, double TorusRadius, size_t c1, size_t c2, const point& p){
+torus::torus(const char* name, double MainRadius, double TorusRadius, size_t c1, size_t c2
+             , const point& p, QColor color){
 
     _name = (name != NULL) ? (char*)name : NULL;
+    _main_radius = MainRadius;
+    _torus_radius = TorusRadius;
     _centre = p;
+    _color = get_rgb(color);
     _c1 = c1;
     _c2 = c2;
     for (double fi = -M_PI; fi < M_PI - M_PI/_c1; fi += M_PI/_c1*2) {
@@ -29,6 +33,8 @@ torus::torus(const char* name, double MainRadius, double TorusRadius, size_t c1,
 
 torus::torus(const torus &copy){
     _name = (copy._name != NULL) ? copy._name : NULL;
+    _main_radius = copy._main_radius;
+    _torus_radius = copy._torus_radius;
     _vertex = copy._vertex;
     _centre = copy.centre();
     _torus_centres = copy._torus_centres;
@@ -53,19 +59,6 @@ polygon torus::getPolygon(size_t index) const
     return pol;
 }
 
-void torus::initColors()
-{
-    _pol_text.setSize(_polygons.size());
-    for (size_t i = 0; i < _pol_text.size(); i++)
-    {
-        _pol_text[i]._col.blue  = 0;
-        _pol_text[i]._col.red   = 0;
-        _pol_text[i]._col.green = 0;
-        _pol_text[i]._pic = NULL;
-        _pol_text[i]._pic_pos = 0;
-    }
-}
-
 void torus::setPolygons()
 {
     _polygons.clear();
@@ -88,4 +81,40 @@ void torus::setPolygons()
 void torus::transform(const transform_base& matr)
 {
     _centre = point(_centre.toArray()*matr);
+}
+
+marray<polygon> torus::createParallelObject(double radius) const{
+    marray<point> points;
+    size_t c1 = _c1/2;
+    size_t c2 = _c2;
+    for (double fi = -M_PI; fi < M_PI - M_PI/c1; fi += M_PI/c1*2) {
+        point p(_main_radius*cos(fi), _main_radius*sin(fi), 0);
+        point pn = p;
+        pn.normalization();
+        pn.set_x(pn.x()*(_torus_radius + radius + 3));
+        pn.set_y(pn.y()*(_torus_radius + radius + 3));
+        for (double inc = -M_PI; inc < M_PI - M_PI/c2; inc += M_PI/c2*2)
+        {
+            point a = pn;
+            a.set_x(a.x()*cos(inc) + this->centre().x());
+            a.set_y(a.y()*cos(inc) + this->centre().y());
+            a.set_z((_torus_radius + radius)*sin(inc) + this->centre().z());
+            points.add(point(p + a));
+        }
+    }
+    marray<polygon> arr;
+    size_t i1, j1;
+    for (size_t i = 0; i < c1; i++){
+        i1 = (i+1)%c1;
+        for (size_t j = 0; j < c2; j++){
+            j1 = (j+1)%c2;
+            polygon pol;
+            pol.add(points[i*c2 + j]);
+            pol.add(points[i*c2 + j1]);
+            pol.add(points[i1*c2 + j1]);
+            pol.add(points[i1*c2 + j]);
+            arr.add(pol);
+        }
+    }
+    return arr;
 }

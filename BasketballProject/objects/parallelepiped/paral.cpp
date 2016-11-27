@@ -1,6 +1,6 @@
 #include "paral.h"
 
-paral::paral(const char* name, size_t width, size_t lenght, size_t height, const point &cen)
+paral::paral(const char* name, size_t width, size_t lenght, size_t height, const point &cen, QColor color)
 {
     _name = name ? (char*)name : NULL;
     _vertex.add(point(cen.x() - width/2, cen.y() - lenght/2, cen.z() - height/2)); // 0
@@ -11,13 +11,15 @@ paral::paral(const char* name, size_t width, size_t lenght, size_t height, const
     _vertex.add(point(cen.x() + width/2, cen.y() - lenght/2, cen.z() + height/2)); // 5
     _vertex.add(point(cen.x() + width/2, cen.y() + lenght/2, cen.z() - height/2)); // 6
     _vertex.add(point(cen.x() + width/2, cen.y() + lenght/2, cen.z() + height/2)); // 7
+    _color = get_rgb(color);
     setPolygons();
     setConnect();
+    setLines();
     initColors();
     _centre = cen;
 }
 
-paral::paral(const char *name, const point& p1, const point p2)
+paral::paral(const char *name, const point& p1, const point p2, QColor color)
 {
     _name = name ? (char*)name : NULL;
     double x1 = p1.x(), y1 = p1.y(), z1 = p1.z();
@@ -30,8 +32,10 @@ paral::paral(const char *name, const point& p1, const point p2)
     _vertex.add(point(x2, y1, z2));
     _vertex.add(point(x2, y2, z1));
     _vertex.add(point(x2, y2, z2));
+    _color = get_rgb(color);
     setPolygons();
     setConnect();
+    setLines();
     initColors();
     _centre = point((x1 + x2)/2, (y1 + y2)/2, (z1 + z2)/2);
 }
@@ -40,10 +44,99 @@ paral::paral(const paral& par)
 {
     _name = (par._name != NULL) ? par._name : NULL;
     _vertex = par._vertex;
+    _color = this->_color;
     setPolygons();
     setConnect();
+    setLines();
     initColors();
     _centre = par.centre();
+}
+
+marray<polygon> paral::createParallelObject(double radius) const{
+    marray<polygon> marr;
+    for (size_t i = 0; i < this->getPolygonCount(); i++){
+        polygon pol = this->getPolygon(i);
+        point p = (-pol.normal())*radius;
+        for (size_t j = 0; j < pol.size(); j++){
+            pol[j] = pol[j] + p;
+       }
+        marr.add(pol);
+    }
+    if (outwardNormal() == false)
+        return marr;
+    for (size_t i = 0; i < _lines.size(); i++) {
+        point p1 = _vertex[_lines[i].p1];
+        point p2 = _vertex[_lines[i].p2];
+        polygon pol1 = this->getPolygon(_lines[i].pol1);
+        polygon pol2 = this->getPolygon(_lines[i].pol2);
+        point n1 = -pol1.normal(), n2 = -pol2.normal();
+        point n = n1 + n2; n.normalization();
+        n = n * radius;
+        n1 = n1 * radius;
+        n2 = n2 * radius;
+        polygon py1, py2;
+        py1.add(p1+n1);  py1.add(p1+n);  py1.add(p2+n);  py1.add(p2+n2);
+        py2.add(p1+n2);  py2.add(p1+n);  py2.add(p2+n);  py2.add(p2+n2);
+        marr.add(py1);
+        marr.add(py2);
+    }
+    for (size_t i = 0; i < _connect.size(); i++){
+        point p = _vertex[i];
+        polygon pol1 = this->getPolygon(_connect[i][0]);
+        polygon pol2 = this->getPolygon(_connect[i][1]);
+        polygon pol3 = this->getPolygon(_connect[i][2]);
+        point n1 = -pol1.normal(); point n2 = -pol2.normal(); point n3 = -pol3.normal();
+        point n12 = n1 + n2; point n23 = n2 + n3; point n13 = n1 + n3;
+        point n = n1 + n2 + n3;
+        n12.normalization();
+        n13.normalization();
+        n23.normalization();
+        n.normalization();
+        n = n * radius;
+        n12 = n12 * radius;
+        n23 = n23 * radius;
+        n13 = n13 * radius;
+        n1 = n1 * radius;
+        n2 = n2 * radius;
+        n3 = n3 * radius;
+        polygon pol;
+        pol.add(p+n); pol.add(p+n12); pol.add(p+n1);  marr.add(pol);
+        pol.clear();  pol.add(p+n); pol.add(p+n12); pol.add(p+n2);  marr.add(pol);
+        pol.clear();  pol.add(p+n); pol.add(p+n23); pol.add(p+n2);  marr.add(pol);
+        pol.clear();  pol.add(p+n); pol.add(p+n23); pol.add(p+n3);  marr.add(pol);
+        pol.clear();  pol.add(p+n); pol.add(p+n13); pol.add(p+n1); marr.add(pol);
+        pol.clear();  pol.add(p+n); pol.add(p+n13); pol.add(p+n3); marr.add(pol);
+    }
+    return marr;
+}
+
+void paral::setLines(){
+    _lines.clear();
+    sline line;
+    line.p1 = 0; line.p2 = 1;  line.pol1 = 0; line.pol2 = 2;
+    _lines.add(line);
+    line.p1 = 1; line.p2 = 3;  line.pol1 = 0; line.pol2 = 5;
+    _lines.add(line);
+    line.p1 = 3; line.p2 = 2;  line.pol1 = 0; line.pol2 = 3;
+    _lines.add(line);
+    line.p1 = 2; line.p2 = 0;  line.pol1 = 0; line.pol2 = 4;
+    _lines.add(line);
+    line.p1 = 6; line.p2 = 7;  line.pol1 = 1; line.pol2 = 3;
+    _lines.add(line);
+    line.p1 = 7; line.p2 = 5;  line.pol1 = 1; line.pol2 = 5;
+    _lines.add(line);
+    line.p1 = 5; line.p2 = 4;  line.pol1 = 1; line.pol2 = 2;
+    _lines.add(line);
+    line.p1 = 4; line.p2 = 6;  line.pol1 = 1; line.pol2 = 4;
+    _lines.add(line);
+    line.p1 = 0; line.p2 = 4;  line.pol1 = 4; line.pol2 = 2;
+    _lines.add(line);
+    line.p1 = 1; line.p2 = 5;  line.pol1 = 5; line.pol2 = 2;
+    _lines.add(line);
+    line.p1 = 2; line.p2 = 6;  line.pol1 = 4; line.pol2 = 3;
+    _lines.add(line);
+    line.p1 = 3; line.p2 = 7;  line.pol1 = 5; line.pol2 = 3;
+    _lines.add(line);
 }
 
 void paral::setPolygons()
@@ -68,16 +161,3 @@ void paral::setPolygons()
     _polygons.add(pol);
 }
 
-
-void paral::initColors()
-{
-    _pol_text.setSize(_polygons.size());
-    for (size_t i = 0; i < _pol_text.size(); i++)
-    {
-        _pol_text[i]._col.blue  = 0;
-        _pol_text[i]._col.red   = 0;
-        _pol_text[i]._col.green = 0;
-        _pol_text[i]._pic = NULL;
-        _pol_text[i]._pic_pos = 0;
-    }
-}

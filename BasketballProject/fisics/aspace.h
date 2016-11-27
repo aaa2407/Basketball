@@ -10,11 +10,13 @@ class aspace : public apoint
 public:
     aspace();
 
-    const apolygon& getPolygon(size_t index) const;
+    const polygon& getPolygon(size_t index) const;
     size_t getCountPolygon() const;
 
-    void addPolygon(const apolygon& copy);
+    void addPolygon(const apolygon &copy);
     void clearPolygons();
+
+    size_t collision_next() const;
 
 signals:
     void send_col();

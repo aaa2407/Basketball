@@ -25,3 +25,12 @@ double ball::radius() const{
     return _radius;
 }
 
+void  ball::addPolygons(const composite& copy){
+    marray<polygon> arr = copy.createParallelObject(this->radius());
+    for (size_t i = 0; i < arr.size(); i++){
+        apolygon pol;
+        pol._pol  = arr[i];
+        pol._koef = 0.7;
+        this->addPolygon(pol);
+    }
+}

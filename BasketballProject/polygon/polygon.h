@@ -18,6 +18,7 @@ public:
     point normal() const;
     plane get_plane() const;
 
+    void setColor(rgb color);
     void setTexture(picture* pic = NULL);
     void setTexturePos(size_t index);
     color::rgb getTexturePixel(double x, double y) const;
@@ -33,6 +34,7 @@ protected:
     void drawShading(Z_buffer_base *, const camera_base *) const;
     void drawTexture(Z_buffer_base *, const camera_base *) const;
 
+    rgb  _color;
     bool napr;
     picture* _pic;
     size_t _num;

@@ -13,8 +13,12 @@ public:
 
     void transform(const transform_base& matr);
 
+    virtual marray<polygon> createParallelObject(double radius) const;
+
+protected:
+    void setLines(){}
+
 private:
-    void initColors();
     void setPolygons();
     
 private:
