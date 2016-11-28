@@ -8,6 +8,7 @@
 #include "picture\picture.h"
 #include "drawing/drawing_object.h"
 #include "line/line2d.h"
+#include "transform_matrix/transform_matrix.h"
 
 class polygon : public marray<point>, public drawing_object
 {
@@ -31,7 +32,6 @@ public:
 
 protected:
     void drawFrame(Z_buffer_base *, const camera_base *) const;
-    void drawShading(Z_buffer_base *, const camera_base *) const;
     void drawTexture(Z_buffer_base *, const camera_base *) const;
 
     rgb  _color;

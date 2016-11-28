@@ -3,6 +3,7 @@
 ball::ball(const char* name, double radius){
     _ball = sphere(name, radius);
     _radius = radius;
+    _ball.setColor(QColor(Qt::red));
     connect(this, SIGNAL(smove()), this, SLOT(move_ball()));
     connect(this, SIGNAL(spos(point)), this, SLOT(move_ball_2(point)));
 }

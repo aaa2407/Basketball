@@ -213,3 +213,40 @@ point operations::intersection2D(const point& L11, const point& L12,
     det_2 = a1*c2 - a2*c1;
     return point(det_1/det, det_2/det, z);
 }
+
+
+
+color::rgb operations::Lambert(color::rgb col, const point& p, const point& n, const point& s){
+    point _s = s - p;
+    _s.normalization();
+    point _n = n;
+    _n.normalization();
+    double c = fabs(_n*_s);
+    if (c < 0)
+        c = 0;
+    col.red  = col.red  + (255 - col.red)*c*0.7;
+    col.green = col.green + (255 - col.green)*c*0.7;
+    col.blue = col.blue + (255 - col.blue)*c*0.7;
+    return col;
+}
+
+
+color::rgb operations::Fong(color::rgb col, const point& p, const point& n,
+                            const point& s, const point& cam){
+
+    point _n = n;
+    _n.normalization();
+    point v = cam - p;
+    v.normalization();
+    point r = _n*(_n*v)*2-v;
+    r.normalization();
+    point _s = s - p;
+    _s.normalization();
+    double c = r*_s;
+    if (c < 0)
+        c = 0;
+    col.red  = col.red + (255 - col.red)*c * 0.7;
+    col.green = col.green + (255 - col.green)*c * 0.7;
+    col.blue = col.blue  + (255 - col.blue)*c* 0.7;
+    return col;
+}

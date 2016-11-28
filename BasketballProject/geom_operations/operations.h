@@ -31,6 +31,10 @@ bool isInConvexPolygon(const point&p, const marray<point>&, double error = 1e-5)
 point intersection2D(const point& L11, const point& L12,
                      const point& L21, const point& L22);
 
+color::rgb Lambert(color::rgb, const point& p, const point& n, const point& s);
+color::rgb Fong(color::rgb, const point& p, const point& n,
+                            const point& s, const point& cam);
+
 }
 
 point operator*(const point&, double);

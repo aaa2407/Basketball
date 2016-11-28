@@ -48,15 +48,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
         emit _ball->spos(point(0, 0, 0));
         emit _ball->ssecond_point(point(390, 0, 70));
-        emit _ball->smax_z(200);
-/*
-        marray<polygon> arr = comp.createParallelObject(_ball->radius());
-        arr[_ball->collision_next()].setColor(color::get_rgb(QColor(Qt::yellow)));
-        for (size_t i = 0; i < arr.size(); i++){
-            arr[i].draw(buf, &cam);
-        }
-
-*/
+        emit _ball->smax_z(170);
         map = buf->createPixmap();
         _ball->draw(det, &cam);
         scene->addPixmap(map);
@@ -114,13 +106,6 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
         det->clear();
         _ball->draw(det, &cam);
         comp.draw(buf, &cam);
-/*
-        marray<polygon> arr = comp.createParallelObject(_ball->radius());
-
-        for (size_t i = 0; i < arr.size(); i++){
-            arr[i].draw(buf, &cam);
-        }
-*/
         map = buf->createPixmap();
         scene->clear();
         scene->addPixmap(map);

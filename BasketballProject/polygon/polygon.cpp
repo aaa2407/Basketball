@@ -197,8 +197,8 @@ void polygon::drawTexture(Z_buffer_base *buf, const camera_base *cam) const
     }
     int xmin[(size_t)ymax - (size_t)ymin + 1];
     int xmax[(size_t)ymax - (size_t)ymin + 1];
-    double dmin[(size_t)ymax - (size_t)ymin + 1];
-    double dmax[(size_t)ymax - (size_t)ymin + 1];
+    point pmin[(size_t)ymax - (size_t)ymin + 1];
+    point pmax[(size_t)ymax - (size_t)ymin + 1];
     for (size_t i = 0; i <= ymax - ymin; i++)
     {
         xmax[i] = 0;
@@ -218,28 +218,26 @@ void polygon::drawTexture(Z_buffer_base *buf, const camera_base *cam) const
         a2 = a2.to2D();
         a2.set_x(a2.x() + buf->width()/2);
         a2.set_y(-a2.y() + buf->height()/2);
-        double dd1 = (c1 - point(500, 0, 0)).length();
-        double dd2 = (c2 - point(500, 0, 0)).length();
         double _y0 = (a1.y() < a2.y()) ? a1.y() : a2.y();
         double _y1 = (a1.y() < a2.y()) ? a2.y() : a1.y();
         double _x0 = (a1.y() < a2.y()) ? a1.x() : a2.x();
         double _x1 = (a1.y() < a2.y()) ? a2.x() : a1.x();
-        double _d0 = (a1.y() < a2.y()) ? dd1 : dd2;
-        double _d1 = (a1.y() < a2.y()) ? dd2 : dd1;
+        point _p0 = (a1.y() < a2.y()) ? c1 : c2;
+        point _p1 = (a1.y() < a2.y()) ? c2 : c1;
         for (double y = _y0; y <= _y1; y += 1)
         {
             double x = _x0 + (_x1 - _x0)*((y - _y0)/(_y1 - _y0));
-            double d = _d0 + (_d1 - _d0)*((y - _y0)/(_y1 - _y0));
+            point  p = _p0 + (_p1 - _p0)*((y - _y0)/(_y1 - _y0));
             if (x < xmin[(size_t)y - (size_t)ymin]){
                 xmin[(size_t)y - (size_t)ymin] = (int)x;
-                dmin[(size_t)y - (size_t)ymin] = d;
+                pmin[(size_t)y - (size_t)ymin] = p;
                 if (xmin[(size_t)y - (size_t)ymin] < 0)
                     xmin[(size_t)y - (size_t)ymin] = 0;
             }
             if (x > xmax[(size_t)y - (size_t)ymin])
             {
                 xmax[(size_t)y - (size_t)ymin] = (int)x;
-                dmax[(size_t)y - (size_t)ymin] = d;
+                pmax[(size_t)y - (size_t)ymin] = p;
                 if (xmax[(size_t)y - (size_t)ymin] >= buf->width())
                     xmax[(size_t)y - (size_t)ymin] = 0;
             }
@@ -253,14 +251,16 @@ void polygon::drawTexture(Z_buffer_base *buf, const camera_base *cam) const
         w2.set(p2.x(), p2.y(), p4.x(), p4.y());
         h2.set(p3.x(), p3.y(), p4.x(), p4.y());
     }
+    //point s = point(0, 0, 500);
+    point c = point(500, 0, 0);
     for (size_t y = 0; y <= ymax - ymin; y++)
     {
 
         if (xmax[y] >= buf->width())
             continue;
         size_t count = xmax[y] - xmin[y];
-        double d = dmin[y];
-        double dd = (count != 0) ? (dmax[y] - dmin[y])/count : 0;
+        point p_ = pmin[y];
+        point pp = (count != 0) ? (pmax[y] - pmin[y])*(1/((double)count)) : point(0, 0 ,0);
 
         for (uint x = xmin[y]; x <= xmax[y]; x++)
         {
@@ -268,7 +268,13 @@ void polygon::drawTexture(Z_buffer_base *buf, const camera_base *cam) const
 
             rgb col;
             if (!this->isTexture()) {
-                col = _color;
+                point n = this->normal();
+                array<double> arr = n.toArray();
+                arr = arr*TransformMatrix::rotateZ(cam->rotate());
+                arr = arr*TransformMatrix::rotateY(cam->incline());
+
+                n = point(arr);
+                col = operations::Fong(_color, p_, n, c, c);
             }
             else {
                 line2D pw, ph;
@@ -294,9 +300,16 @@ void polygon::drawTexture(Z_buffer_base *buf, const camera_base *cam) const
                     col = this->getTexturePixel(_x, _y);
                 else
                     col = _color;
+
+                point n = this->normal();
+                array<double> arr = n.toArray();
+                arr = arr * TransformMatrix::rotateZ(cam->rotate());
+                arr = arr * TransformMatrix::rotateY(cam->incline());
+                n = point(arr);
+                col = operations::Fong(col, p_, n, c, c);
             }
-            buf->setPixel(x, y+ymin, col, (size_t)d);
-            d += dd;
+            buf->setPixel(x, y+ymin, col, (p_ - point(500, 0, 0)).length());
+            p_ += pp;
         }
 
     }
