@@ -28,6 +28,7 @@ public:
     double rotate() const;
     double distanceCentre() const;
     transform_base get() const;
+    transform_base getVector() const;
 
     const point& centre() const;
     const point& position() const;

@@ -15,8 +15,7 @@ void polygon::changeNormal()
 
 point polygon::normal() const
 {
-    if (!operations::isPolygon(*this))
-    {
+    if (!operations::isPolygon(*this)) {
         errPolygon::errorNormal();
     }
     point p = operations::normal((*this)[0], (*this)[1], (*this)[2]);
@@ -34,6 +33,10 @@ plane polygon::get_plane() const{
     if (!napr)
         p.negation();
     return p;
+}
+
+void polygon::add(point value){
+    marray<point>::add(value);
 }
 
 void polygon::setColor(rgb color){
@@ -56,12 +59,10 @@ color::rgb polygon::getTexturePixel(double x, double y) const
     if (_pic == NULL)
         throw errPolygon::errorPicture();
     rgb col;
-    if (x >= 0 && y >= 0 && x <= 1 && y <= 1)
-    {
+    if (x >= 0 && y >= 0 && x <= 1 && y <= 1){
         col = _pic->getPixel(x*(_pic->width()-3)+1, y*(_pic->height()-3)+1);
     }
-    else
-    {
+    else {
         col.green = 0;
         col.red = 0;
         col.blue = 0;
@@ -77,9 +78,8 @@ bool polygon::isTexture() const
         return true;
 }
 
-size_t polygon::getTexturePos() const
-{
-    return this->_num;
+size_t polygon::getTexturePos() const{
+    return _num;
 }
 
 size_t polygon::getTextureWidth() const
@@ -96,10 +96,13 @@ size_t polygon::getTextureHeight() const
     return this->_pic->height();
 }
 
+void polygon::setNormals(const array<point>& arr){
+    _normals = arr;
+}
+
 void polygon::draw(Z_buffer_base *buf, const camera_base *cam) const
 {
-    if (!operations::isConvexPolygon(*this) || this->size() < 3)
-    {
+    if (!operations::isConvexPolygon(*this) || this->size() < 3) {
         return;
     }
     switch(drawing)
@@ -117,200 +120,166 @@ void polygon::drawFrame(Z_buffer_base *buf, const camera_base *cam) const
 {
     for (size_t i = 0; i < this->size(); i++)
     {
-        point p1 = (*this)[i];
-        point p2 = (*this)[(i+1)%this->size()];
-        point c1 = point(p1.toArray()*cam->get());
-        point a1 = c1.to2D();
-        a1.set_x(a1.x() + buf->width()/2);
-        a1.set_y(-a1.y() + buf->height()/2);
-        point c2(p2.toArray()*cam->get());
-        point a2 = c2.to2D();
-        a2.set_x(a2.x() + buf->width()/2);
-        a2.set_y(-a2.y() + buf->height()/2);
-        int x1 = a1.x();
-        int x2 = a2.x();
-        int y1 = a1.y();
-        int y2 = a2.y();
-        double d1 = (c1 - point(500, 0, 0)).length();
-        double d2 = (c2 - point(500, 0, 0)).length();
-        if (x1 == x2 && y1 == y2)
-        {
-            buf->setPixel(x1, x2, this->_color, d1);
-            return;
-        }
-        int x = fabs(x1 - x2);
-        int y = fabs(y1 - y2);
-        int count = (x >= y) ? x : y;
-        double dx = (double)(x2 - x1) / count;
-        double dy = (double)(y2 - y1) / count;
-        double dd = (d2 - d1) / count;
-        double _x = x1;
-        double _y = y1;
-        double _d = d1;
-        for (int i = 0; i <= count; i++)
-        {
-            buf->setPixel((int)_x, (int)_y, _color, (size_t)_d);
-            _x += dx;
-            _y += dy;
-            _d += dd;
-        }
+        line _line((*this)[i], (*this)[(i+1)%this->size()]);
+        _line.draw(buf, cam);
     }
 }
 
+int polygon::findYmin() const{
+    int ymin = 3000;
+    for (size_t i = 0; i < this->size(); i++) {
+        point a = (*this)[i];
+        if ((int)a.y() < ymin)
+            ymin = (int)a.y();
+    }
+    return ymin;
+}
+
+int polygon::findYmax() const{
+    int ymax = 0;
+    for (size_t i = 0; i < this->size(); i++) {
+        point a = (*this)[i];
+        if ((int)a.y() > ymax)
+            ymax = (int)a.y();
+    }
+    return ymax;
+}
+
+array<point> polygon::findTextureFrame() const{
+    array<point> frame(4);
+    int num1 = _num % this->size();
+    int num4 = (num1 > 0) ? num1 - 1 : this->size() - 1;
+    int num2 = (num1  < (int)this->size() - 1) ? num1 + 1 : 0;
+    frame[0] = (*this)[num1];
+    frame[1] = (*this)[num2];
+    frame[3] = (*this)[num4];
+    if (this->size() == 3){
+        frame[2] = (*this)[num4] + (*this)[num2] - (*this)[num1];
+    }
+    else {
+        int num3 = (num1  < this->size() - 2) ? num1 + 2 : (num1 + 2) % this->size();
+        frame[2] = (*this)[num3];
+    }
+    return frame;
+}
 
 void polygon::drawTexture(Z_buffer_base *buf, const camera_base *cam) const
 {
-    point p1, p2, p3, p4;
-    double ymin = buf->height();
-    double ymax = 0;
+    polygon proj;
+    for (size_t i = 0; i < this->size(); i++){
+        proj.add((*this)[i].project(buf, cam));
+    }
+    int ymin = proj.findYmin();
+    ymin = (ymin < (int)buf->width() - 1) ? ymin : buf->width();
+    int ymax = proj.findYmax();
+    array<point> frame;
+    if (this->isTexture()){
+        frame.set(proj.findTextureFrame());
+    }
+    array<int> xmin(ymax - ymin + 1, buf->width()-1);
+    array<int> xmax(ymax - ymin + 1, 0);
+    array<point> pmin(ymax - ymin + 1);
+    array<point> pmax(ymax - ymin + 1);
+    array<point> nmin(ymax - ymin + 1);
+    array<point> nmax(ymax - ymin + 1);
     for (size_t i = 0; i < this->size(); i++)
     {
-        point a = point((*this)[i].toArray()*cam->get());
-        a = a.to2D();
-        a.set_x(a.x() + buf->width()/2);
-        a.set_y(-a.y() + buf->height()/2);
-        if (this->isTexture())
+        int i_1 = (i+1) % this->size();
+        point c1 = (*this)[i].camera(cam);
+        point a1 = proj[i];
+        point n1 = _normals[i].camera_for_normal(cam);
+        point c2 = (*this)[i_1].camera(cam);
+        point a2 = proj[i_1];
+        point n2 = _normals[i_1].camera_for_normal(cam);
+        bool ok = (a1.y() < a2.y()) ? true : false;
+        int _y0 = (ok) ? a1.y() : a2.y();
+        int _y1 = (ok) ? a2.y() : a1.y();
+        double _x0 = (ok) ? a1.x() : a2.x();
+        double _x1 = (ok) ? a2.x() : a1.x();
+        point _p0 = (ok) ? c1 : c2;
+        point _p1 = (ok) ? c2 : c1;
+        point _n0 = (ok) ? n1 : n2;
+        point _n1 = (ok) ? n2 : n1;
+        for (int y = _y0; y <= _y1; y += 1)
         {
-            if (i == this->getTexturePos())
-                p1 = a;
-            if (i == (this->getTexturePos() + 1) % this->size())
-                p2 = a;
-            if (this->getTexturePos() == 0 && i == this->size() - 1)
-                p3 = a;
-            if (this->getTexturePos() != 0 && i == this->getTexturePos() - 1)
-                p3 = a;
-            if (this->size() == 4) {
-                if (i == (this->getTexturePos() + 2) % this->size())
-                    p4 = a;
+            double x = _x0 + (_x1 - _x0)*((double)(y - _y0)/(double)(_y1 - _y0));
+            point  p = _p0 + (_p1 - _p0)*((double)(y - _y0)/(double)(_y1 - _y0));
+            point  n = _n0 + (_n1 - _n0)*((double)(y - _y0)/(double)(_y1 - _y0));
+            if (x < xmin[y - ymin]){
+                xmin[y - ymin] = (int)x;
+                pmin[y - ymin] = p;
+                nmin[y - ymin] = n;
             }
-            else {
-                p4 = p3 + p2 - p1;
-            }
-        }
-        if (a.y() < ymin)
-            ymin = a.y();
-        if (a.y() > ymax)
-            ymax = a.y();
-    }
-    if (ymax >= buf->height()){
-        ymax = buf->height() - 1;
-    }
-    int xmin[(size_t)ymax - (size_t)ymin + 1];
-    int xmax[(size_t)ymax - (size_t)ymin + 1];
-    point pmin[(size_t)ymax - (size_t)ymin + 1];
-    point pmax[(size_t)ymax - (size_t)ymin + 1];
-    for (size_t i = 0; i <= ymax - ymin; i++)
-    {
-        xmax[i] = 0;
-        xmin[i] = buf->width();
-    }
-    for (size_t i = 0; i < this->size(); i++)
-    {
-        point b1 = (*this)[i];
-        point c1 = point(b1.toArray()*cam->get());
-        point a1 = c1;
-        a1 = a1.to2D();
-        a1.set_x(a1.x() + buf->width()/2);
-        a1.set_y(-a1.y() + buf->height()/2);
-        point b2 = (*this)[(i+1)%this->size()];
-        point c2 = point(b2.toArray()*cam->get());
-        point a2 = c2;
-        a2 = a2.to2D();
-        a2.set_x(a2.x() + buf->width()/2);
-        a2.set_y(-a2.y() + buf->height()/2);
-        double _y0 = (a1.y() < a2.y()) ? a1.y() : a2.y();
-        double _y1 = (a1.y() < a2.y()) ? a2.y() : a1.y();
-        double _x0 = (a1.y() < a2.y()) ? a1.x() : a2.x();
-        double _x1 = (a1.y() < a2.y()) ? a2.x() : a1.x();
-        point _p0 = (a1.y() < a2.y()) ? c1 : c2;
-        point _p1 = (a1.y() < a2.y()) ? c2 : c1;
-        for (double y = _y0; y <= _y1; y += 1)
-        {
-            double x = _x0 + (_x1 - _x0)*((y - _y0)/(_y1 - _y0));
-            point  p = _p0 + (_p1 - _p0)*((y - _y0)/(_y1 - _y0));
-            if (x < xmin[(size_t)y - (size_t)ymin]){
-                xmin[(size_t)y - (size_t)ymin] = (int)x;
-                pmin[(size_t)y - (size_t)ymin] = p;
-                if (xmin[(size_t)y - (size_t)ymin] < 0)
-                    xmin[(size_t)y - (size_t)ymin] = 0;
-            }
-            if (x > xmax[(size_t)y - (size_t)ymin])
-            {
-                xmax[(size_t)y - (size_t)ymin] = (int)x;
-                pmax[(size_t)y - (size_t)ymin] = p;
-                if (xmax[(size_t)y - (size_t)ymin] >= buf->width())
-                    xmax[(size_t)y - (size_t)ymin] = 0;
+            if (x > xmax[y - ymin]) {
+                xmax[y - ymin] = (int)x;
+                pmax[y - ymin] = p;
+                nmax[y - ymin] = n;
             }
         }
     }
     line2D w1, h1, w2, h2;
-    if (this->isTexture())
-    {
-        w1.set(p1.x(), p1.y(), p3.x(), p3.y());
-        h1.set(p1.x(), p1.y(), p2.x(), p2.y());
-        w2.set(p2.x(), p2.y(), p4.x(), p4.y());
-        h2.set(p3.x(), p3.y(), p4.x(), p4.y());
+    if (this->isTexture()) {
+        w1.set(frame[0].x(), frame[0].y(), frame[3].x(), frame[3].y());
+        h1.set(frame[0].x(), frame[0].y(), frame[1].x(), frame[1].y());
+        w2.set(frame[1].x(), frame[1].y(), frame[2].x(), frame[2].y());
+        h2.set(frame[3].x(), frame[3].y(), frame[2].x(), frame[2].y());
     }
-    //point s = point(0, 0, 500);
+    point s = point(0, 0, 500);
     point c = point(500, 0, 0);
-    for (size_t y = 0; y <= ymax - ymin; y++)
+    //c = c.camera(cam);
+    std::cout << std::endl;
+    for (size_t y = 0; y <= ymax - ymin && y + ymin < buf->height(); y++)
     {
-
-        if (xmax[y] >= buf->width())
-            continue;
         size_t count = xmax[y] - xmin[y];
         point p_ = pmin[y];
         point pp = (count != 0) ? (pmax[y] - pmin[y])*(1/((double)count)) : point(0, 0 ,0);
-
-        for (uint x = xmin[y]; x <= xmax[y]; x++)
+        point n_ = nmin[y];
+        point nn = (count != 0) ? (nmax[y] - nmin[y])*(1/((double)count)) : point(0, 0 ,0);
+        int x_ = (xmin[y] < 0) ? 0 : xmin[y];
+        for (int x = x_; x <= xmax[y] && x < buf->width(); x++)
         {
             double _x = -1, _y = -1;
-
             rgb col;
             if (!this->isTexture()) {
-                point n = this->normal();
-                array<double> arr = n.toArray();
-                arr = arr*TransformMatrix::rotateZ(cam->rotate());
-                arr = arr*TransformMatrix::rotateY(cam->incline());
-
-                n = point(arr);
-                col = operations::Fong(_color, p_, n, c, c);
+                col = _color;
             }
             else {
                 line2D pw, ph;
                 if (h1.isParallel(h2)) {
-                    ph.set(x, y + ymin, x + p2.x() - p1.x(), y + ymin + p2.y() - p1.y());
+                    ph.set(x, y + ymin, x + frame[1].x() - frame[0].x(), y + ymin + frame[1].y() - frame[0].y());
                 }
                 else {
                     point p = h1^h2;
                     ph.set(x, y + ymin, p.x(), p.y());
                 }
                 if (w1.isParallel(w2)) {
-                    pw.set(x, y + ymin, x + p3.x() - p1.x(), y + ymin + p3.y() - p1.y());
+                    pw.set(x, y + ymin, x + frame[3].x() - frame[0].x(), y + ymin + frame[3].y() - frame[0].y());
                 }
                 else {
                     point p = w1^w2;
                     pw.set(x, y + ymin, p.x(), p.y());
                 }
-                point px = ph^w1;
-                point py = pw^h1;
-                _x = (px - p1).length()/(p3 - p1).length();
-                _y = (py - p1).length()/(p2 - p1).length();
+                point vw = pw.vector();
+                point hw = ph.vector();
+                line2D uw(x, y + ymin, x + vw.x(), y + ymin + vw.y());
+                line2D uh(x, y + ymin, x + hw.x(), y + ymin + hw.y());
+                point px = ph^uw;
+                point py = pw^uh;
+                point px1 = uw^h1;
+                point px2 = uw^h2;
+                point py1 = uh^w1;
+                point py2 = uh^w2;
+                _x = (px - px1).length()/(px2 - px1).length();
+                _y = (py - py1).length()/(py2 - py1).length();
                 if (_x >= 0 && _x <= 1 && _y >=0 && _y <= 1)
                     col = this->getTexturePixel(_x, _y);
                 else
                     col = _color;
-
-                point n = this->normal();
-                array<double> arr = n.toArray();
-                arr = arr * TransformMatrix::rotateZ(cam->rotate());
-                arr = arr * TransformMatrix::rotateY(cam->incline());
-                n = point(arr);
-                col = operations::Fong(col, p_, n, c, c);
             }
-            buf->setPixel(x, y+ymin, col, (p_ - point(500, 0, 0)).length());
+            col = operations::Fong(col, p_, n_, c, c);
+            buf->setPixel(x, y+ymin, col, (p_ - c).length());
             p_ += pp;
+            n_ += nn;
         }
-
     }
 }

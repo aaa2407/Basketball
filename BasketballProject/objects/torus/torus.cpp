@@ -28,6 +28,7 @@ torus::torus(const char* name, double MainRadius, double TorusRadius, size_t c1,
     }
     setPolygons();
     setConnect();
+    setNormalsOnVertex();
     initColors();
 }
 
@@ -40,24 +41,10 @@ torus::torus(const torus &copy){
     _torus_centres = copy._torus_centres;
     setPolygons();
     setConnect();
+    setNormalsOnVertex();
     initColors();
 }
 
-
-polygon torus::getPolygon(size_t index) const
-{
-    polygon pol;
-    for (size_t i = 0; i < _polygons[index].size(); i++)
-    {
-        pol.add(_vertex[_polygons[index][i]] + _centre);
-    }
-    double value = pol.get_plane().value(_torus_centres[index/_c2]);
-    if ((value < 0 && _outward_normal) || (value > 0 && !_outward_normal))
-    {
-        pol.changeNormal();
-    }
-    return pol;
-}
 
 void torus::setPolygons()
 {
@@ -78,29 +65,24 @@ void torus::setPolygons()
 }
 
 
-void torus::transform(const transform_base& matr)
-{
-    _centre = point(_centre.toArray()*matr);
-}
-
 marray<polygon> torus::createParallelObject(double radius) const{
     marray<point> points;
-    size_t c1 = _c1/2;
-    size_t c2 = _c2;
-    for (double fi = -M_PI; fi < M_PI - M_PI/c1; fi += M_PI/c1*2) {
+    size_t c1 = _c1*2;
+    size_t c2 = _c2*2;
+    for (double fi = -M_PI - M_PI/c1; fi < M_PI; fi += M_PI/c1*2) {
         point p(_main_radius*cos(fi), _main_radius*sin(fi), 0);
         point pn = p;
         pn.normalization();
-        pn.set_x(pn.x()*(_torus_radius + radius + 3));
-        pn.set_y(pn.y()*(_torus_radius + radius + 3));
+        pn.set_x(pn.x()*(_torus_radius + radius));
+        pn.set_y(pn.y()*(_torus_radius + radius));
         for (double inc = -M_PI; inc < M_PI - M_PI/c2; inc += M_PI/c2*2)
         {
             point a = pn;
-            a.set_x(a.x()*cos(inc) + this->centre().x());
-            a.set_y(a.y()*cos(inc) + this->centre().y());
-            a.set_z((_torus_radius + radius)*sin(inc) + this->centre().z());
-            points.add(point(p + a));
-        }
+            a.set_x(a.x()*cos(inc));
+            a.set_y(a.y()*cos(inc));
+            a.set_z((_torus_radius + radius)*sin(inc));
+            points.add(point(p + a + _centre));
+        } 
     }
     marray<polygon> arr;
     size_t i1, j1;
@@ -117,4 +99,13 @@ marray<polygon> torus::createParallelObject(double radius) const{
         }
     }
     return arr;
+
+}
+
+polygon torus::createCirclePolygon() const{
+    polygon pol;
+    for (size_t i = 0; i < _torus_centres.size(); i++){
+        pol.add(_torus_centres[i] + _centre);
+    }
+    return pol;
 }

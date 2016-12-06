@@ -10,11 +10,8 @@ public:
           const point& p = point(0, 0, 0), QColor color = QColor(Qt::black));
     torus(const torus &copy);
 
-    polygon getPolygon(size_t index) const;
-
-    void transform(const transform_base& matr);
-
-    virtual marray<polygon> createParallelObject(double radius) const;
+    marray<polygon> createParallelObject(double radius) const;
+    polygon createCirclePolygon() const;
 
 protected:
     void setPolygons();
@@ -22,7 +19,7 @@ protected:
 
 private:
     double _main_radius, _torus_radius;
-    marray<point> _torus_centres;
+    polygon _torus_centres;
     size_t _c1;
     size_t _c2;
 };

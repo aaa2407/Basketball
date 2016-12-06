@@ -22,6 +22,11 @@ public:
 
     virtual marray<polygon> createParallelObject(double radius) const;
 
+    object* findObject(const char* name);
+    composite* findComposite(const char* name);
+
+    void output() const;
+
 protected:
     marray<object*> _objects;
     marray<composite*> _composites;

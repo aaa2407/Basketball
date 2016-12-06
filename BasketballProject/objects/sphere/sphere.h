@@ -9,11 +9,9 @@ public:
     sphere(const char* name = NULL, double radius = 15, size_t c1 = 5, size_t c2 = 10, const point& p = point(0, 0, 0));
     sphere(const sphere& copy);
 
-    polygon getPolygon(size_t index) const;
-
-    void transform(const transform_base& matr);
-
     virtual marray<polygon> createParallelObject(double radius) const;
+
+    double radius() const;
 
 protected:
     void setLines(){}

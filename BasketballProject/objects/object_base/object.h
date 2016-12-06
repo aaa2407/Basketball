@@ -4,6 +4,7 @@
 #include "objects\object_base\oblect_base.h"
 #include "mutable_array\marray.h"
 #include "transform_matrix\transform_matrix.h"
+#include "line/line.h"
 
 typedef struct{
     bool ok;
@@ -18,6 +19,7 @@ typedef struct{
     size_t pol1, pol2;
 } sline;
 
+
 class object : public object_base
 {
 public:
@@ -30,13 +32,16 @@ public:
 
     void draw(Z_buffer_base *buf, const camera_base* cam) const;
 
-    virtual polygon getPolygon(size_t index) const;
+    polygon getPolygon(size_t index) const;
+    array<point> getPolygonNormals(size_t index) const;
+
     color::rgb getPolygonColor(size_t index) const;
     size_t  getPolygonCount() const;
     picture *getPolygonTexture(size_t index) const;
     size_t getPolygonTexturePos(size_t index) const;
 
     const point& centre() const;
+
     void setOutwardNormal(bool ok);
     bool outwardNormal() const;
 
@@ -46,12 +51,16 @@ public:
     void setColor(QColor color);
     void setPolygonPicture(size_t index, picture* pic);
     void setPolygonPicturePos(size_t index, size_t pos);
+    void setNormalsOnVertex();
 
     virtual marray<polygon> createParallelObject(double radius) const {
         return marray<polygon>();
     }
 
-
+    virtual point operator[](size_t index) const;
+    virtual point vertex(size_t index) const;
+    const size_t vertexCount() const;
+    const point& normalVertex(size_t index) const;
 
 protected:
     bool setConnect();
@@ -63,6 +72,7 @@ protected:
     array<marray<size_t>> _connect;
     marray<marray<size_t>> _polygons;
     marray<sline> _lines;
+    marray<point> _norm_on_vert;
 
     bool deleteRobert;
     rgb _color;

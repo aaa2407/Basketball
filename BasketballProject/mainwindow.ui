@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>924</width>
-    <height>659</height>
+    <width>888</width>
+    <height>523</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -19,16 +19,16 @@
      <rect>
       <x>10</x>
       <y>10</y>
-      <width>901</width>
-      <height>571</height>
+      <width>721</width>
+      <height>451</height>
      </rect>
     </property>
    </widget>
    <widget class="QPushButton" name="pushButton">
     <property name="geometry">
      <rect>
-      <x>320</x>
-      <y>20</y>
+      <x>740</x>
+      <y>10</y>
       <width>93</width>
       <height>28</height>
      </rect>
@@ -40,8 +40,8 @@
    <widget class="QPushButton" name="pushButton_2">
     <property name="geometry">
      <rect>
-      <x>420</x>
-      <y>20</y>
+      <x>750</x>
+      <y>90</y>
       <width>93</width>
       <height>28</height>
      </rect>
@@ -53,8 +53,8 @@
    <widget class="QPushButton" name="pushButton_3">
     <property name="geometry">
      <rect>
-      <x>520</x>
-      <y>20</y>
+      <x>740</x>
+      <y>50</y>
       <width>93</width>
       <height>28</height>
      </rect>
@@ -63,26 +63,117 @@
      <string>Возобновить</string>
     </property>
    </widget>
+   <widget class="QLabel" name="label">
+    <property name="geometry">
+     <rect>
+      <x>920</x>
+      <y>110</y>
+      <width>91</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>924</width>
+     <width>888</width>
      <height>26</height>
     </rect>
    </property>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
    <attribute name="toolBarArea">
-    <enum>TopToolBarArea</enum>
+    <enum>LeftToolBarArea</enum>
    </attribute>
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
+   <addaction name="actionRotate2"/>
+   <addaction name="actionRotate"/>
+   <addaction name="actionIncline_up"/>
+   <addaction name="actionIncline_down"/>
+   <addaction name="actionScale_plus"/>
+   <addaction name="actionScale_minus"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
+  <action name="actionRotate">
+   <property name="icon">
+    <iconset>
+     <normaloff>images/rotate.png</normaloff>images/rotate.png</iconset>
+   </property>
+   <property name="text">
+    <string>Rotate</string>
+   </property>
+   <property name="shortcut">
+    <string>D</string>
+   </property>
+  </action>
+  <action name="actionRotate2">
+   <property name="icon">
+    <iconset>
+     <normaloff>images/rotate2.png</normaloff>images/rotate2.png</iconset>
+   </property>
+   <property name="text">
+    <string>rotate2</string>
+   </property>
+   <property name="shortcut">
+    <string>A</string>
+   </property>
+  </action>
+  <action name="actionIncline_up">
+   <property name="icon">
+    <iconset>
+     <normaloff>images/incline.png</normaloff>images/incline.png</iconset>
+   </property>
+   <property name="text">
+    <string>incline_up</string>
+   </property>
+   <property name="shortcut">
+    <string>W</string>
+   </property>
+  </action>
+  <action name="actionIncline_down">
+   <property name="icon">
+    <iconset>
+     <normaloff>images/incline2.png</normaloff>images/incline2.png</iconset>
+   </property>
+   <property name="text">
+    <string>incline_down</string>
+   </property>
+   <property name="shortcut">
+    <string>S</string>
+   </property>
+  </action>
+  <action name="actionScale_plus">
+   <property name="icon">
+    <iconset>
+     <normaloff>images/scale2.png</normaloff>images/scale2.png</iconset>
+   </property>
+   <property name="text">
+    <string>scale_plus</string>
+   </property>
+   <property name="shortcut">
+    <string>+</string>
+   </property>
+  </action>
+  <action name="actionScale_minus">
+   <property name="icon">
+    <iconset>
+     <normaloff>images/scale.png</normaloff>images/scale.png</iconset>
+   </property>
+   <property name="text">
+    <string>scale_minus</string>
+   </property>
+   <property name="shortcut">
+    <string>-</string>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources/>

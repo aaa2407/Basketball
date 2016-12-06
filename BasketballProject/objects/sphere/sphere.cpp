@@ -20,6 +20,7 @@ sphere::sphere(const char *name, double radius, size_t c1, size_t c2, const poin
     setPolygons();
     setConnect();
     initColors();
+    setNormalsOnVertex();
     _centre = p;
 }
 
@@ -30,23 +31,10 @@ sphere::sphere(const sphere& copy)
     setPolygons();
     setConnect();
     initColors();
+    setNormalsOnVertex();
     _centre = copy.centre();
 }
 
-polygon sphere::getPolygon(size_t index) const
-{
-    polygon pol;
-    for (size_t i = 0; i < _polygons[index].size(); i++)
-    {
-        pol.add(_vertex[_polygons[index][i]] + _centre);
-    }
-    double value = pol.get_plane().value(_centre);
-    if ((value < 0 && _outward_normal) || (value > 0 && !_outward_normal))
-    {
-        pol.changeNormal();
-    }
-    return pol;
-}
 
 void sphere::setPolygons()
 {
@@ -78,12 +66,10 @@ void sphere::setPolygons()
 }
 
 
-void sphere::transform(const transform_base& matr)
-{
-    _centre = point(_centre.toArray()*matr);
-}
-
-
 marray<polygon> sphere::createParallelObject(double radius) const{
     return marray<polygon>();
+}
+
+double sphere::radius() const{
+    return _vertex[0].length();
 }

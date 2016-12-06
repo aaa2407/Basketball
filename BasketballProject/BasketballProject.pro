@@ -11,6 +11,7 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TARGET = BasketballProject
 TEMPLATE = app
 
+QMAKE_LFLAGS += -fopenmp
 
 SOURCES += main.cpp\
         mainwindow.cpp \
@@ -37,7 +38,8 @@ SOURCES += main.cpp\
     objects/composite/composite.cpp \
     objects/object_base/object.cpp \
     fisics/ball/ball.cpp \
-    drawing/z-buffer_detachment/z-buffer_detachment.cpp
+    drawing/z-buffer_detachment/z-buffer_detachment.cpp \
+    line/line.cpp
 
 HEADERS  += mainwindow.h \
     array/_array.h \
@@ -101,6 +103,9 @@ HEADERS  += mainwindow.h \
     fisics/ball/ball.h \
     drawing/z-buffer_detachment/z-buffer_detachment.h \
     drawing/z-buffer/pixel.h \
-    drawing/z-buffer_base/z_buffer_base.h
+    drawing/z-buffer_base/z_buffer_base.h \
+    line/line.h \
+    fisics/ball/error_ball_base.h \
+    fisics/ball/error_ball.h
 
 FORMS    += mainwindow.ui

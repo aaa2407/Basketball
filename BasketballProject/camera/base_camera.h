@@ -32,6 +32,7 @@ public:
     virtual double zc() const = 0;
 
     virtual transform_base get() const = 0;
+    virtual transform_base getVector() const = 0;
     virtual int distance(double x, double y, double z) const = 0;
 };
 

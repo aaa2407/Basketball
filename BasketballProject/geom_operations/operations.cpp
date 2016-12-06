@@ -236,17 +236,43 @@ color::rgb operations::Fong(color::rgb col, const point& p, const point& n,
 
     point _n = n;
     _n.normalization();
-    point v = cam - p;
-    v.normalization();
-    point r = _n*(_n*v)*2-v;
-    r.normalization();
+    point _c = cam - p;
+    _c.normalization();
     point _s = s - p;
     _s.normalization();
-    double c = r*_s;
-    if (c < 0)
-        c = 0;
-    col.red  = col.red + (255 - col.red)*c * 0.7;
-    col.green = col.green + (255 - col.green)*c * 0.7;
-    col.blue = col.blue  + (255 - col.blue)*c* 0.7;
+    point _h = _c + _s;
+    _h.normalization();
+    double fong = pow(_n*_h, 10);
+    if (fong < 0)
+        fong = 0;
+    double lamb = (_s*_n + 1);
+    if (lamb < 0)
+        lamb = 0;
+    lamb /= 2;
+    color::rgb c1;
+    c1.red   = col.red * fong;
+    c1.green = col.green * fong;
+    c1.blue  = col.blue * fong;
+    color::rgb c2;
+    c2.red   = col.red * lamb;
+    c2.green = col.green * lamb;
+    c2.blue  = col.blue * lamb;
+    color::rgb c3;
+    c3.red   = col.red * 0.7;
+    c3.green = col.green * 0.7;
+    c3.blue  = col.blue * 0.7;
+    int r, g, b;
+    r = (int)c1.red + (int)c2.red + (int)c3.red;
+    g = (int)c1.green + (int)c2.green + (int)c3.green;
+    b = (int)c1.blue + (int)c2.blue + (int)c3.blue;
+    //r = (int)c2.red + (int)c3.red;
+    //g = (int)c2.green + (int)c3.green;
+    //b = (int)c2.blue + (int)c3.blue;
+    r = (r > 255) ? 255 : r;
+    g = (g > 255) ? 255 : g;
+    b = (b > 255) ? 255 : b;
+    col.red = r;
+    col.green = g;
+    col.blue = b;
     return col;
 }

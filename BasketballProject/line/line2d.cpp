@@ -138,3 +138,8 @@ point line2D::operator^(const line2D& right) const
 {
     return this->intersection(right);
 }
+
+
+point line2D::vector() const{
+    return point(_a, _b)^point(0, 0, 1);
+}

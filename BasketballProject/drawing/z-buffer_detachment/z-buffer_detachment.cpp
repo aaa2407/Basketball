@@ -10,7 +10,7 @@ void Z_buffer_Detachment::setPixel(int x, int y, color::rgb color, size_t depth)
     if (x < 0 || y < 0 || (size_t)x >= this->height() || (size_t)y >= this->width()){
         return;
     }
-    if (depth < _buf->depth(y, x))
+    if (depth < _buf->depth(x, y))
     {
         struct pixel_det p;
         p.pix.depth = depth;
@@ -60,4 +60,12 @@ QPixmap Z_buffer_Detachment::createPixmap() const{
     QBitmap BM = pixmap.createMaskFromColor(QColor(255, 255, 255));
     pixmap.setMask(BM);
     return pixmap;
+}
+
+size_t Z_buffer_Detachment::size() const{
+    return _pixels.size();
+}
+
+size_t Z_buffer_Detachment::depth(size_t index) const{
+    return _pixels[index].pix.depth;
 }

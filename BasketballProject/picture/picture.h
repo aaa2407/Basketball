@@ -21,7 +21,10 @@ public:
     size_t height() const;
     rgb getPixel(size_t x, size_t y) const;
 
+    QString name() const;
+
 private:
+    QString _name;
     QString _path;
     array<array<rgb>> _map;
 };

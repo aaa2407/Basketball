@@ -130,6 +130,12 @@ transform_base camera::get() const
     return matr;
 }
 
+transform_base camera::getVector() const{
+    transform_base matr;
+    matr *= TransformMatrix::rotateZ(this->rotate());
+    matr *= TransformMatrix::rotateY(this->incline());
+    return matr;
+}
 
 const point& camera::centre() const
 {

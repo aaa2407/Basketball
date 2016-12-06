@@ -1,22 +1,23 @@
 #include "paral.h"
 
-paral::paral(const char* name, size_t width, size_t lenght, size_t height, const point &cen, QColor color)
+paral::paral(const char* name, double width, double lenght, double height, const point &cen, QColor color)
 {
     _name = name ? (char*)name : NULL;
-    _vertex.add(point(cen.x() - width/2, cen.y() - lenght/2, cen.z() - height/2)); // 0
-    _vertex.add(point(cen.x() - width/2, cen.y() - lenght/2, cen.z() + height/2)); // 1
-    _vertex.add(point(cen.x() - width/2, cen.y() + lenght/2, cen.z() - height/2)); // 2
-    _vertex.add(point(cen.x() - width/2, cen.y() + lenght/2, cen.z() + height/2)); // 3
-    _vertex.add(point(cen.x() + width/2, cen.y() - lenght/2, cen.z() - height/2)); // 4
-    _vertex.add(point(cen.x() + width/2, cen.y() - lenght/2, cen.z() + height/2)); // 5
-    _vertex.add(point(cen.x() + width/2, cen.y() + lenght/2, cen.z() - height/2)); // 6
-    _vertex.add(point(cen.x() + width/2, cen.y() + lenght/2, cen.z() + height/2)); // 7
+    _centre = cen;
+    _vertex.add(point(-width/2, -lenght/2, -height/2)); // 0
+    _vertex.add(point(-width/2, -lenght/2, +height/2)); // 1
+    _vertex.add(point(-width/2, +lenght/2, -height/2)); // 2
+    _vertex.add(point(-width/2, +lenght/2, +height/2)); // 3
+    _vertex.add(point(+width/2, -lenght/2, -height/2)); // 4
+    _vertex.add(point(+width/2, -lenght/2, +height/2)); // 5
+    _vertex.add(point(+width/2, +lenght/2, -height/2)); // 6
+    _vertex.add(point(+width/2, +lenght/2, +height/2)); // 7
     _color = get_rgb(color);
     setPolygons();
     setConnect();
     setLines();
     initColors();
-    _centre = cen;
+    setNormalsOnVertex();
 }
 
 paral::paral(const char *name, const point& p1, const point p2, QColor color)
@@ -24,6 +25,13 @@ paral::paral(const char *name, const point& p1, const point p2, QColor color)
     _name = name ? (char*)name : NULL;
     double x1 = p1.x(), y1 = p1.y(), z1 = p1.z();
     double x2 = p2.x(), y2 = p2.y(), z2 = p2.z();
+    _centre = point((x1 + x2)/2, (y1 + y2)/2, (z1 + z2)/2);
+    x1 -= _centre.x();
+    x2 -= _centre.x();
+    y1 -= _centre.y();
+    y2 -= _centre.y();
+    z1 -= _centre.z();
+    z2 -= _centre.z();
     _vertex.add(point(x1, y1, z1));
     _vertex.add(point(x1, y1, z2));
     _vertex.add(point(x1, y2, z1));
@@ -37,7 +45,7 @@ paral::paral(const char *name, const point& p1, const point p2, QColor color)
     setConnect();
     setLines();
     initColors();
-    _centre = point((x1 + x2)/2, (y1 + y2)/2, (z1 + z2)/2);
+    setNormalsOnVertex();
 }
 
 paral::paral(const paral& par)
@@ -45,31 +53,35 @@ paral::paral(const paral& par)
     _name = (par._name != NULL) ? par._name : NULL;
     _vertex = par._vertex;
     _color = this->_color;
+    _centre = par.centre();
     setPolygons();
     setConnect();
     setLines();
     initColors();
-    _centre = par.centre();
+    setNormalsOnVertex();
 }
 
 marray<polygon> paral::createParallelObject(double radius) const{
     marray<polygon> marr;
     for (size_t i = 0; i < this->getPolygonCount(); i++){
         polygon pol = this->getPolygon(i);
-        point p = (-pol.normal())*radius;
+        point n = pol.normal();
+        if (!outwardNormal())
+            n = -n;
+        point p = n*radius;
         for (size_t j = 0; j < pol.size(); j++){
             pol[j] = pol[j] + p;
-       }
+        }
         marr.add(pol);
     }
     if (outwardNormal() == false)
         return marr;
     for (size_t i = 0; i < _lines.size(); i++) {
-        point p1 = _vertex[_lines[i].p1];
-        point p2 = _vertex[_lines[i].p2];
+        point p1 = _vertex[_lines[i].p1] + _centre;
+        point p2 = _vertex[_lines[i].p2] + _centre;
         polygon pol1 = this->getPolygon(_lines[i].pol1);
         polygon pol2 = this->getPolygon(_lines[i].pol2);
-        point n1 = -pol1.normal(), n2 = -pol2.normal();
+        point n1 = pol1.normal(), n2 = pol2.normal();
         point n = n1 + n2; n.normalization();
         n = n * radius;
         n1 = n1 * radius;
@@ -81,11 +93,11 @@ marray<polygon> paral::createParallelObject(double radius) const{
         marr.add(py2);
     }
     for (size_t i = 0; i < _connect.size(); i++){
-        point p = _vertex[i];
+        point p = _vertex[i] + _centre;
         polygon pol1 = this->getPolygon(_connect[i][0]);
         polygon pol2 = this->getPolygon(_connect[i][1]);
         polygon pol3 = this->getPolygon(_connect[i][2]);
-        point n1 = -pol1.normal(); point n2 = -pol2.normal(); point n3 = -pol3.normal();
+        point n1 = pol1.normal(); point n2 = pol2.normal(); point n3 = pol3.normal();
         point n12 = n1 + n2; point n23 = n2 + n3; point n13 = n1 + n3;
         point n = n1 + n2 + n3;
         n12.normalization();
@@ -161,3 +173,50 @@ void paral::setPolygons()
     _polygons.add(pol);
 }
 
+double paral::minX() const{
+   double x = 3000;
+   for (size_t i = 0; i < _vertex.size(); i++)
+        if (x > _vertex[i].x())
+       x = _vertex[i].x();
+   return x;
+}
+
+double paral::minY() const{
+    double y = 3000;
+    for (size_t i = 0; i < _vertex.size(); i++)
+         if (y > _vertex[i].y())
+             y = _vertex[i].y();
+    return y;
+}
+
+double paral::minZ() const{
+    double z = 3000;
+    for (size_t i = 0; i < _vertex.size(); i++)
+         if (z > _vertex[i].z())
+        z = _vertex[i].z();
+    return z;
+}
+
+double paral::maxX() const{
+    double x = -3000;
+    for (size_t i = 0; i < _vertex.size(); i++)
+         if (x > _vertex[i].x())
+        x = _vertex[i].x();
+    return x;
+}
+
+double paral::maxY() const{
+    double y = -3000;
+    for (size_t i = 0; i < _vertex.size(); i++)
+         if (y < _vertex[i].y())
+             y = _vertex[i].y();
+    return y;
+}
+
+double paral::maxZ() const{
+    double z = -3000;
+    for (size_t i = 0; i < _vertex.size(); i++)
+         if (z < _vertex[i].z())
+        z = _vertex[i].z();
+    return z;
+}

@@ -29,20 +29,18 @@ void object::draw(Z_buffer_base *buf, const camera_base* cam) const{
             else {
                 pol.setColor(this->_color);
             }
+            pol.setNormals(this->getPolygonNormals(i));
             pol.setTexture(this->getPolygonTexture(i));
             pol.setTexturePos(this->getPolygonTexturePos(i));
-            array<double> a = pol.normal().toArray();
-            a = a * TransformMatrix::rotateZ(cam->rotate());
-            a = a * TransformMatrix::rotateY(cam->incline());
-            point p(a);
-            if (!this->outwardNormal() || deleteRobert){
-                double r = p * point(-1, 0, 0);
-                if (r >= 0) {
+            point p = pol.normal().camera_for_normal(cam);
+            if (this->outwardNormal() == false || deleteRobert){
+                if (p * point(-1, 0, 0) >= 0) {
                     pol.draw(buf, cam);
                 }
             }
-            else
+            else{
                 pol.draw(buf, cam);
+            }
         }
 }
 
@@ -80,19 +78,20 @@ void object::initColors()
     }
 }
 
-polygon object::getPolygon(size_t index) const
-{
+polygon object::getPolygon(size_t index) const {
     polygon pol;
-    for (size_t i = 0; i < _polygons[index].size(); i++)
-    {
-        pol.add(_vertex[_polygons[index][i]]);
-    }
-    double value = pol.get_plane().value(_centre);
-    if ((value < 0 && _outward_normal) || (value > 0 && !_outward_normal))
-    {
-        pol.changeNormal();
+    for (size_t i = 0; i < _polygons[index].size(); i++) {
+        pol.add(_vertex[_polygons[index][i]] + _centre);
     }
     return pol;
+}
+
+array<point> object::getPolygonNormals(size_t index) const{
+    array<point> arr(_vertex.size());
+    for (size_t i = 0; i < _polygons[index].size(); i++) {
+        arr[i] = _norm_on_vert[_polygons[index][i]];
+    }
+    return arr;
 }
 
 color::rgb object::getPolygonColor(size_t index) const
@@ -125,12 +124,22 @@ void object::setPolygonPicturePos(size_t index, size_t pos)
     }
 }
 
+void object::setNormalsOnVertex(){
+    _norm_on_vert.clear();
+    for (size_t i = 0; i < _connect.size(); i++){
+        point norm(0, 0, 0);
+        for (size_t j = 0; j < _connect[i].size(); j++){
+            polygon pol = getPolygon(_connect[i][j]);
+            point n = pol.normal();
+            norm += n;
+        }
+        norm.normalization();
+        _norm_on_vert.add(norm);
+    }
+}
+
 void object::transform(const transform_base& matr)
 {
-    for (size_t i = 0; i < _vertex.size(); i++)
-    {
-        _vertex[i] = point(_vertex[i].toArray()*matr);
-    }
     _centre = point(_centre.toArray()*matr);
 }
 
@@ -152,4 +161,20 @@ size_t object::getPolygonTexturePos(size_t index) const
 const point& object::centre() const
 {
     return _centre;
+}
+
+point object::operator[](size_t index) const{
+    return this->vertex(index);
+}
+
+point object::vertex(size_t index) const{
+    return _vertex[index] + _centre;
+}
+
+const size_t object::vertexCount() const{
+    return _vertex.size();
+}
+
+const point& object::normalVertex(size_t index) const{
+    return this->_norm_on_vert[index];
 }

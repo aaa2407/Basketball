@@ -35,6 +35,8 @@ public:
     point intersection(const line2D& right) const;
     point operator^(const line2D& right) const;
 
+    point vector() const;
+
 protected:
     double _a, _b, _c;
 };

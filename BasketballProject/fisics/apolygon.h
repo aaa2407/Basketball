@@ -9,6 +9,12 @@ typedef struct {
     double _koef;
 } apolygon;
 
+typedef struct {
+    polygon _pol;
+    char* _message;
+    double _time;
+} mpolygon;
+
 double time_to(const polygon& pol, const traject& copy);
 
 

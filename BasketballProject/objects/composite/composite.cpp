@@ -72,3 +72,43 @@ marray<polygon> composite::createParallelObject(double radius) const
     }
     return arr;
 }
+
+void composite::output() const{
+    for (size_t i = 0; i < _objects.size(); i++){
+        std::cout << _objects[i]->name() << std::endl;
+        for (size_t j = 0; j < _objects[i]->vertexCount(); j++){
+            std::cout << _objects[i]->vertex(j) << "\t";
+        }
+        std::cout << std::endl << "-------" << std::endl;
+    }
+    for (size_t i = 0; i < _composites.size(); i++){
+        _composites[i]->output();
+    }
+}
+
+object* composite::findObject(const char* name){
+    for (size_t i = 0; i < _objects.size(); i++){
+        if (_objects[i]->name() == name){
+            return _objects[i];
+        }
+    }
+    object *obj = NULL;
+    for (size_t i = 0; i < _composites.size(); i++){
+         obj = _composites[i]->findObject(name);
+         if (obj)
+             break;
+    }
+    return obj;
+}
+
+composite* composite::findComposite(const char* name){
+    if (this->name() == name)
+        return this;
+    composite *comp = NULL;
+    for (size_t i = 0; i < _composites.size(); i++){
+        comp = _composites[i]->findComposite(name);
+        if (comp)
+            break;
+    }
+    return comp;
+}

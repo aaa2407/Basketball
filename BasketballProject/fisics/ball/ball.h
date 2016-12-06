@@ -5,26 +5,26 @@
 #include "objects/sphere/sphere.h"
 #include "transform_matrix/transform_matrix.h"
 #include "objects/composite/composite.h"
+#include "fisics/ball/error_ball.h"
 
 class ball : public aspace, public drawing_object
 {
     Q_OBJECT
 public:
-    ball(const char* name = NULL, double radius = 15);
+    ball(sphere* _sphere);
     
     void draw(Z_buffer_base *, const camera_base *) const;
 
-    void  addPolygons(const composite& copy);
+    void addPolygons(const composite& copy);
 
     double radius() const;
-    
+
 private slots:
     void move_ball();
     void move_ball_2(point);
 
 protected:
-    double _radius;
-    sphere _ball;    
+    sphere* _ball;
 };
 
 #endif // BALL_H

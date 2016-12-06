@@ -9,6 +9,7 @@
 #include "drawing/drawing_object.h"
 #include "line/line2d.h"
 #include "transform_matrix/transform_matrix.h"
+#include "line/line.h"
 
 class polygon : public marray<point>, public drawing_object
 {
@@ -18,6 +19,8 @@ public:
     void changeNormal();
     point normal() const;
     plane get_plane() const;
+
+    void add(point value);
 
     void setColor(rgb color);
     void setTexture(picture* pic = NULL);
@@ -30,10 +33,18 @@ public:
 
     void draw(Z_buffer_base *, const camera_base *) const;
 
+    void setNormals(const array<point>& arr);
+
 protected:
     void drawFrame(Z_buffer_base *, const camera_base *) const;
     void drawTexture(Z_buffer_base *, const camera_base *) const;
 
+    int findYmin() const;
+    int findYmax() const;
+    array<point> findTextureFrame() const;
+
+protected:
+    array<point> _normals;
     rgb  _color;
     bool napr;
     picture* _pic;

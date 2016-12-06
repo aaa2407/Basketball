@@ -164,6 +164,8 @@ double point::length() const
 
 void point::normalization()
 {
+    if (this->length() == 0)
+        return;
     this->set(_x/length(), _y/length(), _z/length());
 }
 
@@ -248,11 +250,24 @@ point point::to2D() const
 
 void point::draw(Z_buffer_base *buf, const camera_base *cam) const
 {
-    point a = point(this->toArray()*cam->get());
+    point a = this->project(buf, cam);
+    buf->setPixel(a.x(), a.y(), QColor(Qt::black), cam->distance(_x, _y, _z));
+}
+
+point point::camera(const camera_base* cam) const{
+    return point(this->toArray()*cam->get());
+}
+
+point point::camera_for_normal(const camera_base* cam) const{
+    return point(this->toArray()*cam->getVector());
+}
+
+point point::project(Z_buffer_base *buf, const camera_base *cam) const{
+    point a(this->toArray()*cam->get());
     a = a.to2D();
     a.set_x(a.x() + buf->width()/2);
     a.set_y(-a.y() + buf->height()/2);
-    buf->setPixel(a.x(), a.y(), QColor(Qt::black), cam->distance(_x, _y, _z));
+    return a;
 }
 
 float length(const point& start, const point& end)

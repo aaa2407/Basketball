@@ -29,7 +29,10 @@ public:
     QColor getPixel(int x, int y) const;
 
     size_t depth(int x, int y) const;
+    size_t depth(size_t index) const;
     virtual QPixmap createPixmap() const;
+
+    size_t size() const;
 
 private:
     Z_buffer *_buf;
