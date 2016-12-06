@@ -104,6 +104,8 @@ void aspace::calc_time_coll()
             ok = false;
         else
             ok = true;
+        if (fabs(_time) < 0.1)
+            emit this->sstop();
     }
 }
 

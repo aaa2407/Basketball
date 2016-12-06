@@ -16,5 +16,4 @@ point point_at_time(const traject& traj, size_t time);
 
 traject set_traject(const point& p1, const point& p2, double max_z);
 
-
 #endif // TRAJECT_H

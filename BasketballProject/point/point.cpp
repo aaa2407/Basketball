@@ -270,6 +270,30 @@ point point::project(Z_buffer_base *buf, const camera_base *cam) const{
     return a;
 }
 
+void point::incZ(double k){
+    _z += k;
+}
+
+void point::decZ(double k){
+    _z -= k;
+}
+
+void point::incY(double k){
+    _y += k;
+}
+
+void point::decY(double k){
+    _y -= k;
+}
+
+void point::incX(double k){
+    _x += k;
+}
+
+void point::decX(double k){
+    _x -= k;
+}
+
 float length(const point& start, const point& end)
 {
     point newp = end - start;

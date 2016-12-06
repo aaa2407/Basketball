@@ -66,6 +66,13 @@ public:
     point project(Z_buffer_base *, const camera_base *) const;
     point camera_for_normal(const camera_base* cam) const;
 
+    void incZ(double);
+    void decZ(double);
+    void incY(double);
+    void decY(double);
+    void incX(double);
+    void decX(double);
+
 protected:
     double _x;
     double _y;

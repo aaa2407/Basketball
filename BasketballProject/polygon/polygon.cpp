@@ -176,6 +176,19 @@ void polygon::drawTexture(Z_buffer_base *buf, const camera_base *cam) const
     if (this->isTexture()){
         frame.set(proj.findTextureFrame());
     }
+
+    point campos(cam->x(), cam->y(), cam->z());
+
+    array<point> frame3D;
+    array<double> frame3Ddis;
+    if (this->isTexture()){
+        frame3D.set(this->findTextureFrame());
+        frame3Ddis.setSize(frame3D.size());
+        for (size_t i = 0; i < frame3Ddis.size(); i++){
+            frame3Ddis[i] = (frame3D[i] - campos).length();
+        }
+    }
+
     array<int> xmin(ymax - ymin + 1, buf->width()-1);
     array<int> xmax(ymax - ymin + 1, 0);
     array<point> pmin(ymax - ymin + 1);
@@ -218,16 +231,40 @@ void polygon::drawTexture(Z_buffer_base *buf, const camera_base *cam) const
         }
     }
     line2D w1, h1, w2, h2;
+    bool hb, wb;
+    point pcam;
+    line2D ch, cw;
+    double min_dis;
     if (this->isTexture()) {
         w1.set(frame[0].x(), frame[0].y(), frame[3].x(), frame[3].y());
         h1.set(frame[0].x(), frame[0].y(), frame[1].x(), frame[1].y());
         w2.set(frame[1].x(), frame[1].y(), frame[2].x(), frame[2].y());
         h2.set(frame[3].x(), frame[3].y(), frame[2].x(), frame[2].y());
+        hb = h1.isParallel(h2);
+        wb = w1.isParallel(w2);
+        pcam = get_plane().project(campos);
+        min_dis = (campos - pcam).length();
+        pcam = pcam.project(buf, cam);
+        if (hb) {
+            ch.set(pcam.x(), pcam.y() , pcam.x() + frame[1].x() - frame[0].x(),
+                                        pcam.y() + frame[1].y() - frame[0].y());
+        }
+        else {
+            point p = h1^h2;
+            ch.set(pcam.x(), pcam.y() , p.x(), p.y());
+        }
+        if (wb) {
+            cw.set(pcam.x(), pcam.y() , pcam.x() + frame[3].x() - frame[0].x(),
+                                        pcam.y() + frame[3].y() - frame[0].y());
+        }
+        else {
+            point p = w1^w2;
+            cw.set(pcam.x(), pcam.y(), p.x(), p.y());
+        }
     }
     point s = point(0, 0, 500);
     point c = point(500, 0, 0);
     //c = c.camera(cam);
-    std::cout << std::endl;
     for (size_t y = 0; y <= ymax - ymin && y + ymin < buf->height(); y++)
     {
         size_t count = xmax[y] - xmin[y];
@@ -245,14 +282,14 @@ void polygon::drawTexture(Z_buffer_base *buf, const camera_base *cam) const
             }
             else {
                 line2D pw, ph;
-                if (h1.isParallel(h2)) {
+                if (hb) {
                     ph.set(x, y + ymin, x + frame[1].x() - frame[0].x(), y + ymin + frame[1].y() - frame[0].y());
                 }
                 else {
                     point p = h1^h2;
                     ph.set(x, y + ymin, p.x(), p.y());
                 }
-                if (w1.isParallel(w2)) {
+                if (wb) {
                     pw.set(x, y + ymin, x + frame[3].x() - frame[0].x(), y + ymin + frame[3].y() - frame[0].y());
                 }
                 else {
@@ -260,9 +297,9 @@ void polygon::drawTexture(Z_buffer_base *buf, const camera_base *cam) const
                     pw.set(x, y + ymin, p.x(), p.y());
                 }
                 point vw = pw.vector();
-                point hw = ph.vector();
+                point vh = ph.vector();
                 line2D uw(x, y + ymin, x + vw.x(), y + ymin + vw.y());
-                line2D uh(x, y + ymin, x + hw.x(), y + ymin + hw.y());
+                line2D uh(x, y + ymin, x + vh.x(), y + ymin + vh.y());
                 point px = ph^uw;
                 point py = pw^uh;
                 point px1 = uw^h1;
@@ -276,7 +313,7 @@ void polygon::drawTexture(Z_buffer_base *buf, const camera_base *cam) const
                 else
                     col = _color;
             }
-            col = operations::Fong(col, p_, n_, c, c);
+            col = operations::Fong(col, p_, n_, s, c);
             buf->setPixel(x, y+ymin, col, (p_ - c).length());
             p_ += pp;
             n_ += nn;

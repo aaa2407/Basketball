@@ -189,9 +189,12 @@ bool plane::isInPlane(double x, double y, double z, double error) const
     return (fabs(value(x, y, z)) < fabs(error));
 }
 
-point plane::reflaction(const point& first) const
-{
+point plane::reflaction(const point& first) const{
     return first + this->norm()*this->value(first)*(-2);
+}
+
+point plane::project(const point& first) const{
+    return first - this->norm()*this->value(first);
 }
 
 point plane::norm() const

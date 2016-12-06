@@ -44,6 +44,7 @@ public:
     bool isInPlane(double x, double y, double z, double error = 1e-5) const;
 
     point reflaction(const point& first) const;
+    point project(const point& first) const;
 
     point norm() const;
 

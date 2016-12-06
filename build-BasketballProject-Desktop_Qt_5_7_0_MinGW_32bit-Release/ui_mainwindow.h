@@ -17,8 +17,6 @@
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QMainWindow>
-#include <QtWidgets/QMenuBar>
-#include <QtWidgets/QPushButton>
 #include <QtWidgets/QStatusBar>
 #include <QtWidgets/QToolBar>
 #include <QtWidgets/QWidget>
@@ -34,13 +32,13 @@ public:
     QAction *actionIncline_down;
     QAction *actionScale_plus;
     QAction *actionScale_minus;
+    QAction *actionStart;
+    QAction *actionStop;
+    QAction *actionReset;
+    QAction *actionHelp;
     QWidget *centralWidget;
     QGraphicsView *gv;
-    QPushButton *pushButton;
-    QPushButton *pushButton_2;
-    QPushButton *pushButton_3;
     QLabel *label;
-    QMenuBar *menuBar;
     QToolBar *mainToolBar;
     QStatusBar *statusBar;
 
@@ -48,7 +46,7 @@ public:
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QStringLiteral("MainWindow"));
-        MainWindow->resize(888, 523);
+        MainWindow->resize(754, 502);
         actionRotate = new QAction(MainWindow);
         actionRotate->setObjectName(QStringLiteral("actionRotate"));
         QIcon icon;
@@ -79,41 +77,57 @@ public:
         QIcon icon5;
         icon5.addFile(QStringLiteral("images/scale.png"), QSize(), QIcon::Normal, QIcon::Off);
         actionScale_minus->setIcon(icon5);
+        actionStart = new QAction(MainWindow);
+        actionStart->setObjectName(QStringLiteral("actionStart"));
+        QIcon icon6;
+        icon6.addFile(QStringLiteral("images/start.png"), QSize(), QIcon::Normal, QIcon::Off);
+        actionStart->setIcon(icon6);
+        actionStop = new QAction(MainWindow);
+        actionStop->setObjectName(QStringLiteral("actionStop"));
+        QIcon icon7;
+        icon7.addFile(QStringLiteral("images/stop.png"), QSize(), QIcon::Normal, QIcon::Off);
+        actionStop->setIcon(icon7);
+        actionReset = new QAction(MainWindow);
+        actionReset->setObjectName(QStringLiteral("actionReset"));
+        QIcon icon8;
+        icon8.addFile(QStringLiteral("images/reset.png"), QSize(), QIcon::Normal, QIcon::Off);
+        actionReset->setIcon(icon8);
+        actionHelp = new QAction(MainWindow);
+        actionHelp->setObjectName(QStringLiteral("actionHelp"));
+        QIcon icon9;
+        icon9.addFile(QStringLiteral("images/help.png"), QSize(), QIcon::Normal, QIcon::Off);
+        actionHelp->setIcon(icon9);
         centralWidget = new QWidget(MainWindow);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
         gv = new QGraphicsView(centralWidget);
         gv->setObjectName(QStringLiteral("gv"));
-        gv->setGeometry(QRect(10, 10, 721, 451));
-        pushButton = new QPushButton(centralWidget);
-        pushButton->setObjectName(QStringLiteral("pushButton"));
-        pushButton->setGeometry(QRect(740, 10, 93, 28));
-        pushButton_2 = new QPushButton(centralWidget);
-        pushButton_2->setObjectName(QStringLiteral("pushButton_2"));
-        pushButton_2->setGeometry(QRect(750, 90, 93, 28));
-        pushButton_3 = new QPushButton(centralWidget);
-        pushButton_3->setObjectName(QStringLiteral("pushButton_3"));
-        pushButton_3->setGeometry(QRect(740, 50, 93, 28));
+        gv->setGeometry(QRect(1, 1, 711, 471));
         label = new QLabel(centralWidget);
         label->setObjectName(QStringLiteral("label"));
-        label->setGeometry(QRect(920, 110, 91, 20));
+        label->setGeometry(QRect(822, 11, 16, 16));
         MainWindow->setCentralWidget(centralWidget);
-        menuBar = new QMenuBar(MainWindow);
-        menuBar->setObjectName(QStringLiteral("menuBar"));
-        menuBar->setGeometry(QRect(0, 0, 888, 26));
-        MainWindow->setMenuBar(menuBar);
         mainToolBar = new QToolBar(MainWindow);
         mainToolBar->setObjectName(QStringLiteral("mainToolBar"));
         MainWindow->addToolBar(Qt::LeftToolBarArea, mainToolBar);
+        MainWindow->insertToolBarBreak(mainToolBar);
         statusBar = new QStatusBar(MainWindow);
         statusBar->setObjectName(QStringLiteral("statusBar"));
+        QFont font;
+        font.setFamily(QStringLiteral("Arial"));
+        font.setPointSize(12);
+        statusBar->setFont(font);
         MainWindow->setStatusBar(statusBar);
 
+        mainToolBar->addAction(actionStart);
+        mainToolBar->addAction(actionStop);
+        mainToolBar->addAction(actionReset);
         mainToolBar->addAction(actionRotate2);
         mainToolBar->addAction(actionRotate);
         mainToolBar->addAction(actionIncline_up);
         mainToolBar->addAction(actionIncline_down);
         mainToolBar->addAction(actionScale_plus);
         mainToolBar->addAction(actionScale_minus);
+        mainToolBar->addAction(actionHelp);
 
         retranslateUi(MainWindow);
 
@@ -124,20 +138,52 @@ public:
     {
         MainWindow->setWindowTitle(QApplication::translate("MainWindow", "MainWindow", 0));
         actionRotate->setText(QApplication::translate("MainWindow", "Rotate", 0));
+#ifndef QT_NO_TOOLTIP
+        actionRotate->setToolTip(QApplication::translate("MainWindow", "<html><head/><body><p>Rotate around counter-clockwise</p><p>Key: D</p></body></html>", 0));
+#endif // QT_NO_TOOLTIP
         actionRotate->setShortcut(QApplication::translate("MainWindow", "D", 0));
-        actionRotate2->setText(QApplication::translate("MainWindow", "rotate2", 0));
+        actionRotate2->setText(QApplication::translate("MainWindow", "Rotat", 0));
+#ifndef QT_NO_TOOLTIP
+        actionRotate2->setToolTip(QApplication::translate("MainWindow", "<html><head/><body><p>Rotate around clockwise</p><p>Key: A</p></body></html>", 0));
+#endif // QT_NO_TOOLTIP
         actionRotate2->setShortcut(QApplication::translate("MainWindow", "A", 0));
         actionIncline_up->setText(QApplication::translate("MainWindow", "incline_up", 0));
+#ifndef QT_NO_TOOLTIP
+        actionIncline_up->setToolTip(QApplication::translate("MainWindow", "<html><head/><body><p>Increase of incline of the camera</p><p>Key: W</p></body></html>", 0));
+#endif // QT_NO_TOOLTIP
         actionIncline_up->setShortcut(QApplication::translate("MainWindow", "W", 0));
         actionIncline_down->setText(QApplication::translate("MainWindow", "incline_down", 0));
+#ifndef QT_NO_TOOLTIP
+        actionIncline_down->setToolTip(QApplication::translate("MainWindow", "<html><head/><body><p>Increase of incline of the camera</p><p>Key: S</p></body></html>", 0));
+#endif // QT_NO_TOOLTIP
         actionIncline_down->setShortcut(QApplication::translate("MainWindow", "S", 0));
         actionScale_plus->setText(QApplication::translate("MainWindow", "scale_plus", 0));
+#ifndef QT_NO_TOOLTIP
+        actionScale_plus->setToolTip(QApplication::translate("MainWindow", "<html><head/><body><p>Increase</p><p>Key: +</p></body></html>", 0));
+#endif // QT_NO_TOOLTIP
         actionScale_plus->setShortcut(QApplication::translate("MainWindow", "+", 0));
         actionScale_minus->setText(QApplication::translate("MainWindow", "scale_minus", 0));
+#ifndef QT_NO_TOOLTIP
+        actionScale_minus->setToolTip(QApplication::translate("MainWindow", "<html><head/><body><p>Decrease</p><p>Key: -</p></body></html>", 0));
+#endif // QT_NO_TOOLTIP
         actionScale_minus->setShortcut(QApplication::translate("MainWindow", "-", 0));
-        pushButton->setText(QApplication::translate("MainWindow", "\320\241\321\202\320\260\321\200\321\202", 0));
-        pushButton_2->setText(QApplication::translate("MainWindow", "\320\241\321\202\320\276\320\277", 0));
-        pushButton_3->setText(QApplication::translate("MainWindow", "\320\222\320\276\320\267\320\276\320\261\320\275\320\276\320\262\320\270\321\202\321\214", 0));
+        actionStart->setText(QApplication::translate("MainWindow", "start", 0));
+#ifndef QT_NO_TOOLTIP
+        actionStart->setToolTip(QApplication::translate("MainWindow", "<html><head/><body><p>StartBack</p><p>Key: Enter</p></body></html>", 0));
+#endif // QT_NO_TOOLTIP
+        actionStop->setText(QApplication::translate("MainWindow", "stop", 0));
+#ifndef QT_NO_TOOLTIP
+        actionStop->setToolTip(QApplication::translate("MainWindow", "<html><head/><body><p>Stop</p><p>Key: Enter</p></body></html>", 0));
+#endif // QT_NO_TOOLTIP
+        actionReset->setText(QApplication::translate("MainWindow", "reset", 0));
+#ifndef QT_NO_TOOLTIP
+        actionReset->setToolTip(QApplication::translate("MainWindow", "<html><head/><body><p>Reset</p><p>Key: C</p></body></html>", 0));
+#endif // QT_NO_TOOLTIP
+        actionHelp->setText(QApplication::translate("MainWindow", "help", 0));
+#ifndef QT_NO_TOOLTIP
+        actionHelp->setToolTip(QApplication::translate("MainWindow", "Help", 0));
+#endif // QT_NO_TOOLTIP
+        actionHelp->setShortcut(QApplication::translate("MainWindow", "F1", 0));
         label->setText(QString());
     } // retranslateUi
 

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>888</width>
-    <height>523</height>
+    <width>754</width>
+    <height>502</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,59 +17,20 @@
    <widget class="QGraphicsView" name="gv">
     <property name="geometry">
      <rect>
-      <x>10</x>
-      <y>10</y>
-      <width>721</width>
-      <height>451</height>
+      <x>1</x>
+      <y>1</y>
+      <width>711</width>
+      <height>471</height>
      </rect>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pushButton">
-    <property name="geometry">
-     <rect>
-      <x>740</x>
-      <y>10</y>
-      <width>93</width>
-      <height>28</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Старт</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pushButton_2">
-    <property name="geometry">
-     <rect>
-      <x>750</x>
-      <y>90</y>
-      <width>93</width>
-      <height>28</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Стоп</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pushButton_3">
-    <property name="geometry">
-     <rect>
-      <x>740</x>
-      <y>50</y>
-      <width>93</width>
-      <height>28</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Возобновить</string>
     </property>
    </widget>
    <widget class="QLabel" name="label">
     <property name="geometry">
      <rect>
-      <x>920</x>
-      <y>110</y>
-      <width>91</width>
-      <height>20</height>
+      <x>822</x>
+      <y>11</y>
+      <width>16</width>
+      <height>16</height>
      </rect>
     </property>
     <property name="text">
@@ -77,31 +38,32 @@
     </property>
    </widget>
   </widget>
-  <widget class="QMenuBar" name="menuBar">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>888</width>
-     <height>26</height>
-    </rect>
-   </property>
-  </widget>
   <widget class="QToolBar" name="mainToolBar">
    <attribute name="toolBarArea">
     <enum>LeftToolBarArea</enum>
    </attribute>
    <attribute name="toolBarBreak">
-    <bool>false</bool>
+    <bool>true</bool>
    </attribute>
+   <addaction name="actionStart"/>
+   <addaction name="actionStop"/>
+   <addaction name="actionReset"/>
    <addaction name="actionRotate2"/>
    <addaction name="actionRotate"/>
    <addaction name="actionIncline_up"/>
    <addaction name="actionIncline_down"/>
    <addaction name="actionScale_plus"/>
    <addaction name="actionScale_minus"/>
+   <addaction name="actionHelp"/>
   </widget>
-  <widget class="QStatusBar" name="statusBar"/>
+  <widget class="QStatusBar" name="statusBar">
+   <property name="font">
+    <font>
+     <family>Arial</family>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
+  </widget>
   <action name="actionRotate">
    <property name="icon">
     <iconset>
@@ -109,6 +71,9 @@
    </property>
    <property name="text">
     <string>Rotate</string>
+   </property>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Rotate around counter-clockwise&lt;/p&gt;&lt;p&gt;Key: D&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
    <property name="shortcut">
     <string>D</string>
@@ -120,7 +85,10 @@
      <normaloff>images/rotate2.png</normaloff>images/rotate2.png</iconset>
    </property>
    <property name="text">
-    <string>rotate2</string>
+    <string>Rotat</string>
+   </property>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Rotate around clockwise&lt;/p&gt;&lt;p&gt;Key: A&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
    <property name="shortcut">
     <string>A</string>
@@ -134,6 +102,9 @@
    <property name="text">
     <string>incline_up</string>
    </property>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Increase of incline of the camera&lt;/p&gt;&lt;p&gt;Key: W&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
    <property name="shortcut">
     <string>W</string>
    </property>
@@ -145,6 +116,9 @@
    </property>
    <property name="text">
     <string>incline_down</string>
+   </property>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Increase of incline of the camera&lt;/p&gt;&lt;p&gt;Key: S&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
    <property name="shortcut">
     <string>S</string>
@@ -158,6 +132,9 @@
    <property name="text">
     <string>scale_plus</string>
    </property>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Increase&lt;/p&gt;&lt;p&gt;Key: +&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
    <property name="shortcut">
     <string>+</string>
    </property>
@@ -170,8 +147,62 @@
    <property name="text">
     <string>scale_minus</string>
    </property>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Decrease&lt;/p&gt;&lt;p&gt;Key: -&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
    <property name="shortcut">
     <string>-</string>
+   </property>
+  </action>
+  <action name="actionStart">
+   <property name="icon">
+    <iconset>
+     <normaloff>images/start.png</normaloff>images/start.png</iconset>
+   </property>
+   <property name="text">
+    <string>start</string>
+   </property>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;StartBack&lt;/p&gt;&lt;p&gt;Key: Enter&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+  </action>
+  <action name="actionStop">
+   <property name="icon">
+    <iconset>
+     <normaloff>images/stop.png</normaloff>images/stop.png</iconset>
+   </property>
+   <property name="text">
+    <string>stop</string>
+   </property>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Stop&lt;/p&gt;&lt;p&gt;Key: Enter&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+  </action>
+  <action name="actionReset">
+   <property name="icon">
+    <iconset>
+     <normaloff>images/reset.png</normaloff>images/reset.png</iconset>
+   </property>
+   <property name="text">
+    <string>reset</string>
+   </property>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Reset&lt;/p&gt;&lt;p&gt;Key: C&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+  </action>
+  <action name="actionHelp">
+   <property name="icon">
+    <iconset>
+     <normaloff>images/help.png</normaloff>images/help.png</iconset>
+   </property>
+   <property name="text">
+    <string>help</string>
+   </property>
+   <property name="toolTip">
+    <string>Help</string>
+   </property>
+   <property name="shortcut">
+    <string>F1</string>
    </property>
   </action>
  </widget>

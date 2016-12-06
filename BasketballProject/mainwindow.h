@@ -42,7 +42,13 @@ public:
     picture _wall, _wall2, _floor, _shield;
     composite comp;
     ball *_ball;
+    sphere* _sphere;
+    sphere* _sphere_2;
     QPixmap map;
+
+    point pos;
+    point pos2;
+    double min;
 
     void redraw();
 
@@ -50,21 +56,26 @@ private slots:
     void basket_draw();
     void message(const char*);
 
-    void on_pushButton_clicked();
-    void on_pushButton_2_clicked();
-    void on_pushButton_3_clicked();
-
     void on_actionRotate_triggered();
-
     void on_actionRotate2_triggered();
-
     void on_actionIncline_up_triggered();
-
     void on_actionIncline_down_triggered();
-
     void on_actionScale_plus_triggered();
-
     void on_actionScale_minus_triggered();
+
+    void keyPressEvent(QKeyEvent* event);
+    void setup_position();
+
+    void draw_pos();
+    void draw_sec_pos();
+    void draw_traject();
+
+    void setStatusLabel();
+
+    void on_actionStart_triggered();
+    void on_actionStop_triggered();
+    void on_actionReset_triggered();
+    void on_actionHelp_triggered();
 
 private:
     Ui::MainWindow *ui;

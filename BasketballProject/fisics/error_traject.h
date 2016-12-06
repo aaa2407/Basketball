@@ -14,6 +14,15 @@ public:
     }
 };
 
+class errorMemory: public errorTrajectBase
+{
+public:
+    const char* what()
+    {
+        return "errorTraject::memory is not allocated";
+    }
+};
+
 }
 
 #endif // ERROR_TRAJECT_H
